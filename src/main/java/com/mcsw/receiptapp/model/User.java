@@ -1,13 +1,18 @@
 package com.mcsw.receiptapp.model;
 
 import com.mcsw.receiptapp.controller.user.UserDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+
 public class User {
+
     String id;
 
     String name;
@@ -18,7 +23,7 @@ public class User {
 
     String passwordHash;
 
-    List<RoleEnum> roles;
+    RoleEnum role;
 
     Date createdAt;
 
@@ -31,7 +36,7 @@ public class User {
         lastName = userDto.getLastName();
         email = userDto.getEmail();
         createdAt = new Date();
-        roles = new ArrayList<>(Collections.singleton(RoleEnum.USER));
+        role = RoleEnum.USER;
     }
 
     public String getId() {
@@ -58,8 +63,8 @@ public class User {
         return passwordHash;
     }
 
-    public List<RoleEnum> getRoles() {
-        return roles;
+    public RoleEnum getRoles() {
+        return role;
     }
 
     public void update(UserDto userDto) {
