@@ -27,4 +27,37 @@ function login(event) {
             }
         }
     });
+};
+
+function registerUser() {
+    var fullName = $('#dialogs\\:full-name').val();
+    var lastName = $('#dialogs\\:lastname').val();
+    var email = $('#dialogs\\:email').val();
+    var password = $('#dialogs\\:password').val();
+
+    var userData = {
+        name: fullName,
+        lastName: lastName,
+        email: email,
+        password: password
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/users');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Usuario registrado exitosamente:', xhr.responseText);
+                PF('growlWV').renderMessage({ severity: 'success', summary: 'Usuario registrado exitosamente', detail: '' });
+            } else if (xhr.status === 409) {
+                console.error('El correo electrónico ya está registrado:', xhr.responseText);
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Correo electrónico duplicado', detail: 'El correo electrónico proporcionado ya está registrado. Por favor, intente con otro correo electrónico.' });
+            } else {
+                console.error('Error al registrar el usuario:', xhr.responseText);
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+            }
+        }
+    };
+    xhr.send(JSON.stringify(userData));
 }
