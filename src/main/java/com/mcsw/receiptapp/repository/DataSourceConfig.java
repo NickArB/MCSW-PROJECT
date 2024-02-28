@@ -8,7 +8,7 @@ public class DataSourceConfig {
     public static DataSource createDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:file:/data/demo");
+        dataSource.setUrl("jdbc:h2:file:./db/demo");
         dataSource.setUsername("sa");
         dataSource.setPassword("password");
         return dataSource;

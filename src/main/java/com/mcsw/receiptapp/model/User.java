@@ -27,7 +27,7 @@ public class User {
 
     Date createdAt;
 
-    public User() {
+    public User(){
     }
 
 
@@ -109,4 +109,3 @@ public class User {
     }
 
 }
-
