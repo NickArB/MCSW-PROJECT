@@ -8,10 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
 import java.util.Date;
 
+@RestController
+@RequestMapping( "/auth" )
 public class AuthController {
 
     private final UserService userService = new UserService();
@@ -20,7 +24,7 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto )
     {
-        User user = userService.findByEmail( loginDto.email );
+        User user = userService.findByEmail(loginDto.email );
         if (loginDto.password.equals(user.getPasswordHash()) )
         {
             return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);

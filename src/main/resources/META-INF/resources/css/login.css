@@ -1,0 +1,89 @@
+body {
+    font-family: Helvetica, sans-serif;
+    margin: 0;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #85D8CE, #0082B8); /* Gradiente de azul */
+}
+
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 80%;
+    border: 2px solid rgba(0, 0, 0, 0.1); /* Relieve del contorno */
+    border-radius: 15px;
+    background: white; /* Fondo blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para destacar el contenedor */
+}
+
+.lab-img {
+    width: 300px;
+    height: 120px;
+}
+
+.buttons-container {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    border: none !important;
+    border-radius: 10px !important;
+    margin-top: 10px !important;
+}
+
+.create-account {
+    width: 30vw !important;
+    border-radius: 10px !important;
+}
+
+.create-field {
+    background: #088251;
+    align-items: center;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.create-field .create-input-text {
+    background: none;
+    border-radius: 10px !important;
+    border: none !important;
+    outline: none !important;
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+.create-field .create-input-text::placeholder {
+    color: white;
+}
+
+.create-input-text .ui-selectonemenu-label {
+    color: white;
+}
+
+.buttonsAccountContainer .done-create-button {
+    color: white;
+    background: #007BFF !important;
+    border: none !important;
+    border-radius: 10px !important;
+    margin-top: 10px !important;
+}
+
+.buttonsAccountContainer .cancel-create-button {
+    color: white;
+    background: #DC3545 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    margin-top: 10px !important;
+}

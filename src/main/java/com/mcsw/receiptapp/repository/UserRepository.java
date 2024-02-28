@@ -26,4 +26,9 @@ public class UserRepository {
         String sql = "SELECT * FROM users WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
     }
+
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), email);
+    }
 }

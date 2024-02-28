@@ -18,6 +18,7 @@ public class UserService {
         try {
             return userRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -35,6 +36,11 @@ public class UserService {
     }
 
     public User findByEmail(String email) {
-        return null;
+        try {
+            return userRepository.findByEmail(email);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
