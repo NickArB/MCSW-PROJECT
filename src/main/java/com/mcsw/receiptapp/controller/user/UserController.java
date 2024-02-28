@@ -22,12 +22,11 @@ public class UserController
         return userService.all();
     }
 
-    @GetMapping( "/{id}" )
-    public User findById( @PathVariable String id )
+    @GetMapping( "/{email}" )
+    public User findByEmail( @PathVariable String email )
     {
-        return userService.findById( id );
+        return userService.findByEmail( email );
     }
-
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody UserDto userDto )
