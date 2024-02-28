@@ -18,12 +18,17 @@ public class UserRepository {
         this.jdbcTemplate = new JdbcTemplate(DataSourceConfig.createDataSource());
     }
 
-    public User insertUser(User user) {
-        String sql = "INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public User save(User user) {
+        String checkSql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        int count = jdbcTemplate.queryForObject(checkSql, Integer.class, user.getEmail());
+        if (count > 0) {
+            return null;
+        }
+        String insertSql = "INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            jdbcTemplate.update(sql, user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getRole(), user.getCreatedAt());
-            return  user;
-        }catch (EmptyResultDataAccessException e) {
+            jdbcTemplate.update(insertSql, user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getRole(), user.getCreatedAt());
+            return user;
+        } catch (Exception e) {
             return null;
         }
     }

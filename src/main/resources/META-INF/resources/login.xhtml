@@ -45,12 +45,16 @@
                 responsive="true" draggable="false" resizable="false">
                 <p:outputPanel id="create-account-content" class="ui-fluid">
                     <div class="field">
-                        <p:outputLabel for="full-name">Nombres y Apellidos</p:outputLabel>
+                        <p:outputLabel for="full-name">Nombres</p:outputLabel>
                         <p:inputText id="full-name" required="true"/>
                     </div>
                     <div class="field">
-                        <p:outputLabel for="user-name">Nombre de usuario</p:outputLabel>
-                        <p:inputText id="user-name" required="true" placeholder="nombre.apellido"/>
+                        <p:outputLabel for="lastname">Apellidos</p:outputLabel>
+                        <p:inputText id="lastname" required="true"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="email">Correo</p:outputLabel>
+                        <p:inputText id="email" required="true"/>
                     </div>
                     <div class="field">
                         <p:outputLabel for="password">Contraseña</p:outputLabel>
@@ -59,10 +63,10 @@
                 </p:outputPanel>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Create" icon="pi pi-check"
-                        class="ui-button-primary"
+                    <p:commandButton value="Registrarme" icon="pi pi-check"
+                        class="ui-button-primary" onclick="registerUser();"
                         process="create-account-content @this" />
-                    <p:commandButton value="Cancel" icon="pi pi-times"
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
                         onclick="PF('createAccountDialog').hide()"
                         class="ui-button-secondary" type="button" />
                 </f:facet>

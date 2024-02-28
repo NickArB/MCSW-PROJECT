@@ -23,7 +23,7 @@ public class User {
 
     String passwordHash;
 
-    RoleEnum role;
+    String role;
 
     Date createdAt;
 
@@ -36,11 +36,19 @@ public class User {
         lastName = userDto.getLastName();
         email = userDto.getEmail();
         createdAt = new Date();
-        role = RoleEnum.USER;
+        role = RoleEnum.USER.getValue();
+        passwordHash = userDto.getPassword();
+        buildId();
+
     }
 
     public String getId() {
         return id;
+    }
+    public void buildId(){
+        String firstName = name.split(" ")[0].toLowerCase();
+        String firstLastName = lastName.split(" ")[0].toLowerCase();
+        id = firstName + "." + firstLastName;
     }
 
     public String getName() {
@@ -63,7 +71,7 @@ public class User {
         return passwordHash;
     }
 
-    public RoleEnum getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -86,7 +94,7 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public void setRole(RoleEnum role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
