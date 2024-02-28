@@ -1,8 +1,5 @@
 package com.mcsw.receiptapp.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,9 +17,9 @@ public class BillRepository {
     }
 
     public void insertBill(Bill bill) throws DataAccessException{
-        String sql = "INSERT INTO bills (id, userId, company, billing_date, deadline, debt, payment_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, bill.getPaymentID(), bill.getCostumer(), bill.getCompany(),
-                            bill.getBillingDate(), bill.getDeadLine(), bill.getDebtToPay(), bill.getState());
+        String sql = "INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, bill.getId(), bill.getUserEmail(), bill.getCompany(),
+                            bill.getBillingDate(), bill.getDeadLine(), bill.getDebt(), bill.getPaymentStatus());
     }
 
     public Bill findById(String id) {
@@ -44,9 +41,9 @@ public class BillRepository {
     }
 
     public Bill updateBill(Bill newBill, String id) throws DataAccessException{
-        String sql = "UPDATE bills SET userId=?, company=?, billing_date=?, deadline=?, payment_status=? WHERE id = ?";
-        jdbcTemplate.update(sql, newBill.getCostumer(), newBill.getCompany(), 
-                                    newBill.getBillingDate(), newBill.getDeadLine(), newBill.getState(), id);
+        String sql = "UPDATE bills SET userEmail=?, company=?, billing_date=?, deadline=?, payment_status=? WHERE id = ?";
+        jdbcTemplate.update(sql, newBill.getUserEmail(), newBill.getCompany(), 
+                                    newBill.getBillingDate(), newBill.getDeadLine(), newBill.getPaymentStatus(), id);
         return findById(id);
     }
 

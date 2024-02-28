@@ -1,38 +1,38 @@
 package com.mcsw.receiptapp.controller.bill;
 
 public class BillDto {
-    private String paymentID;
-    private String costumerID;
+    private String id;
+    private String userEmail;
     private String company;
-    private String debtToPay;
-    private String state;
+    private String debt;
+    private String paymentStatus;
 
     public BillDto(){}
 
-    public String getCostumerID() {
-        return costumerID;
+    public String getId() {
+        return id;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
     }
 
     public String getCompany() {
         return company;
     }
 
-    public String getDebtToPay() {
-        return debtToPay;
+    public String getDebt() {
+        return debt;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public String getPaymentID() {
-        return paymentID;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
     @Override
     public String toString() {
-        return "BillDto [paymentID=" + paymentID + ", costumerID=" + costumerID + ", company=" + company
-                + ", debtToPay=" + debtToPay + ", state=" + state + "]";
+        return "BillDto [id=" + id + ", userEmail=" + userEmail + ", company=" + company + ", debt=" + debt
+                + ", paymentStatus=" + paymentStatus + "]";
     }
     
 }

@@ -5,58 +5,50 @@ import java.util.Date;
 import com.mcsw.receiptapp.controller.bill.BillDto;
 
 public class Bill {
-    private String paymentID;
-    private String costumerID;
+    private String id;
+    private String userEmail;
     private String company;
     private Date billingDate;
     private Date deadLine;
-    private String debtToPay;
-    private String state;
+    private String debt;
+    private String paymentStatus;
 
     public Bill(){}
 
-    public Bill(String id, String customer, String company, Date biDate, Date deadDate, String debt, String state){
-        this.paymentID = id;
-        this.costumerID = customer;
+    public Bill(String id, String customerEmail, String company, Date biDate, Date deadDate, String debt, String state){
+        this.id = id;
+        this.userEmail = customerEmail;
         this.company = company;
         this.billingDate = biDate;
         this.deadLine = deadDate;
-        this.debtToPay = debt;
-        this.state = state;
+        this.debt = debt;
+        this.paymentStatus = state;
     }
 
     public Bill(BillDto dto){
-        this.paymentID = dto.getPaymentID();
-        this.costumerID = dto.getCostumerID();
+        this.id = dto.getId();
+        this.userEmail = dto.getUserEmail();
         this.company = dto.getCompany();
         this.billingDate = new Date();
         this.deadLine = new Date();
-        this.debtToPay = dto.getDebtToPay();
-        this.state = dto.getState();
+        this.debt = dto.getDebt();
+        this.paymentStatus = dto.getPaymentStatus();
     }
 
-    public String getState() {
-        return state;
+    public String getId() {
+        return id;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getPaymentID() {
-        return paymentID;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
-    }
-
-    public String getCostumer() {
-        return costumerID;
-    }
-
-    public void setCostumer(String costumer) {
-        this.costumerID = costumer;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getCompany() {
@@ -83,17 +75,25 @@ public class Bill {
         this.deadLine = deadLine;
     }
 
-    public String getDebtToPay() {
-        return debtToPay;
+    public String getDebt() {
+        return debt;
     }
 
-    public void setDebtToPay(String debtToPay) {
-        this.debtToPay = debtToPay;
+    public void setDebt(String debt) {
+        this.debt = debt;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     @Override
     public String toString() {
-        return "Bill [paymentID=" + paymentID + ", costumerID=" + costumerID + ", company=" + company + ", billingDate="
-                + billingDate + ", deadLine=" + deadLine + ", debtToPay=" + debtToPay + ", state=" + state + "]";
+        return "Bill [id=" + id + ", userEmail=" + userEmail + ", company=" + company + ", billingDate=" + billingDate
+                + ", deadLine=" + deadLine + ", debt=" + debt + ", paymentStatus=" + paymentStatus + "]";
     }
 }

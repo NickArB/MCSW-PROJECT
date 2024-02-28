@@ -1,8 +1,6 @@
 package com.mcsw.receiptapp.service;
 
 import java.util.List;
-
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.mcsw.receiptapp.model.Bill;
@@ -26,11 +24,7 @@ public class BillService {
     }
 
     public List<Bill> findAll(){
-        List<Bill> bills = repo.findAll();
-        for(Bill b:bills){
-            System.out.println(b.toString());
-        }
-        return bills;
+        return repo.findAll();
     }
 
     public Bill updateBill(Bill bill, String paymentID){
