@@ -3,6 +3,9 @@ package com.mcsw.receiptapp.controller.auth;
 import com.mcsw.receiptapp.exception.InvalidCredentialsException;
 import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.service.UserService;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +27,14 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto )
     {
-        User user = userService.findByEmail(loginDto.email );
-        if (loginDto.password.equals(user.getPasswordHash()) )
-        {
-            return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
-        }
-        else
-        {
-            throw new InvalidCredentialsException();
+        System.out.println(loginDto.email);
+        User user = userService.findByEmail(loginDto.getEmail() );
+        if (user == null) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        } else if (!loginDto.getPassword().equals(user.getPasswordHash())) {
+            return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);
+        } else {
+            return new ResponseEntity<>("Usuario inició sesión correctamente", HttpStatus.OK);
         }
 
     }
