@@ -1,24 +1,38 @@
-package com.mcsw.receiptapp;
+package com.mcsw.receiptapp.model;
 
-import java.sql.Date;
+import java.util.Date;
+
+import com.mcsw.receiptapp.controller.bill.BillDto;
 
 public class Bill {
     private String paymentID;
-    private User costumer;
+    private String costumerID;
     private String company;
     private Date billingDate;
-    private Date deadLineDate;
+    private Date deadLine;
     private String debtToPay;
     private String state;
 
-    public Bill(String id, User customer, String company, Date biDate, Date deadDate, String debt, String state){
+    public Bill(){}
+
+    public Bill(String id, String customer, String company, Date biDate, Date deadDate, String debt, String state){
         this.paymentID = id;
-        this.costumer = customer;
+        this.costumerID = customer;
         this.company = company;
         this.billingDate = biDate;
-        this.deadLineDate = deadDate;
+        this.deadLine = deadDate;
         this.debtToPay = debt;
         this.state = state;
+    }
+
+    public Bill(BillDto dto){
+        this.paymentID = dto.getPaymentID();
+        this.costumerID = dto.getCostumerID();
+        this.company = dto.getCompany();
+        this.billingDate = new Date();
+        this.deadLine = new Date();
+        this.debtToPay = dto.getDebtToPay();
+        this.state = dto.getState();
     }
 
     public String getState() {
@@ -37,12 +51,12 @@ public class Bill {
         this.paymentID = paymentID;
     }
 
-    public User getCostumer() {
-        return costumer;
+    public String getCostumer() {
+        return costumerID;
     }
 
-    public void setCostumer(User costumer) {
-        this.costumer = costumer;
+    public void setCostumer(String costumer) {
+        this.costumerID = costumer;
     }
 
     public String getCompany() {
@@ -61,12 +75,12 @@ public class Bill {
         this.billingDate = billingDate;
     }
 
-    public Date getDeadLineDate() {
-        return deadLineDate;
+    public Date getDeadLine() {
+        return deadLine;
     }
 
-    public void setDeadLineDate(Date deadLineDate) {
-        this.deadLineDate = deadLineDate;
+    public void setDeadLine(Date deadLine) {
+        this.deadLine = deadLine;
     }
 
     public String getDebtToPay() {
@@ -75,5 +89,11 @@ public class Bill {
 
     public void setDebtToPay(String debtToPay) {
         this.debtToPay = debtToPay;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill [paymentID=" + paymentID + ", costumerID=" + costumerID + ", company=" + company + ", billingDate="
+                + billingDate + ", deadLine=" + deadLine + ", debtToPay=" + debtToPay + ", state=" + state + "]";
     }
 }

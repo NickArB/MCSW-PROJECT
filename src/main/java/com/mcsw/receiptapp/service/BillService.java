@@ -1,15 +1,48 @@
-package com.mcsw.receiptapp;
+package com.mcsw.receiptapp.service;
 
 import java.util.List;
 
-public interface BillService {
-    boolean create(Bill bill);
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
-    Bill findByID(String paymentID);
+import com.mcsw.receiptapp.model.Bill;
+import com.mcsw.receiptapp.repository.BillRepository;
 
-    List<Bill> findAll();
+public class BillService {
 
-    boolean update(Bill bill, String paymentID);
+    private static final BillRepository repo = new BillRepository();
 
-    boolean delete(String paymentID);
+    public Bill createBill(Bill bill){
+        repo.insertBill(bill);
+        return bill;
+    }
+
+    public Bill findById(String paymentID){
+        try {
+            return repo.findById(paymentID);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public List<Bill> findAll(){
+        List<Bill> bills = repo.findAll();
+        for(Bill b:bills){
+            System.out.println(b.toString());
+        }
+        return bills;
+    }
+
+    public Bill updateBill(Bill bill, String paymentID){
+        return repo.updateBill(bill, paymentID);
+    }
+
+    public boolean deleteBill(String paymentID){
+        try {
+            repo.deleteBill(paymentID);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
