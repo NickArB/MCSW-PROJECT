@@ -13,7 +13,7 @@ public class UserService {
 
     UserRepository userRepository = new UserRepository();
     public List<User> all() {
-        return null;
+        return userRepository.all();
     }
 
     public User findById(String id) throws UserNotFoundException{

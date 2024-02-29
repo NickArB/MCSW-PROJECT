@@ -1,0 +1,140 @@
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+header {
+    text-align:center;
+    background: #ffffff;
+}
+
+body .ui-button-success {
+    margin: 10px;
+}
+
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+}
+
+.user-description {
+    text-align: right;
+    margin-right: 1em;
+}
+
+.user-wrapper .username-label {
+    display: block;
+    font-weight: bold;
+}
+
+.user-wrapper .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1rem;
+}
+
+.sidebar-list-element {
+    list-style-type: none;
+}
+
+.sidebar-list-element .link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-decoration: none !important;
+    color: #000000
+}
+
+.sidebar-list-element .link:hover {
+    background: linear-gradient(to left, #7dd9c5, #54b1b4);
+    border-radius: 25px;
+    color: #ffffff;
+}
+
+.sidebar-list-element .link.active {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #85D8CE, #0082B8); /* Gradiente de azul */
+    border-radius: 25px;
+}
+
+
+#form {
+    padding: 2rem;
+    border-radius: 15px;
+    background: white; /* Fondo blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para destacar el contenedor */
+}
+
+.mi-toolbar {
+    border-radius: 15px !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 17px 10px rgba(255, 255, 255, 0.3);
+}
+
+.ui-carousel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.ui-carousel-indicators {
+    border-radius: 0 0 15px 15px !important;
+    margin-top: 1rem;
+}
+
+
+.button {
+    margin: 0 .2rem 0 .2rem !important;
+}
+
+.field {
+    width: 40rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+.user-mod {
+    width: 100%;
+    overflow: auto;
+}
+
+.users-list {
+    margin-top: 1rem !important;
+    box-shadow: 0 0 17px 10px rgba(255, 255, 255, 0.3);
+    background: white !important;
+}
+
+.users-list-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.user-selection {
+    width: 1rem !important;
+}

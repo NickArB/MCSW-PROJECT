@@ -9,6 +9,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.Collections;
+import java.util.List;
 
 public class UserRepository {
 
@@ -48,6 +50,15 @@ public class UserRepository {
             return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), email);
         }catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+    public List<User> all(){
+        String sql = "SELECT * FROM users";
+        try {
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 }
