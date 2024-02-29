@@ -3,34 +3,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>Tabla de Facturas</title>
-    <h:outputStylesheet library="css" name="styles.css" />
+    <title>Historial de pagos</title>
+    <link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../css/paymentRecord.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
 </h:head>
 <h:body>
-    <h2>Tabla de Facturas</h2>
-    <p:dataTable var="factura" value="#{facturaBean.listaFacturas}"
-                 emptyMessage="No hay facturas disponibles" paginator="true" rows="10">
-
-        <p:column headerText="Tipo de Servicio">
-            #{factura.tipoServicio}
-        </p:column>
-
-        <p:column headerText="Empresa Prestadora">
-            #{factura.empresaPrestadora}
-        </p:column>
-
-        <p:column headerText="Cuenta Contrato">
-            #{factura.cuentaContrato}
-        </p:column>
-
-        <p:column headerText="Total">
-            #{factura.total}
-        </p:column>
-
-        <p:column headerText="Fecha de Pago Límite">
-            #{factura.fechaLimitePago}
-        </p:column>
-
-    </p:dataTable>
+    <header>
+        <h1>Historial de pagos</h1>
+    </header>
+    <div id="billsTable"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./js/paymentRecord.js"></script>
 </h:body>
 </html>
