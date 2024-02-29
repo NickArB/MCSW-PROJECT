@@ -7,6 +7,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,14 @@ public class AuthController {
         } else if (!loginDto.getPassword().equals(user.getPasswordHash())) {
             return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>("Usuario inició sesión correctamente", HttpStatus.OK);
+            if ("ADMIN".equals(user.getRole())) {
+                System.out.println("ADMIN");
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Location", "/admin.xhtml");
+                return new ResponseEntity<>(headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Usuario inició sesión correctamente", HttpStatus.OK);
+            }
         }
 
     }

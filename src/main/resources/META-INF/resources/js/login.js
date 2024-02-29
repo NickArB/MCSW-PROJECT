@@ -12,9 +12,14 @@ function login(event) {
         url: '/auth', // Endpoint del controlador REST
         contentType: 'application/json',
         data: data,
-        success: function(response) {
+        success: function(response, status, xhr) {
             console.log(response);
-            PF('growlWV').renderMessage({ severity: 'success', summary: 'Inicio de sesión exitoso', detail: '' });
+            if (xhr.getResponseHeader('Location')) {
+                console.log(xhr.getResponseHeader('Location'));
+                window.location.href = xhr.getResponseHeader('Location');
+            } else {
+                PF('growlWV').renderMessage({ severity: 'success', summary: 'Inicio de sesión exitoso', detail: '' });
+            }
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);

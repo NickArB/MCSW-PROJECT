@@ -123,16 +123,26 @@ body .ui-button-success {
     overflow: auto;
 }
 
-.users-list {
-    margin-top: 1rem !important;
-    box-shadow: 0 0 17px 10px rgba(255, 255, 255, 0.3);
-    background: white !important;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-.users-list-header {
-    font-size: 2rem;
-    font-weight: bold;
-    color: black;
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para el encabezado de la tabla */
+th {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .user-selection {
