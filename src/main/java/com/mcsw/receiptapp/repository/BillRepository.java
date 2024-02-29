@@ -41,9 +41,9 @@ public class BillRepository {
     }
 
     public Bill updateBill(Bill newBill, String id) throws DataAccessException{
-        String sql = "UPDATE bills SET userEmail=?, company=?, billing_date=?, deadline=?, payment_status=? WHERE id = ?";
+        String sql = "UPDATE bills SET userEmail=?, company=?, billing_date=?, deadline=?, payment_status=?, debt=? WHERE id = ?";
         jdbcTemplate.update(sql, newBill.getUserEmail(), newBill.getCompany(), 
-                                    newBill.getBillingDate(), newBill.getDeadLine(), newBill.getPaymentStatus(), id);
+                                    newBill.getBillingDate(), newBill.getDeadLine(), newBill.getPaymentStatus(), newBill.getDebt(), id);
         return findById(id);
     }
 
