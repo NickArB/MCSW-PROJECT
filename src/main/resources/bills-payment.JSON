@@ -1,0 +1,13 @@
+{
+    "id": "1",
+    "userEmail":"sample@mail.com",
+    "company":"Codensa",
+    "debt":"$45000",
+    "deadLine":"2024-02-28",
+    "paymentStatus":"PENDIENTE"
+}
+
+{
+    "paymentId":"1",
+    "deadLine":"2024-02-28"
+}

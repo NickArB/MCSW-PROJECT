@@ -25,7 +25,6 @@ public class BillController{
 
     @PostMapping
     public ResponseEntity<Bill> create(@RequestBody BillDto billDto){
-        System.out.println(billDto.toString());
         return ResponseEntity.ok(billService.createBill(new Bill(billDto)));
     }
 

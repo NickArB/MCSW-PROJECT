@@ -30,7 +30,7 @@ public class Bill {
         this.userEmail = dto.getUserEmail();
         this.company = dto.getCompany();
         this.billingDate = new Date();
-        this.deadLine = new Date();
+        this.deadLine = dto.getDeadLine();
         this.debt = dto.getDebt();
         this.paymentStatus = dto.getPaymentStatus();
     }
