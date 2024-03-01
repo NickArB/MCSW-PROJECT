@@ -14,20 +14,19 @@ public class BillController{
     private final BillService billService = new BillService();
 
     @GetMapping
-    public List<Bill> all(){
-        return billService.findAll();
+    public ResponseEntity<List<Bill>> all(){
+        return ResponseEntity.ok(billService.findAll());
     }
 
     @GetMapping( "/{id}" )
-    public Bill findById( @PathVariable String id ){
-        return billService.findById(id);
+    public ResponseEntity<Bill> findById( @PathVariable String id ){
+        return ResponseEntity.ok(billService.findById(id));
     }
 
     @GetMapping( "/status/{paymentStatus}" )
-    public List<Bill> findByPaymentStatus( @PathVariable String paymentStatus ){
-        return billService.findByPaymentStatus(paymentStatus);
+    public ResponseEntity<List<Bill>> findByPaymentStatus( @PathVariable String paymentStatus ){
+        return ResponseEntity.ok(billService.findByPaymentStatus(paymentStatus));
     }
-
 
     @PostMapping
     public ResponseEntity<Bill> create(@RequestBody BillDto billDto){

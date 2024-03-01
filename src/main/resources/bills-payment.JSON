@@ -10,3 +10,14 @@
     "paymentId":"1",
     "deadLine":"2024-02-28"
 }
+{
+    "paymentId":"30",
+    "newValue":"$30000",
+    "requestState":"OK"
+}
+{
+    "id":"1",
+    "paymentId":"30",
+    "newValue":"$30000",
+    "requestState":"PENDIENTE"
+}
