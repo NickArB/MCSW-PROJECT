@@ -39,7 +39,7 @@ public class RequestRepository {
         String sql = "UPDATE requests SET requestState = ? WHERE id = ?";
         jdbcTemplate.update(sql, newState, id);
         Request request = findById(id);
-        if(newState.equals("OK")){
+        if(newState.equals("APROBADA")){
             sql = "UPDATE bills SET debt = ? WHERE id = ?";
             jdbcTemplate.update(sql, request.getNewValue(), request.getPaymentId());
         }

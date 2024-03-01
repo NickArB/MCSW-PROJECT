@@ -46,8 +46,8 @@ CREATE TABLE requests (
     requestState VARCHAR(255)
 );
 
-INSERT INTO requests (paymentId, newValue, requestState) VALUES ('30', '$55000', 'PENDIENTE');
-INSERT INTO requests (paymentId, newValue, requestState) VALUES ('31', '$35000', 'PENDIENTE');
-INSERT INTO requests (paymentId, newValue, requestState) VALUES ('32', '$50000', 'PENDIENTE');
+INSERT INTO requests (paymentId, newValue, requestState) VALUES ('1', '$55000', 'PENDIENTE');
+INSERT INTO requests (paymentId, newValue, requestState) VALUES ('2', '$35000', 'PENDIENTE');
+INSERT INTO requests (paymentId, newValue, requestState) VALUES ('3', '$50000', 'PENDIENTE');
 
 DROP TABLE IF EXISTS requests;

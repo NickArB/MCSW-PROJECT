@@ -148,7 +148,7 @@ function buildEditBillTable(bill) {
         // Realizar la actualización del valor de la factura
         $.ajax({
             type: 'POST',
-            url: '/request',
+            url: '/requests',
             contentType: 'application/json',
             data: JSON.stringify({ paymentId: bill.id , newValue: newDebt}),
             success: function(response) {
