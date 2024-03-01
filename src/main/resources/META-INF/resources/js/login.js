@@ -19,7 +19,7 @@ function login(event) {
                 console.log(xhr.getResponseHeader('Role'));
                 window.location.href = xhr.getResponseHeader('Location');
             } else {
-                PF('growlWV').renderMessage({ severity: 'success', summary: 'Inicio de sesión exitoso', detail: '' });
+                PF('growlWV').renderMessage({ severity: 'info', summary: 'Inicio de sesión exitoso', detail: '' });
             }
         },
         error: function(xhr, status, error) {
