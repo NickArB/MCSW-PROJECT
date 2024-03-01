@@ -36,7 +36,7 @@ public class User {
         lastName = userDto.getLastName();
         email = userDto.getEmail();
         createdAt = new Date();
-        role = RoleEnum.USER.getValue();
+        role = userDto.getRole();
         passwordHash = userDto.getPassword();
         buildId();
 

@@ -5,7 +5,6 @@ import com.mcsw.receiptapp.exception.InvalidEmailException;
 import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.repository.UserRepository;
 import com.mcsw.receiptapp.exception.UserNotFoundException;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.List;
 
@@ -34,8 +33,13 @@ public class UserService {
         }
     }
 
-    public User update(UserDto userDto, String id) {
-        return null;
+    public User update(User newUser, String email) {
+        User user = userRepository.update(email, newUser);
+        if (user != null) {
+            return user;
+        } else {
+            throw new UserNotFoundException();
+        }
     }
 
     public Boolean deleteById(String id) {

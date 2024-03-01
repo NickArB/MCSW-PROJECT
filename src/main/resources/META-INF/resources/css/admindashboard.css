@@ -148,3 +148,17 @@ th {
 .user-selection {
     width: 1rem !important;
 }
+
+.update-role-btn {
+  background-color: #4CAF50; /* Color de fondo */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar como un elemento de bloque */
+  font-size: 16px; /* Tamaño del texto */
+  margin: 4px 2px; /* Margen exterior */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  border-radius: 4px; /* Bordes redondeados */
+}
