@@ -61,4 +61,15 @@ public class UserRepository {
             return Collections.emptyList();
         }
     }
+
+    public User update(String id, User user) {
+        String sql = "UPDATE users SET name=?, lastName=?, email=?, passwordHash=?, role=?, createdAt=? WHERE email=?";
+        try {
+            jdbcTemplate.update(sql, user.getName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getRole(), user.getCreatedAt(), id);
+            return user;
+        } catch (Exception e) {
+            // Manejar la excepción según sea necesario
+            return null;
+        }
+    }
 }

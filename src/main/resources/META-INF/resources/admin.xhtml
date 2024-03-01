@@ -32,57 +32,9 @@
     <div class="user-mod">
       <h:form id="form" styleClass="card-usermod">
         <p:growl id="messages" show-detail="true" />
-
-        <p:toolbar styleClass="mi-toolbar">
-          <p:toolbarGroup>
-            <p:commandButton id="edit-users-button"
-                             icon="pi pi-user-edit" oncomplete="PF('editDialog').show()" process="@this"
-                             styleClass="rounded-button ui-button-success" >
-            </p:commandButton>
-          </p:toolbarGroup>
-        </p:toolbar>
         <div id="users-list" ></div>
       </h:form>
     </div>
   </main>
-  <h:form id="dialogs">
-    <p:confirmDialog id="edit-content" widgetVar="editDialog" showEffect="fade" width="350"
-                     header="Actualizar Rol"  message="Seleccione el nuevo rol para los usuarios seleccionados" severity="info">
-      <p:outputPanel id="update-role-content">
-        <p:selectOneMenu id="role" value="#{adminController.newRole}" label="Text 2" style="width: 12rem; margin-bottom: 15px;">
-          <f:selectItem itemLabel="Rol" itemValue="" noSelectionOption="true"/>
-          <f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
-          <f:selectItem itemLabel="Monitor" itemValue="Monitor"/>
-        </p:selectOneMenu>
-      </p:outputPanel>
-      <p:commandButton value="Si" icon="pi pi-check" process="update-role-content @this" oncomplete="PF('editDialog').hide()"
-                       actionListener="#{adminController.modifyUserRole()}" update="update-role-content"/>
-      <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                       onclick="PF('editDialog').hide()" />
-    </p:confirmDialog>
-    <!-- Dialogo para verificacion de usuarios  -->
-    <p:confirmDialog id="edit-account-content" widgetVar="verifyDialog" showEffect="fade" width="350"
-                     header="Estado de cuenta de usuario"  message="Seleccione el nuevo estado de cuenta para los usuarios seleccionados" severity="info">
-      <p:outputPanel id="update-account-content">
-        <p:selectOneMenu id="accountType" value="#{adminController.newAccountType}" label="Text 2" style="width: 12rem; margin-bottom: 15px;">
-          <f:selectItem itemLabel="Estado" itemValue="" noSelectionOption="true"/>
-          <f:selectItem itemLabel="Activo" itemValue="Activo"/>
-          <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
-        </p:selectOneMenu>
-      </p:outputPanel>
-      <p:commandButton value="Si" icon="pi pi-check" process="update-account-content @this" oncomplete="PF('verifyDialog').hide()"
-                       actionListener="#{adminController.modifyUserAccountType()}" update="update-account-content"/>
-      <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                       onclick="PF('verifyDialog').hide()" />
-    </p:confirmDialog>
-    <!-- Dialogo para cerrar sesion -->
-    <p:confirmDialog id="logout-content" widgetVar="logoutDialog" showEffect="fade"
-                     width="300" message="¿Desea cerrar sesión?" header="Confirmar cierre" severity="warn">
-      <p:commandButton value="Si" icon="pi pi-check" process="@this"
-                       oncomplete="PF('upvoteInitiativeDialog').hide()" actionListener="#{loginController.logout}" />
-      <p:commandButton value="No" type="button" styleClass="ui-button-secondary"
-                       icon="pi pi-times" onclick="PF('logoutDialog').hide()" />
-    </p:confirmDialog>
-  </h:form>
 </h:body>
 </html>

@@ -47,10 +47,16 @@ public class UserController
         }
     }
 
-    @PutMapping( "/{id}" )
-    public ResponseEntity<User> update( @RequestBody UserDto userDto, @PathVariable String id )
-    {
-        return ResponseEntity.ok( userService.update( userDto, id ) );
+    @PutMapping("/{email}")
+    public ResponseEntity<User> updateRole(@RequestBody UserDto userDto, @PathVariable String email) {
+        User existingUser = userService.findByEmail(email);
+        if (existingUser != null) {
+            existingUser.setRole(userDto.getRole());
+            User updatedUser = userService.update(existingUser, email);
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping( "/{id}" )

@@ -1,5 +1,7 @@
 package com.mcsw.receiptapp.controller.user;
 
+import com.mcsw.receiptapp.model.RoleEnum;
+
 public class UserDto
 {
     String name;
@@ -10,8 +12,11 @@ public class UserDto
 
     String password;
 
+    String role;
+
     public UserDto()
     {
+        role = RoleEnum.USER.getValue();
     }
 
     public String getName()
@@ -32,5 +37,13 @@ public class UserDto
     public String getPassword()
     {
         return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
