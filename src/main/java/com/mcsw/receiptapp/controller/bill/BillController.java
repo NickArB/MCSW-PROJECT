@@ -19,14 +19,21 @@ public class BillController{
         return ResponseEntity.ok(billService.findAll());
     }
 
+    @GetMapping("/users/{userEmail}")
+    public List<Bill> allByUser(@PathVariable String userEmail){
+        return billService.findAllByUser(userEmail);
+    }
+
     @GetMapping( "/{id}" )
     public ResponseEntity<Bill> findById( @PathVariable String id ){
         return ResponseEntity.ok(billService.findById(id));
     }
 
-    @GetMapping( "/status/{paymentStatus}" )
-    public ResponseEntity<List<Bill>> findByPaymentStatus( @PathVariable String paymentStatus ){
-        return ResponseEntity.ok(billService.findByPaymentStatus(paymentStatus));
+
+    @GetMapping( "/status/{userEmail}/{paymentStatus}" )
+    public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ) {
+
+        return billService.findByPaymentStatus(userEmail, paymentStatus);
     }
 
     @PostMapping

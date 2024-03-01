@@ -1,7 +1,7 @@
 function loadPayments() {
     $.ajax({
                 type: 'GET',
-                url: '/bills',
+                url: '/bills/users/' + userInfo.email,
                 dataType: 'json',
                 success: function(data) {
                     buildTable(data); // Construye la tabla con los datos obtenidos
@@ -40,7 +40,9 @@ function buildTable(data) {
         });
 
 }
+var userInfo;
 
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
    loadPayments();
 });

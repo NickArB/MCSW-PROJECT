@@ -31,10 +31,19 @@ public class BillRepository {
         }
     }
 
-    public List<Bill> findByPaymentStatus(String paymentStatus) {
-        String sql = "SELECT * FROM bills WHERE payment_status = ?";
+    public List<Bill> findByUser(String userEmail) {
+        String sql = "SELECT * FROM bills WHERE useremail = ?";
         try {
-            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Bill.class), paymentStatus);
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Bill.class), userEmail);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    public List<Bill> findByPaymentStatus(String userEmail, String paymentStatus) {
+        String sql = "SELECT * FROM bills WHERE useremail = ? AND payment_status = ?";
+        try {
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Bill.class), userEmail, paymentStatus);
         } catch (DataAccessException e) {
             return null;
         }

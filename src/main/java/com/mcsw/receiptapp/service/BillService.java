@@ -23,11 +23,15 @@ public class BillService {
         }
     }
 
-    public List<Bill> findByPaymentStatus(String paymentStatus) {
-        return repo.findByPaymentStatus(paymentStatus);
+    public List<Bill> findByPaymentStatus(String userEmail,String paymentStatus) {
+        return repo.findByPaymentStatus(userEmail, paymentStatus);
     }
     public List<Bill> findAll(){
         return repo.findAll();
+    }
+
+    public List<Bill> findAllByUser(String userEmail){
+        return repo.findByUser(userEmail);
     }
 
     public Bill updateBill(Bill bill, String paymentID){
