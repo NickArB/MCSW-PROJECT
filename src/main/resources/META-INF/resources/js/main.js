@@ -1,6 +1,9 @@
 $(document).ready(function() {
     loadPendingBills();
+    var userEmail = sessionStorage.getItem('userEmail');
+    console.log(userEmail);
 });
+
 
 var selectedBillToPay;
 
