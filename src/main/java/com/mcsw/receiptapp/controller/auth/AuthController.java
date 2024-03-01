@@ -39,14 +39,18 @@ public class AuthController {
                 System.out.println("ADMIN");
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", "/admin.xhtml");
+                headers.add("Role", user.getRole());
                 return new ResponseEntity<>(headers, HttpStatus.OK);
             } else if("USER".equals(user.getRole())){
                 System.out.println("USER");
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", "/main.xhtml");
+                headers.add("Role", user.getRole());
                 return new ResponseEntity<>(headers, HttpStatus.OK);
             }else {
-                return new ResponseEntity<>("Usuario inició sesión correctamente", HttpStatus.OK);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Role", user.getRole());
+                return new ResponseEntity<>(headers, HttpStatus.OK);
             }
         }
 
