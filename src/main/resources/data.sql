@@ -52,7 +52,6 @@ INSERT INTO requests (paymentId, newValue, requestState) VALUES ('1', '$55000', 
 INSERT INTO requests (paymentId, newValue, requestState) VALUES ('2', '$35000', 'PENDIENTE');
 INSERT INTO requests (paymentId, newValue, requestState) VALUES ('3', '$50000', 'PENDIENTE');
 
-
 DROP TABLE IF EXISTS requests;
 
 CREATE TABLE cards (
@@ -72,6 +71,3 @@ INSERT INTO cards (account_number, expiration_date, type, cvc, owner_name, owner
 VALUES ('2333142121', '2024-12-31 23:59:59', 'debito', null, null, '2');
 
 DROP TABLE IF EXISTS cards;
-
-
-
