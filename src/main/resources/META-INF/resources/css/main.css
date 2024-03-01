@@ -1,0 +1,28 @@
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+header {
+    text-align:center;
+    background: #ffffff;
+}
+
+/* Estilos para el menú */
+.menu-panel {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#menuForm  .ui-panel-titlebar {
+    background-color: #4CAF50;
+    color: white;
+    text-align:center;
+}
+
+#menuForm .ui-widget-content {
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+}

@@ -23,6 +23,12 @@ public class BillController{
         return billService.findById(id);
     }
 
+    @GetMapping( "/status/{paymentStatus}" )
+    public List<Bill> findByPaymentStatus( @PathVariable String paymentStatus ){
+        return billService.findByPaymentStatus(paymentStatus);
+    }
+
+
     @PostMapping
     public ResponseEntity<Bill> create(@RequestBody BillDto billDto){
         return ResponseEntity.ok(billService.createBill(new Bill(billDto)));
