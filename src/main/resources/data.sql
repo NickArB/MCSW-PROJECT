@@ -50,4 +50,4 @@ INSERT INTO requests (paymentId, newValue, requestState) VALUES ('30', '$55000',
 INSERT INTO requests (paymentId, newValue, requestState) VALUES ('31', '$35000', 'PENDIENTE');
 INSERT INTO requests (paymentId, newValue, requestState) VALUES ('32', '$50000', 'PENDIENTE');
 
-DROP TABLE IF EXISTS bills;
+DROP TABLE IF EXISTS requests;
