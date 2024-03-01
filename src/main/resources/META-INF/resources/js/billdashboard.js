@@ -34,7 +34,7 @@ function loadBills() {
                 var select = $('<select>').addClass('payment-status-select').attr('data-bill-id', bill.id).appendTo(paymentStatusCell);
 
                 // Opciones de estado de pago
-                var paymentStatusOptions = ['Ok', 'Pendiente'];
+                var paymentStatusOptions = ['OK', 'PENDIENTE'];
                 $.each(paymentStatusOptions, function(i, status) {
                     var option = $('<option>').val(status).text(status).appendTo(select);
                     if (bill.paymentStatus === status) {
