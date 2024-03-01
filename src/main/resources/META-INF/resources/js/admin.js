@@ -13,7 +13,7 @@ function loadUsers() {
             $('<th>').text('Nombre').appendTo(headerRow);
             $('<th>').text('Apellido').appendTo(headerRow);
             $('<th>').text('Correo').appendTo(headerRow);
-            $('<th>').text('Contraseña').appendTo(headerRow);
+            $('<th>').text('Fecha de creación').appendTo(headerRow);
             $('<th>').text('Rol').appendTo(headerRow);
             $('<th>').text('Acciones').appendTo(headerRow);
 
@@ -25,7 +25,7 @@ function loadUsers() {
                 $('<td>').text(user.name).appendTo(row);
                 $('<td>').text(user.lastName).appendTo(row);
                 $('<td>').text(user.email).appendTo(row);
-                $('<td>').text(user.passwordHash).appendTo(row);
+                $('<td>').text(user.createdAt).appendTo(row);
 
                 // Agregar campo de selección de rol
                 var roleCell = $('<td>').appendTo(row);
@@ -72,6 +72,7 @@ function loadUsers() {
                             PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
                         }
                     });
+                    return false;
                 });
             });
         },
@@ -184,6 +185,7 @@ function buildEditUserTable(user) {
             data: JSON.stringify(updatedUser),
             success: function(response) {
                 console.log('Usuario actualizado exitosamente:', response);
+                $('#user-list').empty();
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
                 loadUsers();
             },
@@ -192,6 +194,7 @@ function buildEditUserTable(user) {
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
             }
         });
+        return false;
     });
 
     $('.delete-user-btn').click(function() {
@@ -210,6 +213,7 @@ function buildEditUserTable(user) {
                 }
             });
         }
+        return false;
     });
 }
 
