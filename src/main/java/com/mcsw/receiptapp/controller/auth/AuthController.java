@@ -49,6 +49,12 @@ public class AuthController {
                 headers.add("Role", user.getRole());
                 headers.add("Id", user.getId());
                 return new ResponseEntity<>(headers, HttpStatus.OK);
+            }else if("AUDITOR".equals(user.getRole())){
+                System.out.println("AUDITOR");
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Location", "/auditor.xhtml");
+                headers.add("Role", user.getRole());
+                return new ResponseEntity<>(headers, HttpStatus.OK);
             }else {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Role", user.getRole());

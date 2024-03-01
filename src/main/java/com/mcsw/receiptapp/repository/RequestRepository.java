@@ -23,16 +23,13 @@ public class RequestRepository {
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Request.class), id);
     }
 
-    private Request findByPaymentId(String id){
-        String sql = "SELECT * FROM requests WHERE paymentId = ?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Request.class), id);
-    }
-
     public Request createRequest(Request solicitud){
         String sql = "INSERT INTO requests (paymentId, newValue, requestState) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, solicitud.getPaymentId(), 
                                 solicitud.getNewValue(), solicitud.getRequestState());
-        return findByPaymentId(solicitud.getPaymentId());
+        // Devolver la ultima inserción creada
+        Long lastInsertId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM requests", Long.class);
+        return findById("" + lastInsertId);
     }
 
     public Request updateRequestState(String id, String newState){
