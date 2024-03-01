@@ -1,6 +1,7 @@
 package com.mcsw.receiptapp.controller.bill;
 
 import com.mcsw.receiptapp.model.Bill;
+import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.service.BillService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,13 @@ public class BillController{
 
     @PutMapping( "/{id}" )
     public ResponseEntity<Bill> update(@RequestBody BillDto billDto, @PathVariable String id){
-        return ResponseEntity.ok(billService.updateBill(new Bill(billDto),id));
+        Bill existingBill = billService.findById(id);
+        if (existingBill != null) {
+            return ResponseEntity.ok(billService.updateBill(new Bill(billDto),id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        
     }
 
     @DeleteMapping( "/{id}" )

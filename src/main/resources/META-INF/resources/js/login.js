@@ -54,7 +54,7 @@ function registerUser() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 console.log('Usuario registrado exitosamente:', xhr.responseText);
-                PF('growlWV').renderMessage({ severity: 'success', summary: 'Usuario registrado exitosamente', detail: '' });
+                PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario registrado exitosamente', detail: '' });
             } else if (xhr.status === 409) {
                 console.error('El correo electrónico ya está registrado:', xhr.responseText);
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Correo electrónico duplicado', detail: 'El correo electrónico proporcionado ya está registrado. Por favor, intente con otro correo electrónico.' });

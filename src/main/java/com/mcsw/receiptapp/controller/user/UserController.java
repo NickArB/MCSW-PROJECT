@@ -48,9 +48,13 @@ public class UserController
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<User> updateRole(@RequestBody UserDto userDto, @PathVariable String email) {
+    public ResponseEntity<User> update(@RequestBody UserDto userDto, @PathVariable String email) {
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
+            existingUser.setName(userDto.getName());
+            existingUser.setLastName(userDto.getLastName());
+            existingUser.setPasswordHash(userDto.getPassword());
+            existingUser.setEmail(userDto.getEmail());
             existingUser.setRole(userDto.getRole());
             User updatedUser = userService.update(existingUser, email);
             return ResponseEntity.ok(updatedUser);
@@ -59,10 +63,10 @@ public class UserController
         }
     }
 
-    @DeleteMapping( "/{id}" )
-    public ResponseEntity<Boolean> delete( @PathVariable String id )
+    @DeleteMapping( "/{email}" )
+    public ResponseEntity<Boolean> delete( @PathVariable String email )
     {
-        return ResponseEntity.ok( userService.deleteById( id ) );
+        return ResponseEntity.ok( userService.deleteByEmail( email ) );
     }
 
 }

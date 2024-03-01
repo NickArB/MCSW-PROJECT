@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        lang="es"
+>
+<h:head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="../css/admindashboard.css" />
+  <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+  <script src="../js/billdashboard.js"></script>
+</h:head>
+<h:body>
+  <header>
+    <h1> Facturas </h1>
+  </header>
+  <main>
+    <nav class="sidebar">
+      <ul class="sidebar-list">
+        <li class="sidebar-list-element">
+          <p:commandLink styleClass="link"  action="admin.xhtml">
+            <i class="pi pi-home"></i>
+            <span>Usuarios</span>
+          </p:commandLink>
+          <p:commandLink styleClass="link"  action="billsdashboard.xhtml">
+            <i class="pi pi-home"></i>
+            <span>Facturas</span>
+          </p:commandLink>
+        </li>
+      </ul>
+    </nav>
+    <div class="user-mod">
+      <h:form id="form" styleClass="card-usermod">
+        <p:growl id="messages" widgetVar="growlWV" show-detail="true" />
+        <h2>Asignación de estado</h2>
+        <div id="bills-list" ></div>
+        <h2>Administrar factura</h2>
+        <div class="field">
+          <p:inputText class="w-full" placeholder="Id" id="IdInput" />
+        </div>
+        <p:commandButton value="Buscar" icon="pi pi-search"
+                         class="ui-button-primary" onclick="searchBill();"/>
+        <br/><br/>
+        <div id="bill-list" ></div>
+      </h:form>
+    </div>
+  </main>
+</h:body>
+</html>
