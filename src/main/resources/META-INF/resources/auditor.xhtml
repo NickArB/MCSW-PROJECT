@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        lang="es">
+
+<h:head>
+    <title>Auditor</title>
+    <link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+</h:head>
+
+<h:body>
+    <h:form id="menuForm">
+        <p:panel styleClass="menu-panel" header="Menú de Auditor">
+            <p:menu>
+                <p:submenu label="Opciones">
+                    <p:menuitem value="Consultar usuarios" outcome="usersRecord.xhtml" />
+                    <p:menuitem value="Consultar movimientos de usuarios" outcome="paymentRecord.xhtml" />
+                    <p:menuitem value="Aprobar cambios del administrador" outcome="approvementRecord.xhtml" />
+                </p:submenu>
+            </p:menu>
+        </p:panel>
+    </h:form>
+</h:body>
+
+</h:html>

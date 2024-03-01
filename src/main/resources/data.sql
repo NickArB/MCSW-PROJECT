@@ -33,6 +33,14 @@ INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment
             VALUES (31, 'andres.onate@mail.escuelaing.edu.co', 'Luz', '2024-02-28T02:47:55.045+00:00',
                         '2024-03-23T02:47:55.045+00:00', '$100000', 'PENDIENTE');
 
+INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status) 
+            VALUES (31, 'juan.sanchez@mail.escuelaing.edu.co', 'Codensa', '2024-02-28', 
+                        '2024-02-28', '$40000', 'PENDING');
+
+INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status) 
+            VALUES (32, 'andres.onate@mail.escuelaing.edu.co', 'Gas Natural', '2024-02-28', 
+                        '2024-02-28', '$45000', 'PENDING');
+
 DROP TABLE IF EXISTS bills;
 
 CREATE TABLE cards (
