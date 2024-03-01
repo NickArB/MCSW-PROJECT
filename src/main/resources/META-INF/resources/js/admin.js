@@ -13,6 +13,7 @@ function loadUsers() {
             $('<th>').text('Nombre').appendTo(headerRow);
             $('<th>').text('Apellido').appendTo(headerRow);
             $('<th>').text('Correo').appendTo(headerRow);
+            $('<th>').text('Contraseña').appendTo(headerRow);
             $('<th>').text('Rol').appendTo(headerRow);
             $('<th>').text('Acciones').appendTo(headerRow);
 
@@ -41,27 +42,36 @@ function loadUsers() {
 
                 // Agregar botón para actualizar el rol
                 var updateButton = $('<button>').text('Actualizar').addClass('update-role-btn').appendTo(row);
-            });
 
-            // Manejar la actualización del rol al hacer clic en el botón de actualizar
-            $('.update-role-btn').click(function() {
-                var userId = $(this).closest('tr').find('.role-select').data('user-id');
-                var newRole = $(this).closest('tr').find('.role-select').val();
+                // Manejar la actualización del rol al hacer clic en el botón de actualizar
+                updateButton.click(function() {
+                    var userId = $(this).closest('tr').find('.role-select').data('user-id');
+                    var newRole = $(this).closest('tr').find('.role-select').val();
 
-                // Realizar la actualización del rol
-                $.ajax({
-                    type: 'PUT',
-                    url: '/users/' + userId,
-                    contentType: 'application/json',
-                    data: JSON.stringify({ role: newRole }),
-                    success: function(response) {
-                        console.log('Rol actualizado exitosamente:', response);
-                        // Puedes mostrar un mensaje de éxito o actualizar la interfaz de usuario según sea necesario
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error al actualizar el rol:', error);
-                        // Maneja el error según sea necesario
-                    }
+                    // Construir el objeto UserDto para enviar al servidor
+                    var userDto = {
+                        name: user.name,
+                        lastName: user.lastName,
+                        email: user.email,
+                        password: user.passwordHash,
+                        role: newRole
+                    };
+
+                    // Realizar la actualización del rol
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/users/' + userId,
+                        contentType: 'application/json',
+                        data: JSON.stringify(userDto),
+                        success: function(response) {
+                            console.log('Rol actualizado exitosamente:', response);
+                            PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al actualizar el rol:', error);
+                            PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+                        }
+                    });
                 });
             });
         },
@@ -69,7 +79,140 @@ function loadUsers() {
             console.error('Error al cargar los usuarios:', error);
         }
     });
+};
+
+function registerUser() {
+    var fullName = $('#dialogs\\:full-name').val();
+    var lastName = $('#dialogs\\:lastname').val();
+    var email = $('#dialogs\\:email').val();
+    var password = $('#dialogs\\:password').val();
+
+    var userData = {
+        name: fullName,
+        lastName: lastName,
+        email: email,
+        password: password
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/users');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Usuario registrado exitosamente:', xhr.responseText);
+                loadUsers();
+                PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario registrado exitosamente', detail: '' });
+            } else if (xhr.status === 409) {
+                console.error('El correo electrónico ya está registrado:', xhr.responseText);
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Correo electrónico duplicado', detail: 'El correo electrónico proporcionado ya está registrado. Por favor, intente con otro correo electrónico.' });
+            } else {
+                console.error('Error al registrar el usuario:', xhr.responseText);
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+            }
+        }
+    };
+    xhr.send(JSON.stringify(userData));
+};
+
+function searchUser() {
+    var email = $('#form\\:emailInput').val();
+
+    $.ajax({
+        type: 'GET',
+        url: '/users/' + email, // Endpoint para obtener el usuario por correo electrónico
+        success: function(user) {
+            if (user) {
+                buildEditUserTable(user);
+            } else {
+                console.log('No se encontró ningún usuario con el correo electrónico proporcionado.');
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar el usuario', detail: 'Error al buscar el usuario' });
+
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al buscar el usuario:', error);
+            PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar el usuario', detail: 'Error al buscar el usuario' });
+        }
+    });
+};
+
+function buildEditUserTable(user) {
+    // Limpiar contenido anterior
+    $('#user-list').empty();
+
+    // Crear la tabla y encabezados
+    var table = $('<table>').addClass('table').appendTo('#user-list');
+    var thead = $('<thead>').appendTo(table);
+    var headerRow = $('<tr>').appendTo(thead);
+    $('<th>').text('ID').appendTo(headerRow);
+    $('<th>').text('Nombre').appendTo(headerRow);
+    $('<th>').text('Apellido').appendTo(headerRow);
+    $('<th>').text('Correo').appendTo(headerRow);
+    $('<th>').text('Contraseña').appendTo(headerRow);
+    $('<th>').text('Acciones').appendTo(headerRow);
+
+    // Agregar fila con datos del usuario
+    var tbody = $('<tbody>').appendTo(table);
+    var row = $('<tr>').appendTo(tbody);
+    $('<td>').text(user.id).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(user.name)).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(user.lastName)).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(user.email)).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'password').val(user.passwordHash)).appendTo(row);
+
+    // Agregar botón para actualizar el usuario
+    var updateButton = $('<button>').text('Actualizar').addClass('update-user-btn').appendTo(row);
+
+    // Agregar botón para eliminar el usuario
+    var deleteButton = $('<button>').text('Eliminar').addClass('delete-user-btn').appendTo(row);
+
+    // Manejar la actualización del usuario al hacer clic en el botón de actualizar
+    $('.update-user-btn').click(function() {
+        var updatedUser = {
+            name: $(this).closest('tr').find('input:eq(0)').val(),
+            lastName: $(this).closest('tr').find('input:eq(1)').val(),
+            email: $(this).closest('tr').find('input:eq(2)').val(),
+            password: $(this).closest('tr').find('input:eq(3)').val(),
+            role: user.role
+        };
+        console.log(updatedUser);
+        $.ajax({
+            type: 'PUT',
+            url: '/users/' + user.email,
+            contentType: 'application/json',
+            data: JSON.stringify(updatedUser),
+            success: function(response) {
+                console.log('Usuario actualizado exitosamente:', response);
+                PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
+                loadUsers();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al actualizar el usuario:', error);
+                PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+            }
+        });
+    });
+
+    $('.delete-user-btn').click(function() {
+        if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/users/' + user.email,
+                success: function(response) {
+                    console.log('Usuario eliminado exitosamente:', response);
+                    PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario eliminado exitosamente', detail: '' });
+                    loadUsers();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al eliminar el usuario:', error);
+                    PF('growlWV').renderMessage({ severity: 'error', summary: 'Error en el servidor', detail: 'Se produjo un error en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+                }
+            });
+        }
+    });
 }
+
 
 $(document).ready(function() {
     loadUsers();
