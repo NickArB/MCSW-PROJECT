@@ -31,11 +31,8 @@ public class BillController{
 
 
     @GetMapping( "/status/{userEmail}/{paymentStatus}" )
-<<<<<<< HEAD
     public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ) {
-=======
-    public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ){
->>>>>>> cbd1eb1 (Proceso de pago finalizado)
+
         return billService.findByPaymentStatus(userEmail, paymentStatus);
     }
 
