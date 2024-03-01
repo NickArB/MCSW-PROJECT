@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        lang="es"
+>
+<h:head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="../css/admindashboard.css" />
+  <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+  <script src="../js//usersRecord.js"></script>
+</h:head>
+<h:body>
+  <header>
+    <h1> Consultar Usuarios</h1>
+  </header>
+  <main>
+    <div class="user-mod">
+      <h:form id="form" styleClass="card-usermod">
+        <p:growl id="messages" show-detail="true" />
+        <div id="users-list" ></div>
+      </h:form>
+    </div>
+  </main>
+</h:body>
+</html>
