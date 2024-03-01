@@ -1,7 +1,8 @@
+var userInfo;
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     loadPendingBills();
-    var userEmail = sessionStorage.getItem('userEmail');
-    console.log(userEmail);
+
 });
 
 
@@ -10,7 +11,7 @@ var selectedBillToPay;
 function loadPendingBills() {
     $.ajax({
         type: 'GET',
-        url: '/bills/status/Pendiente', // Endpoint para obtener las facturas pendientes
+        url: '/bills/status/' + userInfo.email + '/PENDIENTE', // Endpoint para obtener las facturas pendientes
         dataType: 'json',
         success: function(data) {
 
@@ -44,9 +45,14 @@ function loadPendingBill() {
         }
     });
 }
-
+var paymentGateway = {
+    paymentId: "",
+    deadLine: null
+}
 function buildTable(data) {
         var table = $('<table>').addClass('table');
+            paymentGateway.paymentId = data.id;
+            paymentGateway.deadLine = data.deadLine;
             var thead = $('<thead>').appendTo(table);
             var headerRow = $('<tr>').appendTo(thead);
             $('<th>').text('ID').appendTo(headerRow);
@@ -76,7 +82,6 @@ function buildTable(data) {
 
 function setSelectedBillToPay(selectedValue) {
     selectedBillToPay = selectedValue;
-    console.log(selectedBillToPay);
 }
 
 function startPaymentProcess() {
@@ -93,4 +98,62 @@ function toggleCreditCardFields(selectedValue) {
         } else {
             $('.cvcPanel').hide(); // Ocultar los campos de la tarjeta de crédito
         }
+}
+
+function payBill() {
+    var metodoPago = PF('metodoPagoWidget').getSelectedValue();
+    // Obtener los valores de los otros campos del formulario
+    var numeroCuenta = $('#pagarFacturaForm\\:numeroCuenta').val();
+    var fechaVencimiento = PF('fechaVencimientoWidget').getDate();
+    var cvc = $('#pagarFacturaForm\\:cvc').val();
+    var titular = $('#pagarFacturaForm\\:titular').val();
+
+
+    // Crear un objeto con los datos a enviar en la solicitud
+    var data = {
+        accountNumber: numeroCuenta,
+        expirationDate: fechaVencimiento,
+        type: metodoPago,
+        cvc: cvc,
+        ownerName: titular
+    };
+
+
+
+    // Realizar una solicitud AJAX POST
+    $.ajax({
+        type: 'POST',
+        url: '/cards/' + userInfo.id , // Reemplaza esto con la URL de tu endpoint
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+            // Manejar la respuesta exitosa
+            doPayment();
+        },
+        error: function(xhr, status, error) {
+            // Manejar errores
+            console.log("No existe la tarjeta insertada." + JSON.stringify(data))
+            console.error('Error:', error);
+        }
+    });
+}
+
+function doPayment() {
+    $.ajax({
+        type: 'POST',
+        url: '/payments', // Reemplaza esto con la URL de tu endpoint
+        contentType: 'application/json',
+        data: JSON.stringify(paymentGateway),
+        success: function(response) {
+            // Manejar la respuesta exitosa
+            PF('payDialog').hide();
+            loadPendingBills();
+            console.log("Pago exitoso")
+        },
+        error: function(xhr, status, error) {
+            // Manejar errores
+            console.log("Error en el pago " + paymentGateway)
+            console.error('Error:', error);
+        }
+    });
 }

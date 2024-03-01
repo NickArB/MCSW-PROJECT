@@ -11,7 +11,7 @@ CREATE TABLE users (
 
 INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (1, 'Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
 INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (2, 'Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
-INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (1, 'Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
+INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (3, 'Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
 
 DROP TABLE IF EXISTS users;
 
@@ -27,6 +27,28 @@ CREATE TABLE bills (
 
 INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status) 
             VALUES (30, 'nicolas.ariza@mail.escuelaing.edu.co', 'Acueducto', '2024-02-28T02:47:55.045+00:00', 
-                        '2024-02-28T02:47:55.045+00:00', '$51000', 'Ok');
+                        '2024-02-28T02:47:55.045+00:00', '$51000', 'OK');
+
+ INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status)
+            VALUES (31, 'andres.onate@mail.escuelaing.edu.co', 'Luz', '2024-02-28T02:47:55.045+00:00',
+                        '2024-03-23T02:47:55.045+00:00', '$100000', 'PENDIENTE');
 
 DROP TABLE IF EXISTS bills;
+
+CREATE TABLE cards (
+    account_number VARCHAR(255) PRIMARY KEY,
+    expiration_date DATETIME,
+    type VARCHAR(255),
+    cvc VARCHAR(255),
+    owner_name VARCHAR(255),
+    owner_id VARCHAR(255),
+    FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+
+INSERT INTO cards (account_number, expiration_date, type, cvc, owner_name, owner_id)
+VALUES ('1234567890', '2024-12-31 23:59:59', 'credito', '123', 'Nicolas Ariza', '1');
+
+INSERT INTO cards (account_number, expiration_date, type, cvc, owner_name, owner_id)
+VALUES ('2333142121', '2024-12-31 23:59:59', 'debito', null, null, '2');
+
+DROP TABLE IF EXISTS cards;

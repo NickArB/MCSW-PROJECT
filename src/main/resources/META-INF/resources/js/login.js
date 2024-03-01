@@ -16,9 +16,14 @@ function login(event) {
             console.log(response);
             if (xhr.getResponseHeader('Location')) {
                 console.log(xhr.getResponseHeader('Location'));
+                var userInfo = {
+                    id: xhr.getResponseHeader('Id'),
+                    role: xhr.getResponseHeader('Role'),
+                    email: email
+                }
                 console.log(xhr.getResponseHeader('Role'));
-                sessionStorage.setItem('userEmail', email);
-                console.log(sessionStorage.getItem('userEmail'));
+                sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+                console.log(sessionStorage.getItem('userInfo'));
                 window.location.href = xhr.getResponseHeader('Location');
             } else {
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Inicio de sesión exitoso', detail: '' });

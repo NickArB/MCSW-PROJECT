@@ -19,14 +19,19 @@ public class BillController{
         return billService.findAll();
     }
 
+    @GetMapping("/users/{userEmail}")
+    public List<Bill> allByUser(@PathVariable String userEmail){
+        return billService.findAllByUser(userEmail);
+    }
+
     @GetMapping( "/{id}" )
     public Bill findById( @PathVariable String id ){
         return billService.findById(id);
     }
 
-    @GetMapping( "/status/{paymentStatus}" )
-    public List<Bill> findByPaymentStatus( @PathVariable String paymentStatus ){
-        return billService.findByPaymentStatus(paymentStatus);
+    @GetMapping( "/status/{userEmail}/{paymentStatus}" )
+    public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ){
+        return billService.findByPaymentStatus(userEmail, paymentStatus);
     }
 
 

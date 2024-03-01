@@ -38,8 +38,8 @@
 
             <div class="centered-container">
                 <h:outputLabel for="metodoPago" value="Método de Pago:"  styleClass="label-margin"/>
-                <p:selectOneMenu id="metodoPago" required="true" onchange="toggleCreditCardFields(this.value)">
-                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                <p:selectOneMenu id="metodoPago" widgetVar="metodoPagoWidget" styleClass="metodoPago" required="true" onchange="toggleCreditCardFields(this.value)">
+                    <f:selectItem itemLabel="Seleccione"  itemValue="" />
                     <f:selectItem itemLabel="Débito" itemValue="debito" />
                     <f:selectItem itemLabel="Crédito" itemValue="credito" />
                 </p:selectOneMenu>
@@ -61,11 +61,11 @@
                 <p:inputText id="numeroCuenta" required="true" />
 
                 <h:outputLabel for="fechaVencimiento" value="Fecha de Vencimiento:" />
-                <p:calendar id="fechaVencimiento" required="true" />
+                <p:calendar id="fechaVencimiento" widgetVar="fechaVencimientoWidget" required="true" />
             </h:panelGrid>
 
             <div class="centered-button">
-                <p:commandButton value="Pagar"/>
+                <p:commandButton value="Pagar" onclick="payBill()"/>
             </div>
 
         </h:form>
