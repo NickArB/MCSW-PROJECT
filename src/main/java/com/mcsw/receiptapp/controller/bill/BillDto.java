@@ -8,7 +8,6 @@ public class BillDto {
     private String company;
     private String debt;
     private Date deadLine;
-    private String paymentStatus;
 
     public BillDto(){}
 
@@ -32,13 +31,11 @@ public class BillDto {
         return debt;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
+
 
     @Override
     public String toString() {
         return "BillDto [id=" + id + ", userEmail=" + userEmail + ", company=" + company + ", debt=" + debt
-                + ", deadLine=" + deadLine + ", paymentStatus=" + paymentStatus + "]";
+                + ", deadLine=" + deadLine  + "]";
     }
 }

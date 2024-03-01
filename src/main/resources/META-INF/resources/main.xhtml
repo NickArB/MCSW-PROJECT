@@ -30,7 +30,46 @@
             <select id="facturasPendientes" onchange="setSelectedBillToPay(this.value)">
                 <option value="">Selecciona una factura</option>
             </select>
-            <p:commandButton value="Pagar" oncomplete="redirectToPaymentPage()" />
+            <p:commandButton value="Pagar" oncomplete="startPaymentProcess()" />
+        </h:form>
+    </p:confirmDialog>
+
+    <p:confirmDialog header="Pago Factura" widgetVar="payDialog" modal="true">
+        <h:form id="pagarFacturaForm">
+            <div id="billTable"></div>
+
+            <div class="centered-container">
+                <h:outputLabel for="metodoPago" value="Método de Pago:"  styleClass="label-margin"/>
+                <p:selectOneMenu id="metodoPago" required="true" onchange="toggleCreditCardFields(this.value)">
+                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                    <f:selectItem itemLabel="Débito" itemValue="debito" />
+                    <f:selectItem itemLabel="Crédito" itemValue="credito" />
+                </p:selectOneMenu>
+            </div>
+
+            <h:panelGroup id="cvcPanel"  class="cvcPanel" style="display: none;">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="cvc" value="CVC:" />
+                    <p:inputText id="cvc" required="true" />
+
+                    <h:outputLabel for="titular" value="Titular de la Tarjeta:" />
+                    <p:inputText id="titular" required="true" />
+                </h:panelGrid>
+            </h:panelGroup>
+
+
+            <h:panelGrid columns="2">
+                <h:outputLabel for="numeroCuenta" value="Número de Cuenta:" />
+                <p:inputText id="numeroCuenta" required="true" />
+
+                <h:outputLabel for="fechaVencimiento" value="Fecha de Vencimiento:" />
+                <p:calendar id="fechaVencimiento" required="true" />
+            </h:panelGrid>
+
+            <div class="centered-button">
+                <p:commandButton value="Pagar"/>
+            </div>
+
         </h:form>
     </p:confirmDialog>
 
