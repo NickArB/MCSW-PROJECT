@@ -148,12 +148,12 @@ function buildEditBillTable(bill) {
         // Realizar la actualización del valor de la factura
         $.ajax({
             type: 'POST',
-            url: '/request',
+            url: '/requests',
             contentType: 'application/json',
             data: JSON.stringify({ paymentId: bill.id , newValue: newDebt}),
             success: function(response) {
                 console.log('Solicitud creada con exito', response);
-                PF('growlWV').renderMessage({ severity: 'info', summary: 'Valor de la factura actualizado exitosamente', detail: '' });
+                PF('growlWV').renderMessage({ severity: 'info', summary: 'Solicitud de actualización generada', detail: '' });
             },
             error: function(xhr, status, error) {
                 console.error('Error', error);
