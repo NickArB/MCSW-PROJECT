@@ -148,7 +148,7 @@ function doPayment() {
             // Manejar la respuesta exitosa
             PF('payDialog').hide();
             loadPendingBills();
-            console.log("Pago exitoso")
+            console.log("Pago exitoso");
         },
         error: function(xhr, status, error) {
             // Manejar errores
