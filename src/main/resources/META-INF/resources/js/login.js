@@ -24,6 +24,7 @@ function login(event) {
                 console.log(xhr.getResponseHeader('Role'));
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(sessionStorage.getItem('userInfo'));
+
                 window.location.href = xhr.getResponseHeader('Location');
             } else {
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Inicio de sesión exitoso', detail: '' });

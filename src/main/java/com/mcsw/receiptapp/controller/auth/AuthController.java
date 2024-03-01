@@ -58,7 +58,9 @@ public class AuthController {
             }else {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Role", user.getRole());
+
                 headers.add("Id", user.getId());
+
                 return new ResponseEntity<>(headers, HttpStatus.OK);
             }
         }
