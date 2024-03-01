@@ -42,8 +42,11 @@ public class UserService {
         }
     }
 
-    public Boolean deleteById(String id) {
-        return null;
+    public Boolean deleteByEmail(String email) {
+        if(userRepository.delete(email)){
+            return true;
+        }
+        return false;
     }
 
     public User findByEmail(String email) throws UserNotFoundException {

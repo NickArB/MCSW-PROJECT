@@ -72,4 +72,15 @@ public class UserRepository {
             return null;
         }
     }
+
+    public boolean delete(String email) {
+        String sql = "DELETE FROM users WHERE email=?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, email);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
