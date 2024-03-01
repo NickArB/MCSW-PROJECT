@@ -31,6 +31,15 @@ public class BillRepository {
         }
     }
 
+    public List<Bill> findByPaymentStatus(String paymentStatus) {
+        String sql = "SELECT * FROM bills WHERE payment_status = ?";
+        try {
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Bill.class), paymentStatus);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
     public List<Bill> findAll(){
         String sql = "SELECT * FROM bills";
         try {

@@ -23,6 +23,9 @@ public class BillService {
         }
     }
 
+    public List<Bill> findByPaymentStatus(String paymentStatus) {
+        return repo.findByPaymentStatus(paymentStatus);
+    }
     public List<Bill> findAll(){
         return repo.findAll();
     }
