@@ -26,7 +26,6 @@ public class Bill {
     }
 
     public Bill(BillDto dto){
-        this.id = dto.getId();
         this.userEmail = dto.getUserEmail();
         this.company = dto.getCompany();
         this.billingDate = new Date();
