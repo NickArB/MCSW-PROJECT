@@ -3,7 +3,6 @@ package com.mcsw.receiptapp.controller.bill;
 import java.util.Date;
 
 public class BillDto {
-    private String id;
     private String userEmail;
     private String company;
     private String debt;
@@ -13,10 +12,6 @@ public class BillDto {
 
     public Date getDeadLine() {
         return deadLine;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getUserEmail() {
@@ -35,7 +30,7 @@ public class BillDto {
 
     @Override
     public String toString() {
-        return "BillDto [id=" + id + ", userEmail=" + userEmail + ", company=" + company + ", debt=" + debt
+        return "BillDto [userEmail=" + userEmail + ", company=" + company + ", debt=" + debt
                 + ", deadLine=" + deadLine  + "]";
     }
 }

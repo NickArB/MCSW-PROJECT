@@ -38,7 +38,6 @@ public class User {
         createdAt = new Date();
         role = userDto.getRole();
         passwordHash = userDto.getPassword();
-        buildId();
 
     }
 

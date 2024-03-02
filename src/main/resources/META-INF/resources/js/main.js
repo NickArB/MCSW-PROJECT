@@ -2,7 +2,6 @@ var userInfo;
 $(document).ready(function() {
     userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     loadPendingBills();
-
 });
 
 
@@ -147,6 +146,7 @@ function doPayment() {
         success: function(response) {
             // Manejar la respuesta exitosa
             PF('payDialog').hide();
+            PF('payed-dialog').show();
             loadPendingBills();
             console.log("Pago exitoso");
         },
@@ -157,3 +157,38 @@ function doPayment() {
         }
     });
 }
+
+function createBill() {
+    var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
+    var valorFactura = $('#crear-servicio-form\\:value-bill').val();
+    var fechaLimite = PF('fecha-limite-widget').getDate();
+
+    // Crear un objeto con los datos a enviar en la solicitud
+    var data = {
+        userEmail: userInfo.email,
+        company: empresaEmitente,
+        debt: '$' + valorFactura,
+        deadLine: fechaLimite
+    };
+
+    // Realizar una solicitud AJAX POST
+    $.ajax({
+        type: 'POST',
+        url: '/bills', // Reemplaza esto con la URL de tu endpoint
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+            // Manejar la respuesta exitosa
+            PF('serviceDialog').hide();
+            PF('created-dialog').show();
+            loadPendingBills();
+
+        },
+        error: function(xhr, status, error) {
+            // Manejar errores
+            console.log("No existe la tarjeta insertada." + JSON.stringify(data))
+            console.error('Error:', error);
+        }
+    });
+}
+
