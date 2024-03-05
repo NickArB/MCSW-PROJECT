@@ -1,6 +1,7 @@
 var userInfo;
 $(document).ready(function() {
     userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    showMainMenu();
     loadPendingBills();
 });
 
@@ -108,16 +109,23 @@ function payBill() {
     var titular = $('#pagarFacturaForm\\:titular').val();
 
 
-    // Crear un objeto con los datos a enviar en la solicitud
-    var data = {
-        accountNumber: numeroCuenta,
-        expirationDate: fechaVencimiento,
-        type: metodoPago,
-        cvc: cvc,
-        ownerName: titular
-    };
+    if(metodoPago === "credito") {
+        // Crear un objeto con los datos a enviar en la solicitud
+        var data = {
+                accountNumber: numeroCuenta,
+                expirationDate: fechaVencimiento,
+                type: metodoPago,
+                cvc: cvc,
+                ownerName: titular
+        };
 
-
+    } else {
+        var data = {
+                accountNumber: numeroCuenta,
+                expirationDate: fechaVencimiento,
+                type: metodoPago
+        };
+    }
 
     // Realizar una solicitud AJAX POST
     $.ajax({
@@ -128,6 +136,7 @@ function payBill() {
         success: function(response) {
             // Manejar la respuesta exitosa
             doPayment();
+            cleanFieldsPayment();
         },
         error: function(xhr, status, error) {
             // Manejar errores
@@ -159,36 +168,72 @@ function doPayment() {
 }
 
 function createBill() {
-    var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
-    var valorFactura = $('#crear-servicio-form\\:value-bill').val();
-    var fechaLimite = PF('fecha-limite-widget').getDate();
+    var isANumber = validateValueToPay();
+    if(isANumber) {
+            var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
+            var valorFactura = $('#crear-servicio-form\\:value-bill').val();
+            var fechaLimite = PF('fecha-limite-widget').getDate();
 
-    // Crear un objeto con los datos a enviar en la solicitud
-    var data = {
-        userEmail: userInfo.email,
-        company: empresaEmitente,
-        debt: '$' + valorFactura,
-        deadLine: fechaLimite
-    };
+            // Crear un objeto con los datos a enviar en la solicitud
+            var data = {
+                userEmail: userInfo.email,
+                company: empresaEmitente,
+                debt: '$' + valorFactura,
+                deadLine: fechaLimite
+            };
 
-    // Realizar una solicitud AJAX POST
-    $.ajax({
-        type: 'POST',
-        url: '/bills', // Reemplaza esto con la URL de tu endpoint
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function(response) {
-            // Manejar la respuesta exitosa
-            PF('serviceDialog').hide();
-            PF('created-dialog').show();
-            loadPendingBills();
+            // Realizar una solicitud AJAX POST
+            $.ajax({
+                type: 'POST',
+                url: '/bills', // Reemplaza esto con la URL de tu endpoint
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    // Manejar la respuesta exitosa
+                    PF('serviceDialog').hide();
+                    PF('created-dialog').show();
+                    loadPendingBills();
+                    cleanFieldsNewService();
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores
+                    console.log("No existe la tarjeta insertada." + JSON.stringify(data))
+                    console.error('Error:', error);
+                }
+            });
+    }
 
-        },
-        error: function(xhr, status, error) {
-            // Manejar errores
-            console.log("No existe la tarjeta insertada." + JSON.stringify(data))
-            console.error('Error:', error);
-        }
-    });
 }
 
+function showMainMenu() {
+    if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role !== 'USER') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}
+
+function validateValueToPay() {
+     var costo = $('#crear-servicio-form\\:value-bill').val();
+     console.log(costo);
+     if (isNaN(costo)) {
+        alert("Debe ingresar un número en el campo \"Valor a pagar\".");
+        return false; // Evita que el formulario se envíe
+     }
+     return true;
+}
+
+function cleanFieldsNewService() {
+    $('#crear-servicio-form\\:value-bill').val("");
+    $('#crear-servicio-form\\:bill-company').val("");
+    PF('fecha-limite-widget').setDate(null);
+}
+
+function cleanFieldsPayment() {
+    PF('metodoPagoWidget').selectValue('');
+    $('#pagarFacturaForm\\:numeroCuenta').val("");
+    PF('fechaVencimientoWidget').setDate(null);
+    $('#pagarFacturaForm\\:cvc').val("");
+    $('#pagarFacturaForm\\:titular').val("");
+    toggleCreditCardFields("");
+}

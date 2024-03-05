@@ -38,11 +38,20 @@ function buildTable(data) {
                 fila += '</tr>';
                 table.find('tbody').append(fila); // Agregar la fila a la tabla
         });
-
 }
+
 var userInfo;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+   userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+   showPaymentRecord();
    loadPayments();
 });
+
+function showPaymentRecord() {
+    if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role === 'ADMIN') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}

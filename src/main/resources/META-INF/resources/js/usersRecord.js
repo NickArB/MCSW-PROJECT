@@ -32,6 +32,19 @@ function loadUsers() {
     });
 }
 
+var userInfo;
+
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    showUsersRecord();
     loadUsers();
 });
+
+function showUsersRecord() {
+    console.log(userInfo);
+    if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role !== 'AUDITOR') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
 </h:head>
 
-<h:body>
+<h:body onload="showAuditor()">
     <h:form id="menuForm">
         <p:panel styleClass="menu-panel" header="Menú de Auditor">
             <p:menu>
@@ -26,5 +26,16 @@
         </p:panel>
     </h:form>
 </h:body>
+    <script type="text/javascript">
+        function showAuditor() {
+            var userInfo = sessionStorage.getItem('userInfo');
+            console.log(userInfo);
+            if (userInfo === null) {
+                window.location.href = 'login.xhtml';
+            } else if (userInfo.role !== 'AUDITOR') {
+                window.location.href = 'userUnauthorized.xhtml';
+            }
+        }
+    </script>
 
 </h:html>
