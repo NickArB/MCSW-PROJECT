@@ -18,10 +18,32 @@
         <p:panel styleClass="menu-panel" header="Menú Principal">
             <p:menu>
                 <p:menuitem value="Ver Historial de Pago" outcome="paymentRecord.xhtml" />
+                <p:menuitem value="Nuevo Servicio" onclick="PF('serviceDialog').show()" />
                 <p:menuitem value="Pagar Servicio" onclick="PF('confirmDialog').show()" />
             </p:menu>
         </p:panel>
     </h:form>
+
+    <p:confirmDialog header="Nuevo Servicio" widgetVar="serviceDialog" modal="true">
+        <h:form id="crear-servicio-form">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="bill-company" value="Empresa que emite la factura:" />
+                <p:inputText id="bill-company" required="true" />
+
+                <h:outputLabel for="value-bill" value="Valor a pagar:" />
+                <p:inputText id="value-bill" required="true" />
+
+
+                <h:outputLabel for="deadline-date" value="Fecha límite de pago:" />
+                <p:calendar id="deadline-date" widgetVar="fecha-limite-widget" required="true" />
+            </h:panelGrid>
+            <p:commandButton value="Crear" oncomplete="createBill()" />
+        </h:form>
+    </p:confirmDialog>
+
+    <p:confirmDialog header="Factura creada" widgetVar="created-dialog" modal="true">
+        <h:outputLabel value="Factura creada exitosamente." />
+    </p:confirmDialog>
 
     <p:confirmDialog header="Facturas Pendientes" widgetVar="confirmDialog" modal="true">
         <h:form id="facturasForm">
@@ -32,7 +54,7 @@
         </h:form>
     </p:confirmDialog>
 
-    <p:confirmDialog header="Pago Factura" widgetVar="payDialog" modal="true">
+    <p:confirmDialog header="Pago Factura" widgetVar="payDialog" modal="true" onHide="limpiarCamposPagarServicio()">
         <h:form id="pagarFacturaForm">
             <div id="billTable"></div>
 
@@ -48,7 +70,7 @@
             <h:panelGroup id="cvcPanel"  class="cvcPanel" style="display: none;">
                 <h:panelGrid columns="2">
                     <h:outputLabel for="cvc" value="CVC:" />
-                    <p:inputText id="cvc" required="true" />
+                    <p:inputText id="cvc" required="true"/>
 
                     <h:outputLabel for="titular" value="Titular de la Tarjeta:" />
                     <p:inputText id="titular" required="true" />
@@ -58,7 +80,7 @@
 
             <h:panelGrid columns="2">
                 <h:outputLabel for="numeroCuenta" value="Número de Cuenta:" />
-                <p:inputText id="numeroCuenta" required="true" />
+                <p:inputText id="numeroCuenta" required="true"/>
 
                 <h:outputLabel for="fechaVencimiento" value="Fecha de Vencimiento:" />
                 <p:calendar id="fechaVencimiento" widgetVar="fechaVencimientoWidget" required="true" />
@@ -69,6 +91,10 @@
             </div>
 
         </h:form>
+    </p:confirmDialog>
+
+    <p:confirmDialog header="Factura pagada" widgetVar="payed-dialog" modal="true">
+        <h:outputLabel value="Factura pagada de forma exitosa." />
     </p:confirmDialog>
 
     <script src="./js/main.js"></script>

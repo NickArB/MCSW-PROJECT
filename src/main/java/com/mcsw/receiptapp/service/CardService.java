@@ -9,6 +9,10 @@ public class CardService {
     CardRepository cardRepository = new CardRepository();
 
     public Card findCardByUserId(String userId, CardDto cardDto){
-       return cardRepository.findByUserId(userId, new Card(cardDto));
+        Card card = cardRepository.findByUserId(userId, new Card(cardDto));
+        if (card.getType().equals(cardDto.getType())){
+            return card;
+        }
+        return null;
     }
 }

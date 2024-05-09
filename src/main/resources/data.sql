@@ -1,6 +1,6 @@
 
 CREATE TABLE users (
-    id VARCHAR(255) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     lastName VARCHAR(255),
     email VARCHAR(255) UNIQUE,
@@ -9,9 +9,9 @@ CREATE TABLE users (
     createdAt DATETIME
 );
 
-INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (1, 'Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
-INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (2, 'Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
-INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (3, 'Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
 
 DROP TABLE IF EXISTS users;
 

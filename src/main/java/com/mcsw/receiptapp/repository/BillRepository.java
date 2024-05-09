@@ -17,8 +17,8 @@ public class BillRepository {
     }
 
     public void insertBill(Bill bill) throws DataAccessException{
-        String sql = "INSERT INTO bills (id, userEmail, company, billing_date, deadline, debt, payment_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, bill.getId(), bill.getUserEmail(), bill.getCompany(),
+        String sql = "INSERT INTO bills (userEmail, company, billing_date, deadline, debt, payment_status) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, bill.getUserEmail(), bill.getCompany(),
                             bill.getBillingDate(), bill.getDeadLine(), bill.getDebt(), bill.getPaymentStatus());
     }
 

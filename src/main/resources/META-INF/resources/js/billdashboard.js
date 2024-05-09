@@ -164,6 +164,18 @@ function buildEditBillTable(bill) {
     });
 };
 
+var userInfo;
+
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    showBillsDashboard();
     loadBills();
 });
+
+function showBillsDashboard() {
+    if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role !== 'ADMIN') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}

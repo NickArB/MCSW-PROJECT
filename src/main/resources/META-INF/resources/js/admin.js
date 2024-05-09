@@ -217,7 +217,18 @@ function buildEditUserTable(user) {
     });
 }
 
+var userInfo;
 
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    showAdmin();
     loadUsers();
 });
+
+function showAdmin() {
+   if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role !== 'ADMIN') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}

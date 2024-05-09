@@ -144,7 +144,18 @@ function buildPaymentsTable(data, requestInfo){
     });
 }
 
+var userInfo;
 
 $(document).ready(function() {
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    showApprovementRecord();
     loadRequests();
 });
+
+function showApprovementRecord() {
+    if (userInfo === null) {
+        window.location.href = 'login.xhtml';
+   } else if (userInfo.role !== 'AUDITOR') {
+        window.location.href = 'userUnauthorized.xhtml';
+   }
+}
