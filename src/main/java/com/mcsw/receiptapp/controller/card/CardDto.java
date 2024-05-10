@@ -6,6 +6,7 @@ public class CardDto {
     String type;
     String cvc;
     String ownerName;
+    int availableBalance;
 
     public CardDto() {
 
@@ -29,5 +30,18 @@ public class CardDto {
 
     public String getOwnerName() {
         return ownerName;
+    }
+    public int getAvailableBalance() { return availableBalance; }
+
+    @Override
+    public String toString() {
+        return "CardDto{" +
+                "accountNumber='" + accountNumber + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", type='" + type + '\'' +
+                ", cvc='" + cvc + '\'' +
+                ", ownerName='" + ownerName + '\'' +
+                ", availableBalance=" + availableBalance +
+                '}';
     }
 }

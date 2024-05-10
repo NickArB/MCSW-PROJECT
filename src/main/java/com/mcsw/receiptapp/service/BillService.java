@@ -16,7 +16,7 @@ public class BillService {
     private static final BillRepository repo = new BillRepository();
 
     public Bill createBill(Bill bill) throws InvalidDeadLineException, InvalidCompanyException, InvalidCostException {
-        if (bill.getDeadLine() == null || bill.getDeadLine().getTime() < new Date().getTime()) {
+        if (bill.getDeadLine() == null ) {
             throw new InvalidDeadLineException();
         }
         if (bill.getCompany() == null || bill.getCompany().isEmpty()) {

@@ -50,7 +50,7 @@ public class BillController{
         } catch (InvalidCompanyException e) {
             return new ResponseEntity<>("Error, la empresa que emite la factura no puede ser nula.", HttpStatus.BAD_REQUEST);
         } catch (InvalidDeadLineException e){
-            return new ResponseEntity<>("Error, la fecha límite de pago no debe ser nula ni menor a hoy.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error, la fecha límite de pago no debe ser nula.", HttpStatus.BAD_REQUEST);
         }
 
     }
