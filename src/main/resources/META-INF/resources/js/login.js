@@ -1,3 +1,54 @@
+function checkPasswordStrength(password) {
+    var passwordStrengthElement = document.getElementById("password-strength");
+    var strength = 0;
+    var tips = "";
+
+    // Check password length
+    if (password.length < 8) {
+        tips += "Make the password longer. ";
+    } else {
+        strength += 1;
+    }
+
+    // Check for mixed case
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+        strength += 1;
+    } else {
+        tips += "Use both lowercase and uppercase letters. ";
+    }
+
+    // Check for numbers
+    if (password.match(/\d/)) {
+        strength += 1;
+    } else {
+        tips += "Include at least one number. ";
+    }
+
+    // Check for special characters
+    if (password.match(/[^a-zA-Z\d]/)) {
+        strength += 1;
+    } else {
+        tips += "Include at least one special character. ";
+    }
+
+    // Update the text and color based on the password strength
+    if (strength < 2) {
+        passwordStrengthElement.innerHTML = "Easy to guess. " + tips;
+        passwordStrengthElement.style.color = "red";
+    } else if (strength === 2) {
+        passwordStrengthElement.innerHTML = "Medium difficulty. " + tips;
+        passwordStrengthElement.style.color = "orange";
+    } else if (strength === 3) {
+        passwordStrengthElement.innerHTML = "Difficult. " + tips;
+        passwordStrengthElement.style.color = "black";
+    } else {
+        passwordStrengthElement.innerHTML = "Extremely difficult. " + tips;
+        passwordStrengthElement.style.color = "green";
+    }
+};
+
+
+
 function login(event) {
     event.preventDefault();
 
@@ -75,3 +126,5 @@ function registerUser() {
     };
     xhr.send(JSON.stringify(userData));
 }
+
+

@@ -58,7 +58,8 @@
                     </div>
                     <div class="field">
                         <p:outputLabel for="password">Contraseña</p:outputLabel>
-                        <p:inputText id="password" type="password" required="true" />
+                        <p:inputText id="password" onkeyup="checkPasswordStrength(this.value)" />
+                        <p id="password-strength">Hola</p>
                     </div>
                 </p:outputPanel>
 
