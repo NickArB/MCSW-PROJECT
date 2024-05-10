@@ -26,7 +26,21 @@ public class BillDto {
         return debt;
     }
 
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setDebt(String debt) {
+        this.debt = debt;
+    }
+
+    public void setDeadLine(Date deadLine) {
+        this.deadLine = deadLine;
+    }
 
     @Override
     public String toString() {

@@ -28,10 +28,10 @@ function buildRequestsTable(data) {
     var tbody = $('<tbody>').appendTo(table);
     $.each(data, function(index, request) {
         var row = $('<tr>').appendTo(tbody);
-                $('<td>').text(request.id).appendTo(row);
-                $('<td>').text(request.paymentId).appendTo(row);
-                $('<td>').text(request.newValue).appendTo(row);
-                $('<td>').text(request.requestState).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(request.id)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(request.paymentId)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(request.newValue)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(request.requestState)).appendTo(row);
 
         if(request.requestState == 'PENDIENTE'){
             var action = $('<td>').appendTo(row);
@@ -40,8 +40,8 @@ function buildRequestsTable(data) {
 
             acceptButton.click(function() {
                 var requestDto = {
-                    paymentId: request.paymentId,
-                    newValue: request.newValue,
+                    paymentId: DOMPurify.sanitize(request.paymentId),
+                    newValue: DOMPurify.sanitize(request.newValue),
                     requestState: "APROBADA"
                 };
 
@@ -64,8 +64,8 @@ function buildRequestsTable(data) {
 
             rejectButton.click(function() {
                 var requestDto = {
-                    paymentId: request.paymentId,
-                    newValue: request.newValue,
+                    paymentId: DOMPurify.sanitize(request.paymentId),
+                    newValue: DOMPurify.sanitize(request.newValue),
                     requestState: "RECHAZADA"
                 };
 
@@ -131,13 +131,13 @@ function buildPaymentsTable(data, requestInfo){
 
         if (found) {
             var fila = '<tr>';
-            fila += '<td>' + bill.id + '</td>';
-            fila += '<td>' + bill.userEmail + '</td>';
-            fila += '<td>' + bill.company + '</td>';
-            fila += '<td>' + bill.billingDate + '</td>';
-            fila += '<td>' + bill.deadLine + '</td>';
-            fila += '<td>' + bill.debt + '</td>';
-            fila += '<td>' + bill.paymentStatus + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.id) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.userEmail) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.company) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.billingDate) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.deadLine) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.debt) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.paymentStatus) + '</td>';
             fila += '</tr>';
             table.find('tbody').append(fila); // Agregar la fila a la tabla
         }

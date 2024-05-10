@@ -1,11 +1,11 @@
+
 function login(event) {
     event.preventDefault();
-
-    var email = $('#login-form\\:emailInput').val(); // Obtener el valor del campo de email
-    var password = $('#login-form\\:passwordInput').val();// Obtiene el valor del campo de contraseña
+    
+    var email = DOMPurify.sanitize($('#login-form\\:emailInput').val()); // Obtener el valor del campo de email
+    var password = DOMPurify.sanitize($('#login-form\\:passwordInput').val());// Obtiene el valor del campo de contraseña
 
     var data = JSON.stringify({ email: email, password: password });
-    console.log(email);
 
     $.ajax({
         type: 'POST',
@@ -17,13 +17,11 @@ function login(event) {
             if (xhr.getResponseHeader('Location')) {
                 console.log(xhr.getResponseHeader('Location'));
                 var userInfo = {
-                    id: xhr.getResponseHeader('Id'),
-                    role: xhr.getResponseHeader('Role'),
+                    id: DOMPurify.sanitize(xhr.getResponseHeader('Id')),
+                    role: DOMPurify.sanitize(xhr.getResponseHeader('Role')),
                     email: email
                 }
-                console.log(xhr.getResponseHeader('Role'));
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-                console.log(sessionStorage.getItem('userInfo'));
 
                 window.location.href = xhr.getResponseHeader('Location');
             } else {
@@ -44,10 +42,10 @@ function login(event) {
 };
 
 function registerUser() {
-    var fullName = $('#dialogs\\:full-name').val();
-    var lastName = $('#dialogs\\:lastname').val();
-    var email = $('#dialogs\\:email').val();
-    var password = $('#dialogs\\:password').val();
+    var fullName = DOMPurify($('#dialogs\\:full-name').val());
+    var lastName = DOMPurify($('#dialogs\\:lastname').val());
+    var email = DOMPurify($('#dialogs\\:email').val());
+    var password = DOMPurify($('#dialogs\\:password').val());
 
     var userData = {
         name: fullName,

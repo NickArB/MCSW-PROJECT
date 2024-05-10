@@ -1,12 +1,8 @@
 package com.mcsw.receiptapp.controller.auth;
 
-import com.mcsw.receiptapp.exception.InvalidCredentialsException;
 import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.service.UserService;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import org.primefaces.PrimeFaces;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jsoup.Jsoup;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.jsoup.safety.Safelist;
 
 @RestController
 @RequestMapping( "/auth" )
@@ -26,11 +21,9 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto )
-    {
-        System.out.println(loginDto.email);
-        User user = userService.findByEmail(loginDto.getEmail() );
-        System.out.println(user);
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto ){
+        loginDto = sanitize(loginDto);
+        User user = userService.findByEmail(loginDto.getEmail());
         if (user == null) {
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         } else if (!loginDto.getPassword().equals(user.getPasswordHash())) {
@@ -67,5 +60,11 @@ public class AuthController {
             }
         }
 
+    }
+
+    private LoginDto sanitize(LoginDto input){
+        input.setEmail(Jsoup.clean(input.getEmail(), Safelist.relaxed()));
+        input.setPassword(Jsoup.clean(input.getPassword(), Safelist.relaxed()));
+        return input;
     }
 }

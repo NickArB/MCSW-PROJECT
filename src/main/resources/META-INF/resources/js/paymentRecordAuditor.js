@@ -1,7 +1,7 @@
 function loadPayments() {
     $.ajax({
                 type: 'GET',
-                url: '/bills/users/' + userInfo.email,
+                url: '/bills/users',
                 dataType: 'json',
                 success: function(data) {
                     buildTable(data); // Construye la tabla con los datos obtenidos
@@ -27,16 +27,16 @@ function buildTable(data) {
 
         var tbody = $('<tbody>').appendTo(table);
         $.each(data, function(index, bill) {
-                var fila = '<tr>';
-                fila += '<td>' + DOMPurify.sanitize(bill.id) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.userEmail) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.company) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.billingDate) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.deadLine) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.debt) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.paymentStatus) + '</td>';
-                fila += '</tr>';
-                table.find('tbody').append(fila); // Agregar la fila a la tabla
+            var fila = '<tr>';
+            fila += '<td>' + DOMPurify.sanitize(bill.id) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.userEmail) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.company) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.billingDate) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.deadLine) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.debt) + '</td>';
+            fila += '<td>' + DOMPurify.sanitize(bill.paymentStatus) + '</td>';
+            fila += '</tr>';
+            table.find('tbody').append(fila); // Agregar la fila a la tabla
         });
 }
 

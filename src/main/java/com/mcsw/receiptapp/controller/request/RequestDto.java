@@ -19,6 +19,18 @@ public class RequestDto {
         return newValue;
     }
 
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public void setNewValue(String newValue) {
+        this.newValue = newValue;
+    }
+
+    public void setRequestState(String requestState) {
+        this.requestState = requestState;
+    }
+
     @Override
     public String toString() {
         return "RequestDto [paymentId=" + paymentId + ", newValue=" + newValue + ", requestState=" + requestState + "]";

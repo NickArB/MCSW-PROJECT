@@ -1,11 +1,13 @@
 package com.mcsw.receiptapp.controller.bill;
 
 import com.mcsw.receiptapp.model.Bill;
-import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.service.BillService;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -14,7 +16,7 @@ public class BillController{
 
     private final BillService billService = new BillService();
 
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<Bill>> all(){
         return ResponseEntity.ok(billService.findAll());
     }
@@ -32,17 +34,18 @@ public class BillController{
 
     @GetMapping( "/status/{userEmail}/{paymentStatus}" )
     public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ) {
-
         return billService.findByPaymentStatus(userEmail, paymentStatus);
     }
 
     @PostMapping
-    public ResponseEntity<Bill> create(@RequestBody BillDto billDto){
+    public ResponseEntity<Bill> create(@RequestBody BillDto billDto) throws ParseException{
+        billDto = sanitize(billDto);
         return ResponseEntity.ok(billService.createBill(new Bill(billDto)));
     }
 
     @PutMapping( "/{id}" )
-    public ResponseEntity<Bill> update(@RequestBody BillDto billDto, @PathVariable String id){
+    public ResponseEntity<Bill> update(@RequestBody BillDto billDto, @PathVariable String id) throws ParseException{
+        billDto = sanitize(billDto);
         Bill existingBill = billService.findById(id);
         if (existingBill != null) {
             return ResponseEntity.ok(billService.updateBill(new Bill(billDto),id));
@@ -57,4 +60,10 @@ public class BillController{
         return ResponseEntity.ok(billService.deleteBill(id));
     }
 
+    private BillDto sanitize(BillDto input) throws ParseException{
+        input.setUserEmail(Jsoup.clean(input.getUserEmail(), Safelist.relaxed()));
+        input.setCompany(Jsoup.clean(input.getCompany(), Safelist.relaxed()));
+        input.setDebt(Jsoup.clean(input.getDebt(), Safelist.relaxed()));
+        return input;
+    }
 }

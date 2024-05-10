@@ -22,12 +22,12 @@ function loadBills() {
             var tbody = $('<tbody>').appendTo(table);
             $.each(response, function(index, bill) {
                 var row = $('<tr>').appendTo(tbody);
-                $('<td>').text(bill.id).appendTo(row);
-                $('<td>').text(bill.userEmail).appendTo(row);
-                $('<td>').text(bill.company).appendTo(row);
-                $('<td>').text(bill.billingDate).appendTo(row);
-                $('<td>').text(bill.deadLine).appendTo(row);
-                $('<td>').text(bill.debt).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.id)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.userEmail)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.company)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.billingDate)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.deadLine)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(bill.debt)).appendTo(row);
 
                 // Agregar campo de selección de estado de pago
                 var paymentStatusCell = $('<td>').appendTo(row);
@@ -47,14 +47,14 @@ function loadBills() {
 
 
                 updateButton.click(function() {
-                    var newPaymentStatus = $(this).closest('tr').find('.payment-status-select').val();
+                    var newPaymentStatus = DOMPurify.sanitize($(this).closest('tr').find('.payment-status-select').val());
 
                     var billDto = {
-                        id: bill.id,
-                        userEmail: bill.userEmail,
-                        company: bill.company,
-                        debt: bill.debt,
-                        deadLine: bill.deadLine,
+                        id: DOMPurify.sanitize(bill.id),
+                        userEmail: DOMPurify.sanitize(bill.userEmail),
+                        company: DOMPurify.sanitize(bill.company),
+                        debt: DOMPurify.sanitize(bill.debt),
+                        deadLine: DOMPurify.sanitize(bill.deadLine),
                         paymentStatus: newPaymentStatus
                     };
 
@@ -85,7 +85,7 @@ function loadBills() {
 
 
 function searchBill() {
-    var billId = $('#form\\:IdInput').val();
+    var billId = DOMPurify.sanitize($('#form\\:IdInput').val());
 
     $.ajax({
         type: 'GET',
@@ -128,29 +128,28 @@ function buildEditBillTable(bill) {
     // Agregar fila con datos de la factura
     var tbody = $('<tbody>').appendTo(table);
     var row = $('<tr>').appendTo(tbody);
-    $('<td>').text(bill.id).appendTo(row);
-    $('<td>').text(bill.userEmail).appendTo(row);
-    $('<td>').text(bill.company).appendTo(row);
-    $('<td>').text(bill.billingDate).appendTo(row);
-    $('<td>').text(bill.deadLine).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(bill.id)).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(bill.userEmail)).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(bill.company)).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(bill.billingDate)).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(bill.deadLine)).appendTo(row);
     var debtCell = $('<td>').appendTo(row);
-    $('<input>').addClass('debt-input').attr('type', 'text').val(bill.debt).appendTo(debtCell); // Campo de entrada para el valor de la deuda
-    $('<td>').text(bill.paymentStatus).appendTo(row);
+    $('<input>').addClass('debt-input').attr('type', 'text').val(DOMPurify.sanitize(bill.debt)).appendTo(debtCell); // Campo de entrada para el valor de la deuda
+    $('<td>').text(DOMPurify.sanitize(bill.paymentStatus)).appendTo(row);
 
     // Agregar botón para actualizar el valor de la factura
     var updateDebtButton = $('<button>').text('Generar Solicitud').addClass('update-debt-btn').appendTo(row);
 
     // Manejar la actualización del valor de la factura al hacer clic en el botón de actualizar
     $('.update-debt-btn').click(function() {
-        var newDebt = $(this).closest('tr').find('.debt-input').val();
-        console.log(newDebt);
+        var newDebt = DOMPurify.sanitize($(this).closest('tr').find('.debt-input').val());
 
         // Realizar la actualización del valor de la factura
         $.ajax({
             type: 'POST',
             url: '/requests',
             contentType: 'application/json',
-            data: JSON.stringify({ paymentId: bill.id , newValue: newDebt}),
+            data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: newDebt}),
             success: function(response) {
                 console.log('Solicitud creada con exito', response);
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Solicitud de actualización generada', detail: '' });

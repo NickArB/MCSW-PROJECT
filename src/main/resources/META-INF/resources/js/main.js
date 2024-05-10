@@ -21,8 +21,8 @@ function loadPendingBills() {
             // Agregar nuevas opciones
             data.forEach(function(bill) {
                 var option = document.createElement("option");
-                option.text = bill.company + ' - ' + bill.debt;
-                option.value = bill.id;
+                option.text = DOMPurify.sanitize(bill.company) + ' - ' + DOMPurify.sanitize(bill.debt);
+                option.value = DOMPurify.sanitize(bill.id);
                 select.appendChild(option);
             });
         },
@@ -51,8 +51,8 @@ var paymentGateway = {
 }
 function buildTable(data) {
         var table = $('<table>').addClass('table');
-            paymentGateway.paymentId = data.id;
-            paymentGateway.deadLine = data.deadLine;
+            paymentGateway.paymentId = DOMPurify.sanitize(data.id);
+            paymentGateway.deadLine = DOMPurify.sanitize(data.deadLine);
             var thead = $('<thead>').appendTo(table);
             var headerRow = $('<tr>').appendTo(thead);
             $('<th>').text('ID').appendTo(headerRow);
@@ -67,13 +67,13 @@ function buildTable(data) {
             var row = $('<tr>').appendTo(tbody);
 
                 // Agregar cada atributo del objeto a una celda en la fila
-                $('<td>').text(data.id).appendTo(row);
-                $('<td>').text(data.userEmail).appendTo(row);
-                $('<td>').text(data.company).appendTo(row);
-                $('<td>').text(data.billingDate).appendTo(row);
-                $('<td>').text(data.deadLine).appendTo(row);
-                $('<td>').text(data.debt).appendTo(row);
-                $('<td>').text(data.paymentStatus).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.id)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.userEmail)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.company)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.billingDate)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.deadLine)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.debt)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(data.paymentStatus)).appendTo(row);
 
             // Limpiar el contenido anterior de la tabla y luego agregar la nueva tabla
             $('#billTable').empty().append(table);
@@ -101,12 +101,12 @@ function toggleCreditCardFields(selectedValue) {
 }
 
 function payBill() {
-    var metodoPago = PF('metodoPagoWidget').getSelectedValue();
+    var metodoPago = DOMPurify.sanitize(PF('metodoPagoWidget').getSelectedValue());
     // Obtener los valores de los otros campos del formulario
-    var numeroCuenta = $('#pagarFacturaForm\\:numeroCuenta').val();
-    var fechaVencimiento = PF('fechaVencimientoWidget').getDate();
-    var cvc = $('#pagarFacturaForm\\:cvc').val();
-    var titular = $('#pagarFacturaForm\\:titular').val();
+    var numeroCuenta = DOMPurify.sanitize($('#pagarFacturaForm\\:numeroCuenta').val());
+    var fechaVencimiento = DOMPurify.sanitize(PF('fechaVencimientoWidget').getDate());
+    var cvc = DOMPurify.sanitize($('#pagarFacturaForm\\:cvc').val());
+    var titular = DOMPurify.sanitize($('#pagarFacturaForm\\:titular').val());
 
 
     if(metodoPago === "credito") {
@@ -170,13 +170,13 @@ function doPayment() {
 function createBill() {
     var isANumber = validateValueToPay();
     if(isANumber) {
-            var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
-            var valorFactura = $('#crear-servicio-form\\:value-bill').val();
-            var fechaLimite = PF('fecha-limite-widget').getDate();
+            var empresaEmitente = DOMPurify.sanitize($('#crear-servicio-form\\:bill-company').val());
+            var valorFactura = DOMPurify.sanitize($('#crear-servicio-form\\:value-bill').val());
+            var fechaLimite = DOMPurify.sanitize(PF('fecha-limite-widget').getDate());
 
             // Crear un objeto con los datos a enviar en la solicitud
             var data = {
-                userEmail: userInfo.email,
+                userEmail: DOMPurify.sanitize(userInfo.email),
                 company: empresaEmitente,
                 debt: '$' + valorFactura,
                 deadLine: fechaLimite

@@ -19,11 +19,11 @@ function loadUsers() {
             var tbody = $('<tbody>').appendTo(table);
             $.each(response, function(index, user) {
                 var row = $('<tr>').appendTo(tbody);
-                $('<td>').text(user.id).appendTo(row);
-                $('<td>').text(user.name).appendTo(row);
-                $('<td>').text(user.lastName).appendTo(row);
-                $('<td>').text(user.email).appendTo(row);
-                $('<td>').text(user.role).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.id)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.name)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.lastName)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.email)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.role)).appendTo(row);
             });
         },
         error: function(xhr, status, error) {

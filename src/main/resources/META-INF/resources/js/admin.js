@@ -21,11 +21,11 @@ function loadUsers() {
             var tbody = $('<tbody>').appendTo(table);
             $.each(response, function(index, user) {
                 var row = $('<tr>').appendTo(tbody);
-                $('<td>').text(user.id).appendTo(row);
-                $('<td>').text(user.name).appendTo(row);
-                $('<td>').text(user.lastName).appendTo(row);
-                $('<td>').text(user.email).appendTo(row);
-                $('<td>').text(user.createdAt).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.id)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.name)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.lastName)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.email)).appendTo(row);
+                $('<td>').text(DOMPurify.sanitize(user.createdAt)).appendTo(row);
 
                 // Agregar campo de selección de rol
                 var roleCell = $('<td>').appendTo(row);
@@ -45,15 +45,15 @@ function loadUsers() {
 
                 // Manejar la actualización del rol al hacer clic en el botón de actualizar
                 updateButton.click(function() {
-                    var userId = $(this).closest('tr').find('.role-select').data('user-id');
-                    var newRole = $(this).closest('tr').find('.role-select').val();
+                    var userId = DOMPurify.sanitize($(this).closest('tr').find('.role-select').data('user-id'));
+                    var newRole = DOMPurify.sanitize($(this).closest('tr').find('.role-select').val());
 
                     // Construir el objeto UserDto para enviar al servidor
                     var userDto = {
-                        name: user.name,
-                        lastName: user.lastName,
-                        email: user.email,
-                        password: user.passwordHash,
+                        name: DOMPurify.sanitize(user.name),
+                        lastName: DOMPurify.sanitize(user.lastName),
+                        email: DOMPurify.sanitize(user.email),
+                        password: DOMPurify.sanitize(user.passwordHash),
                         role: newRole
                     };
 
@@ -83,10 +83,10 @@ function loadUsers() {
 };
 
 function registerUser() {
-    var fullName = $('#dialogs\\:full-name').val();
-    var lastName = $('#dialogs\\:lastname').val();
-    var email = $('#dialogs\\:email').val();
-    var password = $('#dialogs\\:password').val();
+    var fullName = DOMPurify.sanitize($('#dialogs\\:full-name').val());
+    var lastName = DOMPurify.sanitize($('#dialogs\\:lastname').val());
+    var email = DOMPurify.sanitize($('#dialogs\\:email').val());
+    var password = DOMPurify.sanitize($('#dialogs\\:password').val());
 
     var userData = {
         name: fullName,
@@ -117,7 +117,7 @@ function registerUser() {
 };
 
 function searchUser() {
-    var email = $('#form\\:emailInput').val();
+    var email = DOMPurify.sanitize($('#form\\:emailInput').val());
 
     $.ajax({
         type: 'GET',
@@ -156,11 +156,11 @@ function buildEditUserTable(user) {
     // Agregar fila con datos del usuario
     var tbody = $('<tbody>').appendTo(table);
     var row = $('<tr>').appendTo(tbody);
-    $('<td>').text(user.id).appendTo(row);
-    $('<td>').append($('<input>').attr('type', 'text').val(user.name)).appendTo(row);
-    $('<td>').append($('<input>').attr('type', 'text').val(user.lastName)).appendTo(row);
-    $('<td>').append($('<input>').attr('type', 'text').val(user.email)).appendTo(row);
-    $('<td>').append($('<input>').attr('type', 'password').val(user.passwordHash)).appendTo(row);
+    $('<td>').text(DOMPurify.sanitize(user.id)).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(DOMPurify.sanitize(user.name))).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(DOMPurify.sanitize(user.lastName))).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'text').val(DOMPurify.sanitize(user.email))).appendTo(row);
+    $('<td>').append($('<input>').attr('type', 'password').val(DOMPurify.sanitize(user.passwordHash))).appendTo(row);
 
     // Agregar botón para actualizar el usuario
     var updateButton = $('<button>').text('Actualizar').addClass('update-user-btn').appendTo(row);
@@ -171,11 +171,11 @@ function buildEditUserTable(user) {
     // Manejar la actualización del usuario al hacer clic en el botón de actualizar
     $('.update-user-btn').click(function() {
         var updatedUser = {
-            name: $(this).closest('tr').find('input:eq(0)').val(),
-            lastName: $(this).closest('tr').find('input:eq(1)').val(),
-            email: $(this).closest('tr').find('input:eq(2)').val(),
-            password: $(this).closest('tr').find('input:eq(3)').val(),
-            role: user.role
+            name: DOMPurify.sanitize($(this).closest('tr').find('input:eq(0)').val()),
+            lastName: DOMPurify.sanitize($(this).closest('tr').find('input:eq(1)').val()),
+            email: DOMPurify.sanitize($(this).closest('tr').find('input:eq(2)').val()),
+            password: DOMPurify.sanitize($(this).closest('tr').find('input:eq(3)').val()),
+            role: DOMPurify.sanitize(user.role)
         };
         console.log(updatedUser);
         $.ajax({

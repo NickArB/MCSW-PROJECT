@@ -2,48 +2,54 @@ package com.mcsw.receiptapp.controller.user;
 
 import com.mcsw.receiptapp.model.RoleEnum;
 
-public class UserDto
-{
+public class UserDto{
     String name;
-
     String lastName;
-
     String email;
-
     String password;
-
     String role;
 
-    public UserDto()
-    {
+    public UserDto(){
         role = RoleEnum.USER.getValue();
     }
 
-    public String getName()
-    {
+    public String getName(){
         return name;
     }
 
-    public String getLastName()
-    {
+    public String getLastName(){
         return lastName;
     }
 
-    public String getEmail()
-    {
+    public String getEmail(){
         return email;
     }
 
-    public String getPassword()
-    {
+    public String getPassword(){
         return password;
     }
 
-    public String getRole() {
+    public String getRole(){
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role){
         this.role = role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

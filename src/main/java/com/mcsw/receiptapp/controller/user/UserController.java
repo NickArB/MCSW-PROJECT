@@ -1,11 +1,12 @@
 package com.mcsw.receiptapp.controller.user;
 
-import com.mcsw.receiptapp.exception.InvalidCredentialsException;
 import com.mcsw.receiptapp.exception.InvalidEmailException;
 import com.mcsw.receiptapp.exception.UserNotFoundException;
 import com.mcsw.receiptapp.model.User;
 import com.mcsw.receiptapp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +15,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping( "/users" )
-public class UserController
-{
+public class UserController{
 
     private final UserService userService = new UserService();
 
 
     @GetMapping
-    public List<User> all()
-    {
+    public List<User> all(){
         return userService.all();
     }
 
     @GetMapping( "/{email}" )
-    public ResponseEntity<?> findByEmail( @PathVariable String email ) {
+    public ResponseEntity<?> findByEmail( @PathVariable String email ){
         try{
             User user = userService.findByEmail( email );
             return ResponseEntity.ok(user);
@@ -37,8 +36,8 @@ public class UserController
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserDto userDto )
-    {
+    public ResponseEntity<?> create(@RequestBody UserDto userDto ){
+        userDto = sanitize(userDto);
         try {
             User user = userService.create( userDto );
             return ResponseEntity.ok( user );
@@ -48,7 +47,8 @@ public class UserController
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<User> update(@RequestBody UserDto userDto, @PathVariable String email) {
+    public ResponseEntity<User> update(@RequestBody UserDto userDto, @PathVariable String email){
+        userDto = sanitize(userDto);
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
             existingUser.setName(userDto.getName());
@@ -64,9 +64,17 @@ public class UserController
     }
 
     @DeleteMapping( "/{email}" )
-    public ResponseEntity<Boolean> delete( @PathVariable String email )
-    {
+    public ResponseEntity<Boolean> delete( @PathVariable String email ){
         return ResponseEntity.ok( userService.deleteByEmail( email ) );
+    }
+
+    private UserDto sanitize(UserDto input){
+        input.setEmail(Jsoup.clean(input.getEmail(), Safelist.relaxed()));
+        input.setPassword(Jsoup.clean(input.getPassword(), Safelist.relaxed()));
+        input.setName(Jsoup.clean(input.getName(), Safelist.relaxed()));
+        input.setLastName(Jsoup.clean(input.getLastName(), Safelist.relaxed()));
+        input.setRole(Jsoup.clean(input.getRole(), Safelist.relaxed()));
+        return input;
     }
 
 }

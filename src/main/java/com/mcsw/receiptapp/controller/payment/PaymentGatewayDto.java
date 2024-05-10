@@ -15,6 +15,14 @@ public class PaymentGatewayDto {
     public Date getDeadLine() {
         return deadLine;
     }
+    
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public void setDeadLine(Date deadLine) {
+        this.deadLine = deadLine;
+    }
 
     @Override
     public String toString() {
