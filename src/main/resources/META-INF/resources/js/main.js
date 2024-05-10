@@ -72,7 +72,7 @@ function buildTable(data) {
                 $('<td>').text(data.company).appendTo(row);
                 $('<td>').text(data.billingDate).appendTo(row);
                 $('<td>').text(data.deadLine).appendTo(row);
-                $('<td>').text(data.debt).appendTo(row);
+                $('<td>').text('$' + data.debt).appendTo(row);
                 $('<td>').text(data.paymentStatus).appendTo(row);
 
             // Limpiar el contenido anterior de la tabla y luego agregar la nueva tabla
@@ -168,8 +168,8 @@ function doPayment() {
 }
 
 function createBill() {
-    var isANumber = validateValueToPay();
-    if(isANumber) {
+    var isACorrectNumber = validateValueToPay();
+    if(isACorrectNumber) {
             var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
             var valorFactura = $('#crear-servicio-form\\:value-bill').val();
             var fechaLimite = PF('fecha-limite-widget').getDate();
@@ -178,14 +178,14 @@ function createBill() {
             var data = {
                 userEmail: userInfo.email,
                 company: empresaEmitente,
-                debt: '$' + valorFactura,
+                debt: valorFactura,
                 deadLine: fechaLimite
             };
 
             // Realizar una solicitud AJAX POST
             $.ajax({
                 type: 'POST',
-                url: '/bills', // Reemplaza esto con la URL de tu endpoint
+                url: '/bills',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
@@ -197,8 +197,8 @@ function createBill() {
                 },
                 error: function(xhr, status, error) {
                     // Manejar errores
-                    console.log("No existe la tarjeta insertada." + JSON.stringify(data))
-                    console.error('Error:', error);
+                    alert(xhr.responseText);
+                    console.error('Error:', xhr.responseText);
                 }
             });
     }
@@ -216,8 +216,8 @@ function showMainMenu() {
 function validateValueToPay() {
      var costo = $('#crear-servicio-form\\:value-bill').val();
      console.log(costo);
-     if (isNaN(costo)) {
-        alert("Debe ingresar un número en el campo \"Valor a pagar\".");
+     if (isNaN(costo) || costo < 1) {
+        alert("Debe ingresar un número positivo válido en el campo \"Valor a pagar\".");
         return false; // Evita que el formulario se envíe
      }
      return true;
