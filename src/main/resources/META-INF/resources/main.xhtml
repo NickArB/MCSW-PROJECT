@@ -35,7 +35,7 @@
 
 
                 <h:outputLabel for="deadline-date" value="Fecha límite de pago:" />
-                <p:calendar id="deadline-date" widgetVar="fecha-limite-widget" required="true" />
+                <p:calendar id="deadline-date" widgetVar="fecha-limite-widget" required="true" pattern="dd/MM/yyyy"/>
             </h:panelGrid>
             <p:commandButton value="Crear" oncomplete="createBill()" />
         </h:form>
@@ -83,7 +83,7 @@
                 <p:inputText id="numeroCuenta" required="true"/>
 
                 <h:outputLabel for="fechaVencimiento" value="Fecha de Vencimiento:" />
-                <p:calendar id="fechaVencimiento" widgetVar="fechaVencimientoWidget" required="true" />
+                <p:calendar id="fechaVencimiento" widgetVar="fechaVencimientoWidget" required="true" pattern="dd/MM/yyyy" />
             </h:panelGrid>
 
             <div class="centered-button">

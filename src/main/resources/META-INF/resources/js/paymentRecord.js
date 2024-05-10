@@ -31,9 +31,9 @@ function buildTable(data) {
                 fila += '<td>' + bill.id + '</td>';
                 fila += '<td>' + bill.userEmail + '</td>';
                 fila += '<td>' + bill.company + '</td>';
-                fila += '<td>' + bill.billingDate + '</td>';
-                fila += '<td>' + bill.deadLine + '</td>';
-                fila += '<td>' + bill.debt + '</td>';
+                fila += '<td>' + bill.billingDate.split('T')[0] + '</td>';
+                fila += '<td>' + bill.deadLine.split('T')[0] + '</td>';
+                fila += '<td>$' + bill.debt + '</td>';
                 fila += '<td>' + bill.paymentStatus + '</td>';
                 fila += '</tr>';
                 table.find('tbody').append(fila); // Agregar la fila a la tabla

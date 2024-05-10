@@ -9,26 +9,34 @@ public class Card {
     String cvc;
     String ownerName;
     String ownerId;
+    int availableBalance;
 
     public Card() {
 
     }
 
-    public Card(String accountNumber, String expirationDate, String type, String cvc, String ownerName, String ownerId ) {
+    public Card(String accountNumber, String expirationDate, String type, String cvc, String ownerName, String ownerId, int availableBalance) {
         this.accountNumber = accountNumber;
         this.expirationDate = expirationDate;
         this.type = type;
         this.cvc = cvc;
         this.ownerName = ownerName;
         this.ownerId = ownerId;
+        this.availableBalance = availableBalance;
     }
 
     public Card(CardDto cardDto){
         this.accountNumber = cardDto.getAccountNumber();
         this.expirationDate = cardDto.getExpirationDate();
         this.type = cardDto.getType();
-        this.cvc = cardDto.getCvc();
+        if (this.type.equals("credito")) {
+            this.cvc = cardDto.getCvc();
+        } else {
+            this.cvc = null;
+        }
+
         this.ownerName = cardDto.getOwnerName();
+        this.availableBalance = cardDto.getAvailableBalance();
     }
 
     public String getAccountNumber() {
@@ -77,6 +85,14 @@ public class Card {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public int getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(int availableBalance) {
+        this.availableBalance = availableBalance;
     }
 
     @Override

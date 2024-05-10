@@ -21,7 +21,7 @@ function loadPendingBills() {
             // Agregar nuevas opciones
             data.forEach(function(bill) {
                 var option = document.createElement("option");
-                option.text = bill.company + ' - ' + bill.debt;
+                option.text = bill.company + ' - $' + bill.debt;
                 option.value = bill.id;
                 select.appendChild(option);
             });
@@ -47,12 +47,22 @@ function loadPendingBill() {
 }
 var paymentGateway = {
     paymentId: "",
-    deadLine: null
+    deadLine: null,
+    debt: null,
+    accountNumber: null
 }
+
+var paymentInfo = {
+    cardDto: null,
+    billDebt: null
+}
+
 function buildTable(data) {
         var table = $('<table>').addClass('table');
             paymentGateway.paymentId = data.id;
             paymentGateway.deadLine = data.deadLine;
+            paymentGateway.debt = data.debt;
+            paymentInfo.billDebt = data.debt;
             var thead = $('<thead>').appendTo(table);
             var headerRow = $('<tr>').appendTo(thead);
             $('<th>').text('ID').appendTo(headerRow);
@@ -70,9 +80,9 @@ function buildTable(data) {
                 $('<td>').text(data.id).appendTo(row);
                 $('<td>').text(data.userEmail).appendTo(row);
                 $('<td>').text(data.company).appendTo(row);
-                $('<td>').text(data.billingDate).appendTo(row);
-                $('<td>').text(data.deadLine).appendTo(row);
-                $('<td>').text(data.debt).appendTo(row);
+                $('<td>').text(data.billingDate.split('T')[0]).appendTo(row);
+                $('<td>').text(data.deadLine.split('T')[0]).appendTo(row);
+                $('<td>').text('$' + data.debt).appendTo(row);
                 $('<td>').text(data.paymentStatus).appendTo(row);
 
             // Limpiar el contenido anterior de la tabla y luego agregar la nueva tabla
@@ -85,7 +95,12 @@ function setSelectedBillToPay(selectedValue) {
 }
 
 function startPaymentProcess() {
-    // Ocultar el diálogo de confirmación si es necesario
+    if (selectedBillToPay === undefined) {
+        alert("Seleccione una factura para continuar. Si no aparecen, no tiene facturas pendientes");
+        return false;
+    }
+    console.log(selectedBillToPay);
+
     PF('confirmDialog').hide();
     PF('payDialog').show();
     loadPendingBill();
@@ -101,6 +116,8 @@ function toggleCreditCardFields(selectedValue) {
 }
 
 function payBill() {
+    console.log("aqui");
+
     var metodoPago = PF('metodoPagoWidget').getSelectedValue();
     // Obtener los valores de los otros campos del formulario
     var numeroCuenta = $('#pagarFacturaForm\\:numeroCuenta').val();
@@ -108,42 +125,50 @@ function payBill() {
     var cvc = $('#pagarFacturaForm\\:cvc').val();
     var titular = $('#pagarFacturaForm\\:titular').val();
 
+    var isValid = validateFieldsToPay(metodoPago, numeroCuenta, fechaVencimiento, cvc, titular);
 
-    if(metodoPago === "credito") {
-        // Crear un objeto con los datos a enviar en la solicitud
-        var data = {
-                accountNumber: numeroCuenta,
-                expirationDate: fechaVencimiento,
-                type: metodoPago,
-                cvc: cvc,
-                ownerName: titular
-        };
+    if (isValid) {
+        paymentGateway.accountNumber = numeroCuenta;
 
-    } else {
-        var data = {
-                accountNumber: numeroCuenta,
-                expirationDate: fechaVencimiento,
-                type: metodoPago
-        };
+        if(metodoPago === "credito") {
+            // Crear un objeto con los datos a enviar en la solicitud
+            var fechaFormateada = fechaVencimiento.toISOString().split('T')[0];
+            var data = {
+                    accountNumber: numeroCuenta,
+                    expirationDate: fechaVencimiento,
+                    type: metodoPago,
+                    cvc: cvc,
+                    ownerName: titular
+            };
+
+        } else {
+            var data = {
+                    accountNumber: numeroCuenta,
+                    expirationDate: fechaVencimiento,
+                    type: metodoPago
+            };
+        }
+
+        paymentInfo.cardDto = data;
+
+        // Realizar una solicitud AJAX POST
+        $.ajax({
+            type: 'POST',
+            url: '/cards/' + userInfo.id ,
+            contentType: 'application/json',
+            data: JSON.stringify(paymentInfo),
+            success: function(response) {
+                doPayment();
+                cleanFieldsPayment();
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
+                console.log("Error en el pago");
+                console.error('Error:', error);
+            }
+        });
     }
 
-    // Realizar una solicitud AJAX POST
-    $.ajax({
-        type: 'POST',
-        url: '/cards/' + userInfo.id , // Reemplaza esto con la URL de tu endpoint
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function(response) {
-            // Manejar la respuesta exitosa
-            doPayment();
-            cleanFieldsPayment();
-        },
-        error: function(xhr, status, error) {
-            // Manejar errores
-            console.log("No existe la tarjeta insertada." + JSON.stringify(data))
-            console.error('Error:', error);
-        }
-    });
 }
 
 function doPayment() {
@@ -156,6 +181,7 @@ function doPayment() {
             // Manejar la respuesta exitosa
             PF('payDialog').hide();
             PF('payed-dialog').show();
+            selectedBillToPay = undefined;
             loadPendingBills();
             console.log("Pago exitoso");
         },
@@ -168,8 +194,8 @@ function doPayment() {
 }
 
 function createBill() {
-    var isANumber = validateValueToPay();
-    if(isANumber) {
+    var isACorrectNumber = validateValueToPay();
+    if(isACorrectNumber) {
             var empresaEmitente = $('#crear-servicio-form\\:bill-company').val();
             var valorFactura = $('#crear-servicio-form\\:value-bill').val();
             var fechaLimite = PF('fecha-limite-widget').getDate();
@@ -178,14 +204,14 @@ function createBill() {
             var data = {
                 userEmail: userInfo.email,
                 company: empresaEmitente,
-                debt: '$' + valorFactura,
+                debt: valorFactura,
                 deadLine: fechaLimite
             };
 
             // Realizar una solicitud AJAX POST
             $.ajax({
                 type: 'POST',
-                url: '/bills', // Reemplaza esto con la URL de tu endpoint
+                url: '/bills',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
@@ -197,8 +223,8 @@ function createBill() {
                 },
                 error: function(xhr, status, error) {
                     // Manejar errores
-                    console.log("No existe la tarjeta insertada." + JSON.stringify(data))
-                    console.error('Error:', error);
+                    alert(xhr.responseText);
+                    console.error('Error:', xhr.responseText);
                 }
             });
     }
@@ -215,12 +241,25 @@ function showMainMenu() {
 
 function validateValueToPay() {
      var costo = $('#crear-servicio-form\\:value-bill').val();
-     console.log(costo);
-     if (isNaN(costo)) {
-        alert("Debe ingresar un número en el campo \"Valor a pagar\".");
+     if (isNaN(costo) || costo < 1) {
+        alert("Debe ingresar un número positivo válido en el campo \"Valor a pagar\".");
         return false; // Evita que el formulario se envíe
      }
      return true;
+}
+
+function validateFieldsToPay(metodoPago, numeroCuenta, fechaVencimiento, cvc, titular) {
+    if (numeroCuenta === "" || metodoPago === "" || fechaVencimiento === null ) {
+        alert("Debe completar todos los campos.");
+        return false;
+    }
+    if (metodoPago === "credito") {
+        if (cvc === "" || titular === "") {
+            alert("Debe completar todos los campos.");
+            return false;
+        }
+    }
+    return true;
 }
 
 function cleanFieldsNewService() {
