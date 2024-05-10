@@ -2,10 +2,12 @@ function checkPasswordStrength(password) {
     var passwordStrengthElement = document.getElementById("password-strength");
     var strength = 0;
     var tips = "";
+    var isValid = true; // Establecer como true al principio
 
     // Check password length
     if (password.length < 8) {
-        tips += "Make the password longer. ";
+        tips += "Haga la contraseña más larga. ";
+        isValid = false;
     } else {
         strength += 1;
     }
@@ -14,38 +16,49 @@ function checkPasswordStrength(password) {
     if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
         strength += 1;
     } else {
-        tips += "Use both lowercase and uppercase letters. ";
+        tips += "Utilice letras minúsculas y mayúsculas. ";
+        isValid = false;
     }
 
     // Check for numbers
     if (password.match(/\d/)) {
         strength += 1;
     } else {
-        tips += "Include at least one number. ";
+        tips += "Incluye al menos un número. ";
+        isValid = false;
     }
 
     // Check for special characters
     if (password.match(/[^a-zA-Z\d]/)) {
         strength += 1;
     } else {
-        tips += "Include at least one special character. ";
+        tips += "Incluya al menos un carácter especial. ";
+        isValid = false;
     }
 
     // Update the text and color based on the password strength
-    if (strength < 2) {
-        passwordStrengthElement.innerHTML = "Easy to guess. " + tips;
-        passwordStrengthElement.style.color = "red";
-    } else if (strength === 2) {
-        passwordStrengthElement.innerHTML = "Medium difficulty. " + tips;
-        passwordStrengthElement.style.color = "orange";
-    } else if (strength === 3) {
-        passwordStrengthElement.innerHTML = "Difficult. " + tips;
-        passwordStrengthElement.style.color = "black";
+    if (!isValid) {
+        if (strength < 2) {
+            passwordStrengthElement.innerHTML = "Fácil de adivinar. " + tips;
+            passwordStrengthElement.style.color = "red";
+        } else if (strength === 2) {
+            passwordStrengthElement.innerHTML = "Dificultad media. " + tips;
+            passwordStrengthElement.style.color = "orange";
+        } else if (strength === 3) {
+            passwordStrengthElement.innerHTML = "Difícil. " + tips;
+            passwordStrengthElement.style.color = "black";
+        } else {
+            passwordStrengthElement.innerHTML = "Extremadamente difícil. " + tips;
+            passwordStrengthElement.style.color = "green";
+        }
     } else {
-        passwordStrengthElement.innerHTML = "Extremely difficult. " + tips;
-        passwordStrengthElement.style.color = "green";
+        passwordStrengthElement.innerHTML = "";
     }
-};
+
+    console.log(document.getElementById('dialogs:registerButton'))
+
+    document.getElementById('dialogs:registerButton').disabled = true;
+}
 
 
 
