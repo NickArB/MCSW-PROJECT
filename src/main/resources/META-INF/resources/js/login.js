@@ -1,3 +1,79 @@
+function checkPasswordStrength(password) {
+    var passwordStrengthElement = document.getElementById("password-strength");
+    var tipsListElement = document.getElementById("password-tips");
+    var strength = 0;
+    var tips = "";
+    var isValid = true; 
+
+    tipsListElement.innerHTML = "";
+
+    // Check password length
+    if (password.length < 8) {
+        tips += "Haga la contraseña más larga. Más de 8 caracteres. ";
+        isValid = false;
+    } else {
+        strength += 1;
+    }
+
+    // Check for mixed case
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+        strength += 1;
+    } else {
+        tips += "Utilice letras minúsculas y mayúsculas. ";
+        isValid = false;
+    }
+
+    // Check for numbers
+    if (password.match(/\d/)) {
+        strength += 1;
+    } else {
+        tips += "Incluya al menos un número. ";
+        isValid = false;
+    }
+
+    // Check for special characters
+    if (password.match(/[^a-zA-Z\d]/)) {
+        strength += 1;
+    } else {
+        tips += "Incluya al menos un carácter especial. ";
+        isValid = false;
+    }
+
+    var tipsArray = tips.split(". ");
+    tipsArray.forEach(function(tip) {
+        if (tip.trim() !== "") {
+            var tipElement = document.createElement("li");
+            tipElement.textContent = tip;
+            tipsListElement.appendChild(tipElement);
+        }
+    });
+
+    // Update the text and color based on the password strength
+    if (!isValid) {
+        if (strength < 2) {
+            passwordStrengthElement.textContent = "Fácil de adivinar.";
+            passwordStrengthElement.style.color = "red";
+        } else if (strength === 2) {
+            passwordStrengthElement.textContent = "Dificultad media.";
+            passwordStrengthElement.style.color = "orange";
+        } else if (strength === 3) {
+            passwordStrengthElement.textContent = "Difícil.";
+            passwordStrengthElement.style.color = "black";
+        } else {
+            passwordStrengthElement.textContent = "Extremadamente difícil.";
+            passwordStrengthElement.style.color = "green";
+        }
+        document.getElementById('dialogs:registerButton').classList.add("ui-state-disabled");
+        document.getElementById('dialogs:registerButton').disabled = true;
+    } else {
+        passwordStrengthElement.textContent = "";
+        document.getElementById('dialogs:registerButton').classList.remove("ui-state-disabled");
+        document.getElementById('dialogs:registerButton').disabled = false;
+    }
+}
+
+
+
 function login(event) {
     event.preventDefault();
 
@@ -75,3 +151,5 @@ function registerUser() {
     };
     xhr.send(JSON.stringify(userData));
 }
+
+

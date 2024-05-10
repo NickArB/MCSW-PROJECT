@@ -28,12 +28,12 @@
 </h:body>
     <script type="text/javascript">
         function showAuditor() {
-            var userInfo = sessionStorage.getItem('userInfo');
+            var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
             console.log(userInfo);
             if (userInfo === null) {
                 window.location.href = 'login.xhtml';
             } else if (userInfo.role !== 'AUDITOR') {
-                window.location.href = 'userUnauthorized.xhtml';
+               window.location.href = 'userUnauthorized.xhtml';
             }
         }
     </script>

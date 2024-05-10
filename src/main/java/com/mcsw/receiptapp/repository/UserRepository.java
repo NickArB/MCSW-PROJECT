@@ -26,9 +26,9 @@ public class UserRepository {
         if (count > 0) {
             return null;
         }
-        String insertSql = "INSERT INTO users (id, name, lastName, email, passwordHash, role, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            jdbcTemplate.update(insertSql, user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getRole(), user.getCreatedAt());
+            jdbcTemplate.update(insertSql, user.getName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getRole(), user.getCreatedAt());
             return user;
         } catch (Exception e) {
             return null;
