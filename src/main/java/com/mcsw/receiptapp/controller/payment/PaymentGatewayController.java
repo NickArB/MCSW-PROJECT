@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.service.PaymentGatewayService;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @RestController
 @RequestMapping( "/payments" )

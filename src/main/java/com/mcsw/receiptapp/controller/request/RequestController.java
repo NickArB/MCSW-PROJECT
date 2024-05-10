@@ -46,8 +46,6 @@ public class RequestController {
 
     private RequestDto sanitize(RequestDto input){
         input.setNewValue(Jsoup.clean(input.getNewValue(), Safelist.relaxed()));
-        input.setPaymentId(Jsoup.clean(input.getPaymentId(), Safelist.relaxed()));
-        input.setRequestState(Jsoup.clean(input.getRequestState(), Safelist.relaxed()));
         return input;
     }
 }

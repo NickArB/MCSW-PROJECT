@@ -172,7 +172,7 @@ function createBill() {
     if(isANumber) {
             var empresaEmitente = DOMPurify.sanitize($('#crear-servicio-form\\:bill-company').val());
             var valorFactura = DOMPurify.sanitize($('#crear-servicio-form\\:value-bill').val());
-            var fechaLimite = DOMPurify.sanitize(PF('fecha-limite-widget').getDate());
+            var fechaLimite = PF('fecha-limite-widget').getDate();
 
             // Crear un objeto con los datos a enviar en la solicitud
             var data = {
