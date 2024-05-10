@@ -32,7 +32,7 @@ function loadUsers() {
                 var select = $('<select>').addClass('role-select').attr('data-user-id', user.email).appendTo(roleCell);
 
                 // Opciones de rol
-                var roles = ['ADMIN', 'USER', 'AUDITOR'];
+                var roles = ['USER', 'AUDITOR'];
                 $.each(roles, function(i, role) {
                     var option = $('<option>').val(role).text(role).appendTo(select);
                     if (user.role === role) {
