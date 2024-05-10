@@ -30,6 +30,7 @@ public class AuthController {
     {
         System.out.println(loginDto.email);
         User user = userService.findByEmail(loginDto.getEmail() );
+        System.out.println(user);
         if (user == null) {
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         } else if (!loginDto.getPassword().equals(user.getPasswordHash())) {
@@ -54,6 +55,7 @@ public class AuthController {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", "/auditor.xhtml");
                 headers.add("Role", user.getRole());
+                headers.add("Id", user.getId());
                 return new ResponseEntity<>(headers, HttpStatus.OK);
             }else {
                 HttpHeaders headers = new HttpHeaders();
