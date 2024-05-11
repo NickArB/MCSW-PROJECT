@@ -4,6 +4,8 @@ import java.util.Date;
 public class PaymentGatewayDto {
     private String paymentId;
     private Date deadLine;
+    private String debt;
+    private String accountNumber;
     
     public PaymentGatewayDto() {
     }
@@ -22,6 +24,14 @@ public class PaymentGatewayDto {
 
     public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
+    }
+
+    public String getDebt() {
+        return debt;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
     @Override

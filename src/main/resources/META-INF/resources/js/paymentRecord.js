@@ -31,8 +31,8 @@ function buildTable(data) {
                 fila += '<td>' + DOMPurify.sanitize(bill.id) + '</td>';
                 fila += '<td>' + DOMPurify.sanitize(bill.userEmail) + '</td>';
                 fila += '<td>' + DOMPurify.sanitize(bill.company) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.billingDate) + '</td>';
-                fila += '<td>' + DOMPurify.sanitize(bill.deadLine) + '</td>';
+                fila += '<td>' + DOMPurify.sanitize(bill.billingDate.split('T')[0]) + '</td>';
+                fila += '<td>' + DOMPurify.sanitize(bill.deadLine.split('T')[0]) + '</td>';
                 fila += '<td>' + DOMPurify.sanitize(bill.debt) + '</td>';
                 fila += '<td>' + DOMPurify.sanitize(bill.paymentStatus) + '</td>';
                 fila += '</tr>';

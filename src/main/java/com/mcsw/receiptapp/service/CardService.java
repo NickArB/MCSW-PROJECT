@@ -1,6 +1,9 @@
 package com.mcsw.receiptapp.service;
 
 import com.mcsw.receiptapp.controller.card.CardDto;
+import com.mcsw.receiptapp.exception.IncorrectCardInformationException;
+import com.mcsw.receiptapp.exception.InsufficientFundsException;
+import com.mcsw.receiptapp.exception.InvalidCardException;
 import com.mcsw.receiptapp.model.Card;
 import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.repository.CardRepository;
@@ -8,11 +11,28 @@ import com.mcsw.receiptapp.repository.CardRepository;
 public class CardService {
     CardRepository cardRepository = new CardRepository();
 
-    public Card findCardByUserId(String userId, CardDto cardDto){
+    public Card checkCardByUserId(String userId, CardDto cardDto, int billDebt) throws InvalidCardException, InsufficientFundsException, IncorrectCardInformationException{
         Card card = cardRepository.findByUserId(userId, new Card(cardDto));
-        if (card.getType().equals(cardDto.getType())){
+        if (card != null && card.getType().equals(cardDto.getType())) {
+            if (!card.getExpirationDate().equals(cardDto.getExpirationDate().split("T")[0])) {
+                throw new IncorrectCardInformationException();
+            }
+            if (card.getType().equals("credito")) {
+                if ((!card.getCvc().equals(cardDto.getCvc()))){
+                    throw new IncorrectCardInformationException();
+                }
+                if ((!card.getOwnerName().equals(cardDto.getOwnerName()))) {
+                    throw new IncorrectCardInformationException();
+                }
+
+            }
+            if (card.getAvailableBalance() < billDebt) {
+                throw new InsufficientFundsException();
+            }
             return card;
+        } else {
+            throw new InvalidCardException();
         }
-        return null;
+
     }
 }

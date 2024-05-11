@@ -28,15 +28,15 @@ CREATE TABLE bills (
 
 INSERT INTO bills (userEmail, company, billing_date, deadline, debt, payment_status) 
             VALUES ('nicolas.ariza@mail.escuelaing.edu.co', 'Acueducto', '2024-02-28', 
-                        '2024-03-28', '$51000', 'PENDIENTE');
+                        '2024-03-28', '51000', 'PENDIENTE');
 
 INSERT INTO bills (userEmail, company, billing_date, deadline, debt, payment_status) 
             VALUES ('juan.sanchez@mail.escuelaing.edu.co', 'Codensa', '2024-02-28', 
-                        '2024-03-28', '$40000', 'PENDIENTE');
+                        '2024-03-28', '40000', 'PENDIENTE');
 
 INSERT INTO bills (userEmail, company, billing_date, deadline, debt, payment_status)
             VALUES ('andres.onate@mail.escuelaing.edu.co', 'Gas Natural', '2024-02-28', 
-                        '2024-03-28', '$45000', 'PENDIENTE');
+                        '2024-03-28', '45000', 'PENDIENTE');
 
 DROP TABLE IF EXISTS bills;
 
@@ -56,7 +56,8 @@ DROP TABLE IF EXISTS requests;
 
 CREATE TABLE cards (
     account_number VARCHAR(255) PRIMARY KEY,
-    expiration_date DATETIME,
+    available_balance VARCHAR(255),
+    expiration_date DATE,
     type VARCHAR(255),
     cvc VARCHAR(255),
     owner_name VARCHAR(255),
@@ -64,11 +65,11 @@ CREATE TABLE cards (
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
-INSERT INTO cards (account_number, expiration_date, type, cvc, owner_name, owner_id)
-VALUES ('1234567890', '2024-12-31 23:59:59', 'credito', '123', 'Nicolas Ariza', '1');
+INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
+VALUES ('1234567890', '60000', '2024-12-31', 'credito', '123', 'Nicolas Ariza', '1');
 
-INSERT INTO cards (account_number, expiration_date, type, cvc, owner_name, owner_id)
-VALUES ('2333142121', '2024-12-31 23:59:59', 'debito', null, null, '2');
+INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
+VALUES ('2333142121', '60000', '2024-12-31 23:59:59', 'debito', null, null, '2');
 
 DROP TABLE IF EXISTS cards;
 

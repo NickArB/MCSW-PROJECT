@@ -1,10 +1,14 @@
 package com.mcsw.receiptapp.controller.bill;
 
+import com.mcsw.receiptapp.exception.InvalidCompanyException;
+import com.mcsw.receiptapp.exception.InvalidCostException;
+import com.mcsw.receiptapp.exception.InvalidDeadLineException;
 import com.mcsw.receiptapp.model.Bill;
 import com.mcsw.receiptapp.service.BillService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
@@ -38,9 +42,18 @@ public class BillController{
     }
 
     @PostMapping
-    public ResponseEntity<Bill> create(@RequestBody BillDto billDto) throws ParseException{
+    public ResponseEntity<?> create(@RequestBody BillDto billDto){
         billDto = sanitize(billDto);
-        return ResponseEntity.ok(billService.createBill(new Bill(billDto)));
+        try {
+            Bill bill = billService.createBill(new Bill(billDto));
+            return ResponseEntity.ok(bill);
+        } catch (InvalidCostException e) {
+            return new ResponseEntity<>("Error, el costo debe ser un número positivo.", HttpStatus.BAD_REQUEST);
+        } catch (InvalidCompanyException e) {
+            return new ResponseEntity<>("Error, la empresa que emite la factura no puede ser nula.", HttpStatus.BAD_REQUEST);
+        } catch (InvalidDeadLineException e){
+            return new ResponseEntity<>("Error, la fecha límite de pago no debe ser nula.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping( "/{id}" )
@@ -60,7 +73,7 @@ public class BillController{
         return ResponseEntity.ok(billService.deleteBill(id));
     }
 
-    private BillDto sanitize(BillDto input) throws ParseException{
+    private BillDto sanitize(BillDto input){
         input.setUserEmail(Jsoup.clean(input.getUserEmail(), Safelist.relaxed()));
         input.setCompany(Jsoup.clean(input.getCompany(), Safelist.relaxed()));
         input.setDebt(Jsoup.clean(input.getDebt(), Safelist.relaxed()));
