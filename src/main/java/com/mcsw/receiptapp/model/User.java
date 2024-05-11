@@ -1,6 +1,8 @@
 package com.mcsw.receiptapp.model;
 
 import com.mcsw.receiptapp.controller.user.UserDto;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import java.util.Date;
 
 
@@ -31,7 +33,7 @@ public class User {
         email = userDto.getEmail();
         createdAt = new Date();
         role = userDto.getRole();
-        passwordHash = userDto.getPassword();
+        passwordHash = BCrypt.hashpw( userDto.getPassword(), BCrypt.gensalt() );
 
     }
 
