@@ -1,14 +1,8 @@
 package com.mcsw.receiptapp.model;
 
 import com.mcsw.receiptapp.controller.user.UserDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+
 
 
 public class User {
