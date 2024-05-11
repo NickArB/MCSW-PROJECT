@@ -1,7 +1,6 @@
 package com.mcsw.receiptapp.config;
-
-
 import com.mcsw.receiptapp.model.RoleEnum;
+
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,7 @@ import java.util.*;
 public class JwtRequestFilter
         extends OncePerRequestFilter
 {
-    @Value( "a" )
+    @Value( "${app.secret}" )
     String secret;
 
     public JwtRequestFilter()
@@ -32,7 +31,7 @@ public class JwtRequestFilter
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain )
+    protected void doFilterInternal( HttpServletRequest request, HttpServletResponse response, FilterChain filterChain )
             throws ServletException, IOException
     {
         String authHeader = request.getHeader( HttpHeaders.AUTHORIZATION );
@@ -48,7 +47,7 @@ public class JwtRequestFilter
             {
                 Optional<Cookie> optionalCookie =
                         request.getCookies() != null ? Arrays.stream( request.getCookies() ).filter(
-                                cookie -> Objects.equals( cookie.getName(), "COOKIE_NAME" ) ).findFirst() : Optional.empty();
+                                cookie -> Objects.equals( cookie.getName(), "COOKIE" ) ).findFirst() : Optional.empty();
 
                 String headerJwt = null;
                 if ( authHeader != null && authHeader.startsWith( "Bearer " ) )

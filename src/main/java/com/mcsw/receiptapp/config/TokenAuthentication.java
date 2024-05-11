@@ -1,5 +1,6 @@
 package com.mcsw.receiptapp.config;
 
+
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +18,7 @@ public class TokenAuthentication
 
     List<String> roles;
 
-    public TokenAuthentication(String token, String subject, List<String> roles )
+    public TokenAuthentication( String token, String subject, List<String> roles )
     {
         super( null );
         this.token = token;
