@@ -69,7 +69,7 @@ INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc
 VALUES ('1234567890', '60000', '2024-12-31', 'credito', '123', 'Nicolas Ariza', '1');
 
 INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
-VALUES ('2333142121', '60000', '2024-12-31 23:59:59', 'debito', null, null, '2');
+VALUES ('2333142121', '60000', '2024-12-31', 'debito', null, null, '2');
 
 DROP TABLE IF EXISTS cards;
 
