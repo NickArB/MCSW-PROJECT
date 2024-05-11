@@ -31,8 +31,12 @@ public class SecurityConfiguration
                 .antMatchers( HttpMethod.GET, "/v1/health" ).permitAll()
                 .antMatchers( HttpMethod.POST,"/v1/auth" ).permitAll()
                 .antMatchers( HttpMethod.POST,"/v1/users" ).permitAll()
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**").permitAll()
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**", "/h2-console/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .headers()
+                .frameOptions().sameOrigin()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS );
     }
