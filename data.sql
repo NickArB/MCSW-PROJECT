@@ -9,9 +9,9 @@ CREATE TABLE users (
     createdAt DATETIME
 );
 
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '12345', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
 
 DROP TABLE IF EXISTS users;
 

@@ -1,5 +1,7 @@
 package com.mcsw.receiptapp.model;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import com.mcsw.receiptapp.controller.card.CardDto;
 
 public class Card {
@@ -26,11 +28,11 @@ public class Card {
     }
 
     public Card(CardDto cardDto){
-        this.accountNumber = cardDto.getAccountNumber();
+        this.accountNumber = BCrypt.hashpw( cardDto.getAccountNumber(), BCrypt.gensalt() );
         this.expirationDate = cardDto.getExpirationDate();
         this.type = cardDto.getType();
         if (this.type.equals("credito")) {
-            this.cvc = cardDto.getCvc();
+            this.cvc = BCrypt.hashpw(cardDto.getCvc(), BCrypt.gensalt());
         } else {
             this.cvc = null;
         }
