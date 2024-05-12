@@ -47,7 +47,7 @@ function loadBills() {
 
 
                 updateButton.click(function() {
-                    var newPaymentStatus = DOMPurify.sanitize($(this).closest('tr').find('.payment-status-select').val());
+                    var newPaymentStatus = $(this).closest('tr').find('.payment-status-select').val();
 
                     var billDto = {
                         id: DOMPurify.sanitize(bill.id),
@@ -55,7 +55,7 @@ function loadBills() {
                         company: DOMPurify.sanitize(bill.company),
                         debt: DOMPurify.sanitize(bill.debt),
                         deadLine: DOMPurify.sanitize(bill.deadLine),
-                        paymentStatus: newPaymentStatus
+                        paymentStatus: DOMPurify.sanitize(newPaymentStatus)
                     };
 
                     $.ajax({
@@ -85,7 +85,7 @@ function loadBills() {
 
 
 function searchBill() {
-    var billId = DOMPurify.sanitize($('#form\\:IdInput').val());
+    var billId = $('#form\\:IdInput').val();
 
     $.ajax({
         type: 'GET',
@@ -142,14 +142,14 @@ function buildEditBillTable(bill) {
 
     // Manejar la actualización del valor de la factura al hacer clic en el botón de actualizar
     $('.update-debt-btn').click(function() {
-        var newDebt = DOMPurify.sanitize($(this).closest('tr').find('.debt-input').val());
+        var newDebt = $(this).closest('tr').find('.debt-input').val();
 
         // Realizar la actualización del valor de la factura
         $.ajax({
             type: 'POST',
             url: '/requests',
             contentType: 'application/json',
-            data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: newDebt}),
+            data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: DOMPurify.sanitize(newDebt)}),
             success: function(response) {
                 console.log('Solicitud creada con exito', response);
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Solicitud de actualización generada', detail: '' });

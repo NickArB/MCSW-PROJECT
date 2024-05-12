@@ -116,34 +116,34 @@ function toggleCreditCardFields(selectedValue) {
 }
 
 function payBill() {
-    var metodoPago = DOMPurify.sanitize(PF('metodoPagoWidget').getSelectedValue());
+    var metodoPago = PF('metodoPagoWidget').getSelectedValue();
     // Obtener los valores de los otros campos del formulario
-    var numeroCuenta = DOMPurify.sanitize($('#pagarFacturaForm\\:numeroCuenta').val());
-    var fechaVencimiento = DOMPurify.sanitize(PF('fechaVencimientoWidget').getDate());
-    var cvc = DOMPurify.sanitize($('#pagarFacturaForm\\:cvc').val());
-    var titular = DOMPurify.sanitize($('#pagarFacturaForm\\:titular').val());
+    var numeroCuenta = $('#pagarFacturaForm\\:numeroCuenta').val();
+    var fechaVencimiento = PF('fechaVencimientoWidget').getDate();
+    var cvc = $('#pagarFacturaForm\\:cvc').val();
+    var titular = $('#pagarFacturaForm\\:titular').val();
 
     var isValid = validateFieldsToPay(metodoPago, numeroCuenta, fechaVencimiento, cvc, titular);
 
     if (isValid) {
-        paymentGateway.accountNumber = numeroCuenta;
+        paymentGateway.accountNumber = DOMPurify.sanitize(numeroCuenta);
 
         if(metodoPago === "credito") {
             // Crear un objeto con los datos a enviar en la solicitud
             var fechaFormateada = fechaVencimiento.toISOString().split('T')[0];
             var data = {
-                    accountNumber: numeroCuenta,
-                    expirationDate: fechaVencimiento,
-                    type: metodoPago,
-                    cvc: cvc,
-                    ownerName: titular
+                    accountNumber: DOMPurify.sanitize(numeroCuenta),
+                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    type: DOMPurify.sanitize(metodoPago),
+                    cvc: DOMPurify.sanitize(cvc),
+                    ownerName: DOMPurify.sanitize(titular)
             };
 
         } else {
             var data = {
-                    accountNumber: numeroCuenta,
-                    expirationDate: fechaVencimiento,
-                    type: metodoPago
+                    accountNumber: DOMPurify.sanitize(numeroCuenta),
+                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    type: DOMPurify.sanitize(metodoPago)
             };
         }
 
@@ -201,9 +201,9 @@ function createBill() {
             // Crear un objeto con los datos a enviar en la solicitud
             var data = {
                 userEmail: DOMPurify.sanitize(userInfo.email),
-                company: empresaEmitente,
-                debt: valorFactura,
-                deadLine: fechaLimite
+                company: DOMPurify.sanitize(empresaEmitente),
+                debt: DOMPurify.sanitize(valorFactura),
+                deadLine: DOMPurify.sanitize(fechaLimite)
             };
 
             // Realizar una solicitud AJAX POST

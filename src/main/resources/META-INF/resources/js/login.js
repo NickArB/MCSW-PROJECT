@@ -77,10 +77,10 @@ function checkPasswordStrength(password) {
 function login(event) {
     event.preventDefault();
     
-    var email = DOMPurify.sanitize($('#login-form\\:emailInput').val()); // Obtener el valor del campo de email
-    var password = DOMPurify.sanitize($('#login-form\\:passwordInput').val());// Obtiene el valor del campo de contraseña
+    var email = $('#login-form\\:emailInput').val(); // Obtener el valor del campo de email
+    var password = $('#login-form\\:passwordInput').val();// Obtiene el valor del campo de contraseña
 
-    var data = JSON.stringify({ email: email, password: password });
+    var data = JSON.stringify({ email: DOMPurify.sanitize(email), password: DOMPurify.sanitize(password) });
 
     $.ajax({
         type: 'POST',
@@ -117,16 +117,16 @@ function login(event) {
 };
 
 function registerUser() {
-    var fullName = DOMPurify($('#dialogs\\:full-name').val());
-    var lastName = DOMPurify($('#dialogs\\:lastname').val());
-    var email = DOMPurify($('#dialogs\\:email').val());
-    var password = DOMPurify($('#dialogs\\:password').val());
+    var fullName = $('#dialogs\\:full-name').val();
+    var lastName = $('#dialogs\\:lastname').val();
+    var email = $('#dialogs\\:email').val();
+    var password = $('#dialogs\\:password').val();
 
     var userData = {
-        name: fullName,
-        lastName: lastName,
-        email: email,
-        password: password
+        name: DOMPurify.sanitize(fullName),
+        lastName: DOMPurify.sanitize(lastName),
+        email: DOMPurify.sanitize(email),
+        password: DOMPurify.sanitize(password)
     };
 
     var xhr = new XMLHttpRequest();

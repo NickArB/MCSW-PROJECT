@@ -45,8 +45,8 @@ function loadUsers() {
 
                 // Manejar la actualización del rol al hacer clic en el botón de actualizar
                 updateButton.click(function() {
-                    var userId = DOMPurify.sanitize($(this).closest('tr').find('.role-select').data('user-id'));
-                    var newRole = DOMPurify.sanitize($(this).closest('tr').find('.role-select').val());
+                    var userId = $(this).closest('tr').find('.role-select').data('user-id');
+                    var newRole = $(this).closest('tr').find('.role-select').val();
 
                     // Construir el objeto UserDto para enviar al servidor
                     var userDto = {
@@ -54,7 +54,7 @@ function loadUsers() {
                         lastName: DOMPurify.sanitize(user.lastName),
                         email: DOMPurify.sanitize(user.email),
                         password: DOMPurify.sanitize(user.passwordHash),
-                        role: newRole
+                        role: DOMPurify.sanitize(newRole)
                     };
 
                     // Realizar la actualización del rol
@@ -83,16 +83,16 @@ function loadUsers() {
 };
 
 function registerUser() {
-    var fullName = DOMPurify.sanitize($('#dialogs\\:full-name').val());
-    var lastName = DOMPurify.sanitize($('#dialogs\\:lastname').val());
-    var email = DOMPurify.sanitize($('#dialogs\\:email').val());
-    var password = DOMPurify.sanitize($('#dialogs\\:password').val());
+    var fullName = $('#dialogs\\:full-name').val();
+    var lastName = $('#dialogs\\:lastname').val();
+    var email = $('#dialogs\\:email').val();
+    var password = $('#dialogs\\:password').val();
 
     var userData = {
-        name: fullName,
-        lastName: lastName,
-        email: email,
-        password: password
+        name: DOMPurify.sanitize(fullName),
+        lastName: DOMPurify.sanitize(lastName),
+        email: DOMPurify.sanitize(email),
+        password: DOMPurify.sanitize(password)
     };
 
     var xhr = new XMLHttpRequest();
@@ -117,7 +117,7 @@ function registerUser() {
 };
 
 function searchUser() {
-    var email = DOMPurify.sanitize($('#form\\:emailInput').val());
+    var email = $('#form\\:emailInput').val();
 
     $.ajax({
         type: 'GET',
@@ -170,11 +170,16 @@ function buildEditUserTable(user) {
 
     // Manejar la actualización del usuario al hacer clic en el botón de actualizar
     $('.update-user-btn').click(function() {
+        var name = $(this).closest('tr').find('input:eq(0)').val();
+        var lastName = $(this).closest('tr').find('input:eq(1)').val();
+        var email = $(this).closest('tr').find('input:eq(2)').val();
+        var password = $(this).closest('tr').find('input:eq(3)').val();
+
         var updatedUser = {
-            name: DOMPurify.sanitize($(this).closest('tr').find('input:eq(0)').val()),
-            lastName: DOMPurify.sanitize($(this).closest('tr').find('input:eq(1)').val()),
-            email: DOMPurify.sanitize($(this).closest('tr').find('input:eq(2)').val()),
-            password: DOMPurify.sanitize($(this).closest('tr').find('input:eq(3)').val()),
+            name: DOMPurify.sanitize(name),
+            lastName: DOMPurify.sanitize(lastName),
+            email: DOMPurify.sanitize(email),
+            password: DOMPurify.sanitize(password),
             role: DOMPurify.sanitize(user.role)
         };
         console.log(updatedUser);
