@@ -44,7 +44,7 @@ var userInfo;
 var token;
 
 $(document).ready(function() {
-    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    token = sessionStorage.getItem('jwtToken');
     const parts = token.split('.');
     userInfo = JSON.parse(atob(parts[1]));
    showPaymentRecord();

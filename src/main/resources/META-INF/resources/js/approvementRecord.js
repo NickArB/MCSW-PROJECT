@@ -2,6 +2,7 @@ function loadRequests() {
     $.ajax({
         type: 'GET',
         url: '/requests',
+        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
             buildRequestsTable(data);
@@ -48,6 +49,7 @@ function buildRequestsTable(data) {
                 $.ajax({
                     type: 'PUT',
                     url: '/requests/' + request.id,
+                    Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
@@ -72,6 +74,7 @@ function buildRequestsTable(data) {
                 $.ajax({
                     type: 'PUT',
                     url: '/requests/' + request.id,
+                    Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
@@ -95,6 +98,7 @@ function loadBills(requestInfo){
     $.ajax({
         type: 'GET',
         url: '/bills',
+        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
             buildPaymentsTable(data, requestInfo); // Construye la tabla con los datos obtenidos
@@ -148,7 +152,7 @@ var userInfo;
 var token;
 
 $(document).ready(function() {
-    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    token = sessionStorage.getItem('jwtToken');
     const parts = token.split('.');
     userInfo = JSON.parse(atob(parts[1]));
     showApprovementRecord();

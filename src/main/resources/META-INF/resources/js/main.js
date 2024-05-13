@@ -1,7 +1,7 @@
 var token;
 var userInfo;
 $(document).ready(function() {
-    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    token = sessionStorage.getItem('jwtToken');
     const parts = token.split('.');
     userInfo = JSON.parse(atob(parts[1]));
     showMainMenu();
@@ -136,7 +136,7 @@ function payBill() {
             var fechaFormateada = fechaVencimiento.toISOString().split('T')[0];
             var data = {
                     accountNumber: DOMPurify.sanitize(numeroCuenta),
-                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    expirationDate: fechaVencimiento,
                     type: DOMPurify.sanitize(metodoPago),
                     cvc: DOMPurify.sanitize(cvc),
                     ownerName: DOMPurify.sanitize(titular)
@@ -145,7 +145,7 @@ function payBill() {
         } else {
             var data = {
                     accountNumber: DOMPurify.sanitize(numeroCuenta),
-                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    expirationDate: fechaVencimiento,
                     type: DOMPurify.sanitize(metodoPago)
             };
         }
@@ -206,7 +206,7 @@ function createBill() {
                 userEmail: DOMPurify.sanitize(userInfo.email),
                 company: DOMPurify.sanitize(empresaEmitente),
                 debt: DOMPurify.sanitize(valorFactura),
-                deadLine: DOMPurify.sanitize(fechaLimite)
+                deadLine: fechaLimite
             };
 
             // Realizar una solicitud AJAX POST

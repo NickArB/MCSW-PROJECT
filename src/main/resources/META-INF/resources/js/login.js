@@ -117,16 +117,11 @@ function redirectUser(role){
     if (role === "ADMIN") {
         url = "/admin.xhtml";
     } else if (role === "USER") {
-        console.log("USER");
         url = "/main.xhtml";
     } else if (role === "AUDITOR") {
         url = "/auditor.xhtml";
-    } else {
-        // Aquí puedes manejar cualquier otro caso si es necesario
-        console.log("No se reconoce el rol del usuario.");
-        // Por ejemplo, redireccionar a una página de error
-        // window.location.href = "/userUnathorized.xhtml";
     }
+
     window.location.href = url;
     fetch(url, {
     method: 'GET',

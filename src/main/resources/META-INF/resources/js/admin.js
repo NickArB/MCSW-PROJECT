@@ -62,6 +62,7 @@ function loadUsers() {
                         type: 'PUT',
                         url: '/users/' + userId,
                         contentType: 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                         data: JSON.stringify(userDto),
                         success: function(response) {
                             console.log('Rol actualizado exitosamente:', response);
@@ -97,6 +98,7 @@ function registerUser() {
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/users');
+    xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem('jwtToken')}`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -118,10 +120,11 @@ function registerUser() {
 
 function searchUser() {
     var email = $('#form\\:emailInput').val();
-
+    console.log(email);
     $.ajax({
         type: 'GET',
-        url: '/users/' + email, // Endpoint para obtener el usuario por correo electrónico
+        url: '/users/' + email,
+        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`, // Endpoint para obtener el usuario por correo electrónico
         success: function(user) {
             if (user) {
                 buildEditUserTable(user);
@@ -186,6 +189,7 @@ function buildEditUserTable(user) {
         $.ajax({
             type: 'PUT',
             url: '/users/' + user.email,
+            Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
             contentType: 'application/json',
             data: JSON.stringify(updatedUser),
             success: function(response) {
@@ -207,6 +211,7 @@ function buildEditUserTable(user) {
             $.ajax({
                 type: 'DELETE',
                 url: '/users/' + user.email,
+                Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                 success: function(response) {
                     console.log('Usuario eliminado exitosamente:', response);
                     PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario eliminado exitosamente', detail: '' });
@@ -226,7 +231,7 @@ var token;
 var userInfo;
 
 $(document).ready(function() {
-    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    token = sessionStorage.getItem('jwtToken');
     const parts = token.split('.');
     userInfo = JSON.parse(atob(parts[1]));
     showAdmin();

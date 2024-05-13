@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css" />
     <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script src="../js/auditor.js"></script>
 </h:head>
 
 <h:body onload="showAuditor()">
@@ -27,16 +28,4 @@
         </p:panel>
     </h:form>
 </h:body>
-    <script type="text/javascript">
-        function showAuditor() {
-            var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-            console.log(userInfo);
-            if (userInfo === null) {
-                window.location.href = 'login.xhtml';
-            } else if (userInfo.role !== 'AUDITOR') {
-               window.location.href = 'userUnauthorized.xhtml';
-            }
-        }
-    </script>
-
 </h:html>
