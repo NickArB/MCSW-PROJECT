@@ -88,20 +88,9 @@ function login(event) {
         contentType: 'application/json',
         data: data,
         success: function(response, status, xhr) {
-            console.log(response);
-            if (xhr.getResponseHeader('Location')) {
-                console.log(xhr.getResponseHeader('Location'));
-                var userInfo = {
-                    id: DOMPurify.sanitize(xhr.getResponseHeader('Id')),
-                    role: DOMPurify.sanitize(xhr.getResponseHeader('Role')),
-                    email: email
-                }
-                sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-
-                window.location.href = xhr.getResponseHeader('Location');
-            } else {
-                PF('growlWV').renderMessage({ severity: 'info', summary: 'Inicio de sesión exitoso', detail: '' });
-            }
+            sessionStorage.setItem('jwtToken', response.token);
+            var userInfo = getUserInfo(response.token);
+            redirectUser(userInfo.Role);
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);
@@ -115,6 +104,37 @@ function login(event) {
         }
     });
 };
+
+function getUserInfo(token){
+    const parts = token.split('.');
+    const payload = JSON.parse(atob(parts[1]));
+    return payload;
+}
+
+function redirectUser(role){
+    var url;
+    console.log(role);
+    if (role === "ADMIN") {
+        url = "/admin.xhtml";
+    } else if (role === "USER") {
+        console.log("USER");
+        url = "/main.xhtml";
+    } else if (role === "AUDITOR") {
+        url = "/auditor.xhtml";
+    } else {
+        // Aquí puedes manejar cualquier otro caso si es necesario
+        console.log("No se reconoce el rol del usuario.");
+        // Por ejemplo, redireccionar a una página de error
+        // window.location.href = "/userUnathorized.xhtml";
+    }
+    window.location.href = url;
+    fetch(url, {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+    }
+    });
+}
 
 function registerUser() {
     var fullName = $('#dialogs\\:full-name').val();

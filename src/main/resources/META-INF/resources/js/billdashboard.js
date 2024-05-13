@@ -164,9 +164,12 @@ function buildEditBillTable(bill) {
 };
 
 var userInfo;
+var token;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showBillsDashboard();
     loadBills();
 });
@@ -174,7 +177,7 @@ $(document).ready(function() {
 function showBillsDashboard() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'ADMIN') {
+   } else if (userInfo.Role !== 'ADMIN') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }

@@ -1,6 +1,9 @@
+var token;
 var userInfo;
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showMainMenu();
     loadPendingBills();
 });
@@ -230,10 +233,10 @@ function createBill() {
 }
 
 function showMainMenu() {
-    if (userInfo === null) {
+    if (token === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'USER') {
-        window.location.href = 'userUnauthorized.xhtml';
+   }else if (userInfo.Role !== 'USER'){
+        window.location.href = 'userUnathorized.xhtml';
    }
 }
 

@@ -145,9 +145,12 @@ function buildPaymentsTable(data, requestInfo){
 }
 
 var userInfo;
+var token;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = JSON.parse(sessionStorage.getItem('jwtToken'));
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showApprovementRecord();
     loadRequests();
 });
@@ -155,7 +158,7 @@ $(document).ready(function() {
 function showApprovementRecord() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'AUDITOR') {
+   } else if (userInfo.Role !== 'AUDITOR') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }

@@ -32,7 +32,6 @@ public class AuthController {
     {
         loginDto = sanitize(loginDto);
         User user = userService.findByEmail( loginDto.getEmail() );
-        System.out.println(user.getPasswordHash() + ", " + loginDto.getPassword());
         if ( BCrypt.checkpw( loginDto.getPassword(), user.getPasswordHash() ) )
         {
             return generateTokenDto( user );
