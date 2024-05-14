@@ -61,6 +61,7 @@ function loadBills() {
                     $.ajax({
                         type: 'PUT',
                         url: '/bills/' + bill.id,
+                        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                         contentType: 'application/json',
                         data: JSON.stringify(billDto),
                         success: function(response) {
@@ -90,6 +91,7 @@ function searchBill() {
     $.ajax({
         type: 'GET',
         url: '/bills/' + billId,
+        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         success: function(bill) {
             if (bill) {
                 buildEditBillTable(bill);
@@ -148,6 +150,7 @@ function buildEditBillTable(bill) {
         $.ajax({
             type: 'POST',
             url: '/requests',
+            Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
             contentType: 'application/json',
             data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: DOMPurify.sanitize(newDebt)}),
             success: function(response) {

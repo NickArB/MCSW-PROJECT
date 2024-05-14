@@ -2,6 +2,7 @@ function loadPayments() {
     $.ajax({
                 type: 'GET',
                 url: '/bills/users/' + userInfo.email,
+                Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                 dataType: 'json',
                 success: function(data) {
                     buildTable(data); // Construye la tabla con los datos obtenidos

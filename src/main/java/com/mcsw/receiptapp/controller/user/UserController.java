@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping( "/users" )
 public class UserController{
@@ -21,6 +23,7 @@ public class UserController{
 
 
     @GetMapping
+    @RolesAllowed("ADMIN")
     public List<User> all(){
         return userService.all();
     }

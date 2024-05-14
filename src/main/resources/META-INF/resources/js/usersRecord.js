@@ -2,6 +2,7 @@ function loadUsers() {
     $.ajax({
         type: 'GET',
         url: '/users', // Endpoint para obtener los usuarios
+        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         success: function(response) {
             $('#users-list').empty();
 
