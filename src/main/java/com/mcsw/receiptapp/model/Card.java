@@ -17,18 +17,10 @@ public class Card {
 
     }
 
-    public Card(String accountNumber, String expirationDate, String type, String cvc, String ownerName, String ownerId, int availableBalance) {
-        this.accountNumber = accountNumber;
-        this.expirationDate = expirationDate;
-        this.type = type;
-        this.cvc = cvc;
-        this.ownerName = ownerName;
-        this.ownerId = ownerId;
-        this.availableBalance = availableBalance;
-    }
+
 
     public Card(CardDto cardDto){
-        this.accountNumber = BCrypt.hashpw( cardDto.getAccountNumber(), BCrypt.gensalt() );
+        this.accountNumber = cardDto.getAccountNumber();
         this.expirationDate = cardDto.getExpirationDate();
         this.type = cardDto.getType();
         if (this.type.equals("credito")) {

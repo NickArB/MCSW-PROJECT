@@ -149,6 +149,7 @@ function payBill() {
                     type: DOMPurify.sanitize(metodoPago)
             };
         }
+        console.log(data);
 
         paymentInfo.cardDto = data;
 
@@ -206,7 +207,8 @@ function createBill() {
                 userEmail: DOMPurify.sanitize(userInfo.email),
                 company: DOMPurify.sanitize(empresaEmitente),
                 debt: DOMPurify.sanitize(valorFactura),
-                deadLine: fechaLimite
+                deadLine: fechaLimite,
+                paymentStatus: "PENDIENTE"
             };
 
             // Realizar una solicitud AJAX POST

@@ -94,7 +94,7 @@ function buildRequestsTable(data) {
 function loadBills(requestInfo){
     $.ajax({
         type: 'GET',
-        url: '/bills',
+        url: '/bills/users',
         dataType: 'json',
         success: function(data) {
             buildPaymentsTable(data, requestInfo); // Construye la tabla con los datos obtenidos

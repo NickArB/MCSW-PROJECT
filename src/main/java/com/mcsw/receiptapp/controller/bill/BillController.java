@@ -11,6 +11,8 @@ import org.jsoup.safety.Safelist;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 import java.text.ParseException;
 import java.util.List;
 
@@ -21,27 +23,32 @@ public class BillController{
     private final BillService billService = new BillService();
 
     @GetMapping("/users")
+    @RolesAllowed({"ADMIN", "AUDITOR"})
     public ResponseEntity<List<Bill>> all(){
         return ResponseEntity.ok(billService.findAll());
     }
 
     @GetMapping("/users/{userEmail}")
+    @RolesAllowed("USER")
     public List<Bill> allByUser(@PathVariable String userEmail){
         return billService.findAllByUser(userEmail);
     }
 
     @GetMapping( "/{id}" )
+    @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<Bill> findById( @PathVariable String id ){
         return ResponseEntity.ok(billService.findById(id));
     }
 
 
     @GetMapping( "/status/{userEmail}/{paymentStatus}" )
+    @RolesAllowed("USER")
     public List<Bill> findByPaymentStatus( @PathVariable String userEmail, @PathVariable String paymentStatus ) {
         return billService.findByPaymentStatus(userEmail, paymentStatus);
     }
 
     @PostMapping
+    @RolesAllowed("USER")
     public ResponseEntity<?> create(@RequestBody BillDto billDto){
         billDto = sanitize(billDto);
         try {
@@ -57,6 +64,7 @@ public class BillController{
     }
 
     @PutMapping( "/{id}" )
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Bill> update(@RequestBody BillDto billDto, @PathVariable String id) throws ParseException{
         billDto = sanitize(billDto);
         Bill existingBill = billService.findById(id);
@@ -66,11 +74,6 @@ public class BillController{
             return ResponseEntity.notFound().build();
         }
         
-    }
-
-    @DeleteMapping( "/{id}" )
-    public ResponseEntity<Boolean> delete(@PathVariable String id){
-        return ResponseEntity.ok(billService.deleteBill(id));
     }
 
     private BillDto sanitize(BillDto input){

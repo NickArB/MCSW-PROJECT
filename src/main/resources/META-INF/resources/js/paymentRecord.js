@@ -54,7 +54,7 @@ $(document).ready(function() {
 function showPaymentRecord() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.Role === 'ADMIN') {
+   } else if (userInfo.Role !== 'USER') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }

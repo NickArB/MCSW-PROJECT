@@ -5,7 +5,6 @@ $(document).ready(function() {
     token = sessionStorage.getItem('jwtToken');
     const parts = token.split('.');
     userInfo = JSON.parse(atob(parts[1]));
-    console.log(userInfo);
     showAuditor();
 });
 

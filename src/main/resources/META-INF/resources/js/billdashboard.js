@@ -48,7 +48,7 @@ function loadBills() {
 
                 updateButton.click(function() {
                     var newPaymentStatus = $(this).closest('tr').find('.payment-status-select').val();
-
+                    console.log(newPaymentStatus);
                     var billDto = {
                         id: DOMPurify.sanitize(bill.id),
                         userEmail: DOMPurify.sanitize(bill.userEmail),
@@ -57,6 +57,7 @@ function loadBills() {
                         deadLine: DOMPurify.sanitize(bill.deadLine),
                         paymentStatus: DOMPurify.sanitize(newPaymentStatus)
                     };
+                    console.log(JSON.stringify(billDto));
 
                     $.ajax({
                         type: 'PUT',

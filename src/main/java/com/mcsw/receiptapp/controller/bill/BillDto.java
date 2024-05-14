@@ -7,6 +7,7 @@ public class BillDto {
     private String company;
     private String debt;
     private Date deadLine;
+    private String paymentStatus;
 
     public BillDto(){}
 
@@ -42,9 +43,22 @@ public class BillDto {
         this.deadLine = deadLine;
     }
 
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     @Override
     public String toString() {
-        return "BillDto [userEmail=" + userEmail + ", company=" + company + ", debt=" + debt
-                + ", deadLine=" + deadLine  + "]";
+        return "BillDto{" +
+                "userEmail='" + userEmail + '\'' +
+                ", company='" + company + '\'' +
+                ", debt='" + debt + '\'' +
+                ", deadLine=" + deadLine +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                '}';
     }
 }
