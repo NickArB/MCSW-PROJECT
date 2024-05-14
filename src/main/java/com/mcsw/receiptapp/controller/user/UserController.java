@@ -23,12 +23,13 @@ public class UserController{
 
 
     @GetMapping
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({"ADMIN", "AUDITOR"})
     public List<User> all(){
         return userService.all();
     }
 
     @GetMapping( "/{email}" )
+
     public ResponseEntity<?> findByEmail( @PathVariable String email ){
         try{
             User user = userService.findByEmail( email );

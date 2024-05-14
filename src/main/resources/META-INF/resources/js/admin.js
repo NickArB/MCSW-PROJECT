@@ -77,7 +77,7 @@ function loadUsers() {
             });
         },
         error: function(xhr, status, error) {
-            console.error('Error al cargar los usuarios:', error);
+            console.error('Error al cargar los usuarios:', xhr.responseText);
         }
     });
 };
