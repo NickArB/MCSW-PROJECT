@@ -10,7 +10,7 @@ $(document).ready(function() {
 });
 
 function showAuditor() {
-    if (token === null) {
+    if (userInfo === null) {
         window.location.href = 'login.xhtml';
     } else if (userInfo.Role !== 'AUDITOR') {
        window.location.href = 'userUnauthorized.xhtml';

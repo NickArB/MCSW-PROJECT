@@ -23,9 +23,7 @@ import java.util.*;
 public class JwtRequestFilter
         extends OncePerRequestFilter
 {
-
     @Value( "${app.secret}" )
-
     String secret;
 
     public JwtRequestFilter()
@@ -84,9 +82,8 @@ public class JwtRequestFilter
             {
                 response.sendError( HttpStatus.BAD_REQUEST.value(), "Missing or wrong token" );
             }
-            catch ( ExpiredJwtException e )
-            {
-                response.sendError( HttpStatus.UNAUTHORIZED.value(), "Token expired or malformed" );
+            catch ( ExpiredJwtException e ) {
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token expired or malformed");
             }
         }
     }
