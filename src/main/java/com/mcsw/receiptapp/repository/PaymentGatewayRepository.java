@@ -20,6 +20,7 @@ public class PaymentGatewayRepository {
         Card cardToPay = jdbcTemplate.queryForObject(sql2, new BeanPropertyRowMapper<>(Card.class), payment.getAccountNumber());
 
         int newBalance = cardToPay.getAvailableBalance() - Integer.parseInt(payment.getDebt());
+        System.out.println(newBalance);
 
         String sql3 = "UPDATE cards SET available_balance= ? WHERE account_number = ?";
         jdbcTemplate.update(sql3, newBalance, payment.getAccountNumber());
