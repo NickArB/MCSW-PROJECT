@@ -2,7 +2,6 @@ function loadUsers() {
     $.ajax({
         type: 'GET',
         url: '/users', // Endpoint para obtener los usuarios
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         success: function(response) {
             $('#users-list').empty();
 
@@ -51,3 +50,12 @@ function showUsersRecord() {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            console.log(token);
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

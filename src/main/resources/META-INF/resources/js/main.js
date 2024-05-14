@@ -15,7 +15,6 @@ function loadPendingBills() {
     $.ajax({
         type: 'GET',
         url: '/bills/status/' + userInfo.email + '/PENDIENTE', // Endpoint para obtener las facturas pendientes
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
 
@@ -40,7 +39,6 @@ function loadPendingBill() {
     $.ajax({
         type: 'GET',
         url: '/bills/' + selectedBillToPay, // Endpoint para obtener las facturas pendientes
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
             buildTable(data);
@@ -158,7 +156,6 @@ function payBill() {
         $.ajax({
             type: 'POST',
             url: '/cards/' + userInfo.id ,
-            Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
             contentType: 'application/json',
             data: JSON.stringify(paymentInfo),
             success: function(response) {
@@ -179,7 +176,6 @@ function doPayment() {
     $.ajax({
         type: 'POST',
         url: '/payments', // Reemplaza esto con la URL de tu endpoint
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         contentType: 'application/json',
         data: JSON.stringify(paymentGateway),
         success: function(response) {
@@ -217,7 +213,6 @@ function createBill() {
             $.ajax({
                 type: 'POST',
                 url: '/bills',
-                Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
@@ -282,3 +277,12 @@ function cleanFieldsPayment() {
     $('#pagarFacturaForm\\:titular').val("");
     toggleCreditCardFields("");
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            console.log(token);
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

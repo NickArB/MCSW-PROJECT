@@ -2,7 +2,6 @@ function loadRequests() {
     $.ajax({
         type: 'GET',
         url: '/requests',
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
             buildRequestsTable(data);
@@ -49,7 +48,6 @@ function buildRequestsTable(data) {
                 $.ajax({
                     type: 'PUT',
                     url: '/requests/' + request.id,
-                    Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
@@ -74,7 +72,6 @@ function buildRequestsTable(data) {
                 $.ajax({
                     type: 'PUT',
                     url: '/requests/' + request.id,
-                    Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
@@ -98,7 +95,6 @@ function loadBills(requestInfo){
     $.ajax({
         type: 'GET',
         url: '/bills',
-        Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
         dataType: 'json',
         success: function(data) {
             buildPaymentsTable(data, requestInfo); // Construye la tabla con los datos obtenidos
@@ -166,3 +162,12 @@ function showApprovementRecord() {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            console.log(token);
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

@@ -2,7 +2,6 @@ function loadPayments() {
     $.ajax({
                 type: 'GET',
                 url: '/bills/users',
-                Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
                 dataType: 'json',
                 success: function(data) {
                     buildTable(data); // Construye la tabla con los datos obtenidos
@@ -59,3 +58,12 @@ function showPaymentRecord() {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            console.log(token);
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});
