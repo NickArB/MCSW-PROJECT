@@ -20,7 +20,7 @@ public class Card {
 
 
     public Card(CardDto cardDto){
-        this.accountNumber = cardDto.getAccountNumber();
+        this.accountNumber = BCrypt.hashpw( cardDto.getAccountNumber(), BCrypt.gensalt() );
         this.expirationDate = cardDto.getExpirationDate();
         this.type = cardDto.getType();
         if (this.type.equals("credito")) {
