@@ -23,7 +23,7 @@ import java.util.*;
 public class JwtRequestFilter
         extends OncePerRequestFilter
 {
-    @Value( "a" )
+    @Value( "{app.secret}" )
     String secret;
 
     public JwtRequestFilter()
@@ -61,7 +61,9 @@ public class JwtRequestFilter
                     Jws<Claims> claims = Jwts.parser().setSigningKey( secret ).parseClaimsJws( token );
                     Claims claimsBody = claims.getBody();
                     String subject = claimsBody.getSubject();
-                    List<String> roles  = claims.getBody().get( RoleEnum.USER.name() , ArrayList.class);
+                    String rol  = claims.getBody().get( "Role" , String.class);
+                    System.out.println("Rol recibido: " + rol);
+                    List<String> roles = Arrays.asList(rol);
 
                     if (roles == null) {
                         response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token roles");
