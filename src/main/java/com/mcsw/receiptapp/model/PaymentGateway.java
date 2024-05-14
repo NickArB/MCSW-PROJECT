@@ -1,8 +1,6 @@
 package com.mcsw.receiptapp.model;
 import java.util.Date;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
 import com.mcsw.receiptapp.controller.payment.PaymentGatewayDto;
 
 public class PaymentGateway {

@@ -48,7 +48,6 @@ function loadBills() {
 
                 updateButton.click(function() {
                     var newPaymentStatus = $(this).closest('tr').find('.payment-status-select').val();
-                    console.log(newPaymentStatus);
                     var billDto = {
                         id: DOMPurify.sanitize(bill.id),
                         userEmail: DOMPurify.sanitize(bill.userEmail),
@@ -57,7 +56,6 @@ function loadBills() {
                         deadLine: DOMPurify.sanitize(bill.deadLine),
                         paymentStatus: DOMPurify.sanitize(newPaymentStatus)
                     };
-                    console.log(JSON.stringify(billDto));
 
                     $.ajax({
                         type: 'PUT',
@@ -65,7 +63,6 @@ function loadBills() {
                         contentType: 'application/json',
                         data: JSON.stringify(billDto),
                         success: function(response) {
-                            console.log('Estado de pago actualizado exitosamente:', response);
                             PF('growlWV').renderMessage({ severity: 'info', summary: 'Factura actualizada exitosamente', detail: '' });
                         },
                         error: function(xhr, status, error) {
@@ -95,7 +92,6 @@ function searchBill() {
             if (bill) {
                 buildEditBillTable(bill);
             } else {
-                console.log('No se encontró ninguna factura con el ID proporcionado.');
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar la factura', detail: 'No se encontró ninguna factura con el ID proporcionado.' });
             }
         },
@@ -152,7 +148,6 @@ function buildEditBillTable(bill) {
             contentType: 'application/json',
             data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: DOMPurify.sanitize(newDebt)}),
             success: function(response) {
-                console.log('Solicitud creada con exito', response);
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Solicitud de actualización generada', detail: '' });
             },
             error: function(xhr, status, error) {
@@ -186,7 +181,6 @@ function showBillsDashboard() {
 $.ajaxSetup({
     beforeSend: function(xhr) {
         if (token) {
-            console.log(token);
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         }
     }

@@ -40,7 +40,6 @@ public class UserController{
     }
 
     @PostMapping
-    @RolesAllowed("ADMIN")
     public ResponseEntity<?> create(@RequestBody UserDto userDto ){
         userDto = sanitize(userDto);
         try {

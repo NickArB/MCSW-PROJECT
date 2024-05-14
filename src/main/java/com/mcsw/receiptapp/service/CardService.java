@@ -13,7 +13,6 @@ public class CardService {
 
     public Card checkCardByUserId(String userId, CardDto cardDto, int billDebt) throws InvalidCardException, InsufficientFundsException, IncorrectCardInformationException{
         Card card = cardRepository.findByUserId(userId, new Card(cardDto));
-        System.out.println(card);
 
         if (card != null && card.getType().equals(cardDto.getType())) {
             if (!card.getExpirationDate().equals(cardDto.getExpirationDate().split("T")[0])) {

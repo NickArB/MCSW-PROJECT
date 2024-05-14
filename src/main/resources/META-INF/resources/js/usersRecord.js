@@ -54,7 +54,6 @@ function showUsersRecord() {
 $.ajaxSetup({
     beforeSend: function(xhr) {
         if (token) {
-            console.log(token);
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         }
     }

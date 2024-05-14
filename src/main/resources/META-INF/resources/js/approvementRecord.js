@@ -51,7 +51,6 @@ function buildRequestsTable(data) {
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
-                        console.log('Solicitud Aprobada:', response);
                         location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -75,7 +74,6 @@ function buildRequestsTable(data) {
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
-                        console.log('Solicitud Rechazada:', response);
                         location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -166,7 +164,6 @@ function showApprovementRecord() {
 $.ajaxSetup({
     beforeSend: function(xhr) {
         if (token) {
-            console.log(token);
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         }
     }

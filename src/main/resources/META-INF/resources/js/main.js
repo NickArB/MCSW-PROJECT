@@ -102,7 +102,6 @@ function startPaymentProcess() {
         alert("Seleccione una factura para continuar. Si no aparecen, no tiene facturas pendientes");
         return false;
     }
-    console.log(selectedBillToPay);
 
     PF('confirmDialog').hide();
     PF('payDialog').show();
@@ -149,7 +148,6 @@ function payBill() {
                     type: DOMPurify.sanitize(metodoPago)
             };
         }
-        console.log(data);
 
         paymentInfo.cardDto = data;
 
@@ -165,7 +163,6 @@ function payBill() {
             },
             error: function(xhr, status, error) {
                 alert(xhr.responseText);
-                console.log("Error en el pago");
                 console.error('Error:', error);
             }
         });
@@ -185,11 +182,9 @@ function doPayment() {
             PF('payed-dialog').show();
             selectedBillToPay = undefined;
             loadPendingBills();
-            console.log("Pago exitoso");
         },
         error: function(xhr, status, error) {
             // Manejar errores
-            console.log("Error en el pago " + paymentGateway)
             console.error('Error:', error);
         }
     });
@@ -283,7 +278,6 @@ function cleanFieldsPayment() {
 $.ajaxSetup({
     beforeSend: function(xhr) {
         if (token) {
-            console.log(token);
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         }
     }

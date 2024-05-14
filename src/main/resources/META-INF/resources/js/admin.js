@@ -64,7 +64,6 @@ function loadUsers() {
                         contentType: 'application/json',
                         data: JSON.stringify(userDto),
                         success: function(response) {
-                            console.log('Rol actualizado exitosamente:', response);
                             PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
                         },
                         error: function(xhr, status, error) {
@@ -99,13 +98,11 @@ function registerUser() {
     xhr.open('POST', '/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
     if (token) {
-        console.log(token);
         xhr.setRequestHeader('Authorization', "Bearer " + token);
     }
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                console.log('Usuario registrado exitosamente:', xhr.responseText);
                 loadUsers();
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario registrado exitosamente', detail: '' });
             } else if (xhr.status === 409) {
@@ -122,7 +119,6 @@ function registerUser() {
 
 function searchUser() {
     var email = $('#form\\:emailInput').val();
-    console.log(email);
     $.ajax({
         type: 'GET',
         url: '/users/' + email, // Endpoint para obtener el usuario por correo electrónico
@@ -130,7 +126,6 @@ function searchUser() {
             if (user) {
                 buildEditUserTable(user);
             } else {
-                console.log('No se encontró ningún usuario con el correo electrónico proporcionado.');
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar el usuario', detail: 'Error al buscar el usuario' });
 
             }
@@ -186,14 +181,12 @@ function buildEditUserTable(user) {
             password: DOMPurify.sanitize(password),
             role: DOMPurify.sanitize(user.role)
         };
-        console.log(updatedUser);
         $.ajax({
             type: 'PUT',
             url: '/users/' + user.email,
             contentType: 'application/json',
             data: JSON.stringify(updatedUser),
             success: function(response) {
-                console.log('Usuario actualizado exitosamente:', response);
                 $('#user-list').empty();
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
                 loadUsers();
@@ -212,7 +205,6 @@ function buildEditUserTable(user) {
                 type: 'DELETE',
                 url: '/users/' + user.email,
                 success: function(response) {
-                    console.log('Usuario eliminado exitosamente:', response);
                     PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario eliminado exitosamente', detail: '' });
                     loadUsers();
                 },
@@ -248,7 +240,6 @@ function showAdmin() {
 $.ajaxSetup({
     beforeSend: function(xhr) {
         if (token) {
-            console.log(token);
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         }
     }

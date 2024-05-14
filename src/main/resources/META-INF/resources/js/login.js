@@ -113,7 +113,6 @@ function getUserInfo(token){
 
 function redirectUser(role){
     var url;
-    console.log(role);
     if (role === "ADMIN") {
         url = "/admin.xhtml";
     } else if (role === "USER") {
@@ -150,7 +149,6 @@ function registerUser() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                console.log('Usuario registrado exitosamente:', xhr.responseText);
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario registrado exitosamente', detail: '' });
             } else if (xhr.status === 409) {
                 console.error('El correo electrónico ya está registrado:', xhr.responseText);
