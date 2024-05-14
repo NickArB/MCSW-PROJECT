@@ -23,7 +23,7 @@ import java.util.*;
 public class JwtRequestFilter
         extends OncePerRequestFilter
 {
-    @Value( "a" )
+    @Value( "${app.secret}" )
     String secret;
 
     public JwtRequestFilter()
