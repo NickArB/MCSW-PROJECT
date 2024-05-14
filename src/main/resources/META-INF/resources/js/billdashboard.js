@@ -1,7 +1,7 @@
 function loadBills() {
     $.ajax({
         type: 'GET',
-        url: '/bills', // Endpoint para obtener las facturas
+        url: '/bills/users', // Endpoint para obtener las facturas
         success: function(response) {
             $('#bills-list').empty();
 

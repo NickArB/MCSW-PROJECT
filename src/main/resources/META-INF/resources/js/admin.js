@@ -98,6 +98,10 @@ function registerUser() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
+    if (token) {
+        console.log(token);
+        xhr.setRequestHeader('Authorization', "Bearer " + token);
+    }
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {

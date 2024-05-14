@@ -29,7 +29,7 @@ public class UserController{
     }
 
     @GetMapping( "/{email}" )
-
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> findByEmail( @PathVariable String email ){
         try{
             User user = userService.findByEmail( email );
@@ -40,6 +40,7 @@ public class UserController{
     }
 
     @PostMapping
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> create(@RequestBody UserDto userDto ){
         userDto = sanitize(userDto);
         try {
@@ -51,6 +52,7 @@ public class UserController{
     }
 
     @PutMapping("/{email}")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<User> update(@RequestBody UserDto userDto, @PathVariable String email){
         userDto = sanitize(userDto);
         User existingUser = userService.findByEmail(email);
@@ -68,6 +70,7 @@ public class UserController{
     }
 
     @DeleteMapping( "/{email}" )
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Boolean> delete( @PathVariable String email ){
         return ResponseEntity.ok( userService.deleteByEmail( email ) );
     }
