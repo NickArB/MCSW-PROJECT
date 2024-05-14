@@ -9,9 +9,10 @@ CREATE TABLE users (
     createdAt DATETIME
 );
 
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
-INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '$2a$10$F7aEG2APN6J/LjDB8SOWfOa0K2H1gOQpkcs1Llp73z9CpMP6mIY9m', 'USER', '2024-02-26');
+-- Contraseña por defecto: Ejemplo1! <--
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Nicolas', 'Ariza', 'nicolas.ariza@mail.escuelaing.edu.co', '$2a$10$IiO71BWhKzMsW8pUksSmeueONEfpVqjROMXhKGlTcKbLwHrAdoq72', 'AUDITOR', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Andrés', 'Oñate', 'andres.onate@mail.escuelaing.edu.co', '$2a$10$.y33p1sebHuIn0j3C2txV.n5MDCoRHz.2vhMOZjs3mWdbiVwbsoQC', 'ADMIN', '2024-02-26');
+INSERT INTO users (name, lastName, email, passwordHash, role, createdAt) VALUES ('Juan', 'Sanchez', 'juan.sanchez@mail.escuelaing.edu.co', '$2a$10$.4F9v9WHOEPilcnnWH9R2.6eP5m8at7ERRZz2b5ERl7y5hF8BqaGa', 'USER', '2024-02-26');
 
 DROP TABLE IF EXISTS users;
 
@@ -65,11 +66,17 @@ CREATE TABLE cards (
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
+-- account_number 1234567890, cvc 123 --
 INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
-VALUES ('1234567890', '60000', '2024-12-31', 'credito', '123', 'Nicolas Ariza', '1');
+VALUES ('$2a$10$ePX0nfIA.B84.AmE1XBgUupn/PAijz1T6vGzmS.wujhN1oursIrJe', '60000', '2024-12-31', 'credito', '$2a$10$GcUv0VJ6p2Bf/.ZbaK/nmeNV2jVvmmZv5Ru/aGpHcK1j/1C6RM7x.', 'Nicolas Ariza', '1');
 
+-- account_number 2333142121 --
 INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
-VALUES ('2333142121', '60000', '2024-12-31', 'debito', null, null, '2');
+VALUES ('$2a$10$5TEZXwzn8HiWq0iRUBau6ugFFfPb6rdqrzpYdh3wVlq3X3KAgra72', '60000', '2024-12-31', 'debito', null, null, '2');
+
+-- account_number 12387127468 --
+INSERT INTO cards (account_number, available_balance, expiration_date, type, cvc, owner_name, owner_id)
+VALUES ('$2a$10$ueg5ZpJ/Ov/6qHEq3I8m9eHUqLBnuvOqwd6ueG4ERLtyR09PeYTdu', '60000', '2024-12-31', 'credito', '$2a$10$GcUv0VJ6p2Bf/.ZbaK/nmeNV2jVvmmZv5Ru/aGpHcK1j/1C6RM7x.', ' Juan Sanchez', '3');
 
 DROP TABLE IF EXISTS cards;
 

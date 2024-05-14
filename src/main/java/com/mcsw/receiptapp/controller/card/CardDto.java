@@ -55,6 +55,10 @@ public class CardDto {
     
     public int getAvailableBalance() { return availableBalance; }
 
+    public void setAvailableBalance(int availableBalance) {
+        this.availableBalance = availableBalance;
+    }
+
     @Override
     public String toString() {
         return "CardDto{" +

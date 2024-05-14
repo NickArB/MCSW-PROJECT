@@ -64,7 +64,6 @@ function loadUsers() {
                         contentType: 'application/json',
                         data: JSON.stringify(userDto),
                         success: function(response) {
-                            console.log('Rol actualizado exitosamente:', response);
                             PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
                         },
                         error: function(xhr, status, error) {
@@ -77,7 +76,7 @@ function loadUsers() {
             });
         },
         error: function(xhr, status, error) {
-            console.error('Error al cargar los usuarios:', error);
+            console.error('Error al cargar los usuarios:', xhr.responseText);
         }
     });
 };
@@ -98,10 +97,12 @@ function registerUser() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
+    if (token) {
+        xhr.setRequestHeader('Authorization', "Bearer " + token);
+    }
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                console.log('Usuario registrado exitosamente:', xhr.responseText);
                 loadUsers();
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario registrado exitosamente', detail: '' });
             } else if (xhr.status === 409) {
@@ -118,7 +119,6 @@ function registerUser() {
 
 function searchUser() {
     var email = $('#form\\:emailInput').val();
-
     $.ajax({
         type: 'GET',
         url: '/users/' + email, // Endpoint para obtener el usuario por correo electrónico
@@ -126,7 +126,6 @@ function searchUser() {
             if (user) {
                 buildEditUserTable(user);
             } else {
-                console.log('No se encontró ningún usuario con el correo electrónico proporcionado.');
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar el usuario', detail: 'Error al buscar el usuario' });
 
             }
@@ -182,14 +181,12 @@ function buildEditUserTable(user) {
             password: DOMPurify.sanitize(password),
             role: DOMPurify.sanitize(user.role)
         };
-        console.log(updatedUser);
         $.ajax({
             type: 'PUT',
             url: '/users/' + user.email,
             contentType: 'application/json',
             data: JSON.stringify(updatedUser),
             success: function(response) {
-                console.log('Usuario actualizado exitosamente:', response);
                 $('#user-list').empty();
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario actualizado exitosamente', detail: '' });
                 loadUsers();
@@ -208,7 +205,6 @@ function buildEditUserTable(user) {
                 type: 'DELETE',
                 url: '/users/' + user.email,
                 success: function(response) {
-                    console.log('Usuario eliminado exitosamente:', response);
                     PF('growlWV').renderMessage({ severity: 'info', summary: 'Usuario eliminado exitosamente', detail: '' });
                     loadUsers();
                 },
@@ -222,10 +218,13 @@ function buildEditUserTable(user) {
     });
 }
 
+var token;
 var userInfo;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showAdmin();
     loadUsers();
 });
@@ -233,7 +232,15 @@ $(document).ready(function() {
 function showAdmin() {
    if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'ADMIN') {
+   } else if (userInfo.Role !== 'ADMIN') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

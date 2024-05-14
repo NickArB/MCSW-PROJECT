@@ -51,7 +51,6 @@ function buildRequestsTable(data) {
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
-                        console.log('Solicitud Aprobada:', response);
                         location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -75,7 +74,6 @@ function buildRequestsTable(data) {
                     contentType: 'application/json',
                     data: JSON.stringify(requestDto),
                     success: function(response) {
-                        console.log('Solicitud Rechazada:', response);
                         location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -94,7 +92,7 @@ function buildRequestsTable(data) {
 function loadBills(requestInfo){
     $.ajax({
         type: 'GET',
-        url: '/bills',
+        url: '/bills/users',
         dataType: 'json',
         success: function(data) {
             buildPaymentsTable(data, requestInfo); // Construye la tabla con los datos obtenidos
@@ -145,9 +143,12 @@ function buildPaymentsTable(data, requestInfo){
 }
 
 var userInfo;
+var token;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showApprovementRecord();
     loadRequests();
 });
@@ -155,7 +156,15 @@ $(document).ready(function() {
 function showApprovementRecord() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'AUDITOR') {
+   } else if (userInfo.Role !== 'AUDITOR') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

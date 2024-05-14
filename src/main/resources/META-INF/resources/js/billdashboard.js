@@ -1,7 +1,7 @@
 function loadBills() {
     $.ajax({
         type: 'GET',
-        url: '/bills', // Endpoint para obtener las facturas
+        url: '/bills/users', // Endpoint para obtener las facturas
         success: function(response) {
             $('#bills-list').empty();
 
@@ -48,7 +48,6 @@ function loadBills() {
 
                 updateButton.click(function() {
                     var newPaymentStatus = $(this).closest('tr').find('.payment-status-select').val();
-
                     var billDto = {
                         id: DOMPurify.sanitize(bill.id),
                         userEmail: DOMPurify.sanitize(bill.userEmail),
@@ -64,7 +63,6 @@ function loadBills() {
                         contentType: 'application/json',
                         data: JSON.stringify(billDto),
                         success: function(response) {
-                            console.log('Estado de pago actualizado exitosamente:', response);
                             PF('growlWV').renderMessage({ severity: 'info', summary: 'Factura actualizada exitosamente', detail: '' });
                         },
                         error: function(xhr, status, error) {
@@ -94,7 +92,6 @@ function searchBill() {
             if (bill) {
                 buildEditBillTable(bill);
             } else {
-                console.log('No se encontró ninguna factura con el ID proporcionado.');
                 PF('growlWV').renderMessage({ severity: 'error', summary: 'Error al buscar la factura', detail: 'No se encontró ninguna factura con el ID proporcionado.' });
             }
         },
@@ -151,7 +148,6 @@ function buildEditBillTable(bill) {
             contentType: 'application/json',
             data: JSON.stringify({ paymentId: DOMPurify.sanitize(bill.id) , newValue: DOMPurify.sanitize(newDebt)}),
             success: function(response) {
-                console.log('Solicitud creada con exito', response);
                 PF('growlWV').renderMessage({ severity: 'info', summary: 'Solicitud de actualización generada', detail: '' });
             },
             error: function(xhr, status, error) {
@@ -164,9 +160,12 @@ function buildEditBillTable(bill) {
 };
 
 var userInfo;
+var token;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showBillsDashboard();
     loadBills();
 });
@@ -174,7 +173,15 @@ $(document).ready(function() {
 function showBillsDashboard() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'ADMIN') {
+   } else if (userInfo.Role !== 'ADMIN') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

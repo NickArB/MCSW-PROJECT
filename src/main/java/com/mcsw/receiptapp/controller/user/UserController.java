@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping( "/users" )
 public class UserController{
@@ -21,11 +23,13 @@ public class UserController{
 
 
     @GetMapping
+    @RolesAllowed({"ADMIN", "AUDITOR"})
     public List<User> all(){
         return userService.all();
     }
 
     @GetMapping( "/{email}" )
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> findByEmail( @PathVariable String email ){
         try{
             User user = userService.findByEmail( email );
@@ -47,6 +51,7 @@ public class UserController{
     }
 
     @PutMapping("/{email}")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<User> update(@RequestBody UserDto userDto, @PathVariable String email){
         userDto = sanitize(userDto);
         User existingUser = userService.findByEmail(email);
@@ -64,6 +69,7 @@ public class UserController{
     }
 
     @DeleteMapping( "/{email}" )
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Boolean> delete( @PathVariable String email ){
         return ResponseEntity.ok( userService.deleteByEmail( email ) );
     }

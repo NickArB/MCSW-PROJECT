@@ -1,14 +1,9 @@
 package com.mcsw.receiptapp.repository;
 
 import com.mcsw.receiptapp.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 

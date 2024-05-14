@@ -41,17 +41,28 @@ function buildTable(data) {
 }
 
 var userInfo;
+var token;
 
 $(document).ready(function() {
-   userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-   showPaymentRecord();
-   loadPayments();
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
+    showPaymentRecord();
+    loadPayments();
 });
 
 function showPaymentRecord() {
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role === 'ADMIN') {
+   } else if (userInfo.Role === 'ADMIN') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

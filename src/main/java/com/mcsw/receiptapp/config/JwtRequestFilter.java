@@ -1,6 +1,4 @@
 package com.mcsw.receiptapp.config;
-import com.mcsw.receiptapp.model.RoleEnum;
-
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +21,7 @@ import java.util.*;
 public class JwtRequestFilter
         extends OncePerRequestFilter
 {
-    @Value( "a" )
+    @Value( "${app.secret}" )
     String secret;
 
     public JwtRequestFilter()
@@ -61,7 +59,8 @@ public class JwtRequestFilter
                     Jws<Claims> claims = Jwts.parser().setSigningKey( secret ).parseClaimsJws( token );
                     Claims claimsBody = claims.getBody();
                     String subject = claimsBody.getSubject();
-                    List<String> roles  = claims.getBody().get( RoleEnum.USER.name() , ArrayList.class);
+                    String rol  = claims.getBody().get( "Role" , String.class);
+                    List<String> roles = Arrays.asList(rol);
 
                     if (roles == null) {
                         response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token roles");
@@ -80,9 +79,8 @@ public class JwtRequestFilter
             {
                 response.sendError( HttpStatus.BAD_REQUEST.value(), "Missing or wrong token" );
             }
-            catch ( ExpiredJwtException e )
-            {
-                response.sendError( HttpStatus.UNAUTHORIZED.value(), "Token expired or malformed" );
+            catch ( ExpiredJwtException e ) {
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token expired or malformed");
             }
         }
     }

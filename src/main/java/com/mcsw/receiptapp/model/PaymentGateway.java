@@ -1,8 +1,6 @@
 package com.mcsw.receiptapp.model;
 import java.util.Date;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
 import com.mcsw.receiptapp.controller.payment.PaymentGatewayDto;
 
 public class PaymentGateway {
@@ -30,7 +28,7 @@ public class PaymentGateway {
         this.deadLine = dto.getDeadLine();
         this.finalState = (dateDiff >= 0) ? "OK" : "PAGO TARDIO";
         this.debt = dto.getDebt();
-        this.accountNumber = BCrypt.hashpw(dto.getAccountNumber(), BCrypt.gensalt());
+        this.accountNumber = dto.getAccountNumber();
     }
 
     public String getPaymentId() {

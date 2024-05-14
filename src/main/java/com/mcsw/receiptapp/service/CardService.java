@@ -5,20 +5,21 @@ import com.mcsw.receiptapp.exception.IncorrectCardInformationException;
 import com.mcsw.receiptapp.exception.InsufficientFundsException;
 import com.mcsw.receiptapp.exception.InvalidCardException;
 import com.mcsw.receiptapp.model.Card;
-import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.repository.CardRepository;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class CardService {
     CardRepository cardRepository = new CardRepository();
 
     public Card checkCardByUserId(String userId, CardDto cardDto, int billDebt) throws InvalidCardException, InsufficientFundsException, IncorrectCardInformationException{
         Card card = cardRepository.findByUserId(userId, new Card(cardDto));
+
         if (card != null && card.getType().equals(cardDto.getType())) {
             if (!card.getExpirationDate().equals(cardDto.getExpirationDate().split("T")[0])) {
                 throw new IncorrectCardInformationException();
             }
             if (card.getType().equals("credito")) {
-                if ((!card.getCvc().equals(cardDto.getCvc()))){
+                if (!BCrypt.checkpw( cardDto.getCvc(), card.getCvc() )){
                     throw new IncorrectCardInformationException();
                 }
                 if ((!card.getOwnerName().equals(cardDto.getOwnerName()))) {

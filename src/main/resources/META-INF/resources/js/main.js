@@ -1,6 +1,9 @@
+var token;
 var userInfo;
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showMainMenu();
     loadPendingBills();
 });
@@ -99,7 +102,6 @@ function startPaymentProcess() {
         alert("Seleccione una factura para continuar. Si no aparecen, no tiene facturas pendientes");
         return false;
     }
-    console.log(selectedBillToPay);
 
     PF('confirmDialog').hide();
     PF('payDialog').show();
@@ -133,7 +135,7 @@ function payBill() {
             var fechaFormateada = fechaVencimiento.toISOString().split('T')[0];
             var data = {
                     accountNumber: DOMPurify.sanitize(numeroCuenta),
-                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    expirationDate: fechaVencimiento,
                     type: DOMPurify.sanitize(metodoPago),
                     cvc: DOMPurify.sanitize(cvc),
                     ownerName: DOMPurify.sanitize(titular)
@@ -142,7 +144,7 @@ function payBill() {
         } else {
             var data = {
                     accountNumber: DOMPurify.sanitize(numeroCuenta),
-                    expirationDate: DOMPurify.sanitize(fechaVencimiento),
+                    expirationDate: fechaVencimiento,
                     type: DOMPurify.sanitize(metodoPago)
             };
         }
@@ -161,7 +163,6 @@ function payBill() {
             },
             error: function(xhr, status, error) {
                 alert(xhr.responseText);
-                console.log("Error en el pago");
                 console.error('Error:', error);
             }
         });
@@ -181,11 +182,9 @@ function doPayment() {
             PF('payed-dialog').show();
             selectedBillToPay = undefined;
             loadPendingBills();
-            console.log("Pago exitoso");
         },
         error: function(xhr, status, error) {
             // Manejar errores
-            console.log("Error en el pago " + paymentGateway)
             console.error('Error:', error);
         }
     });
@@ -203,7 +202,8 @@ function createBill() {
                 userEmail: DOMPurify.sanitize(userInfo.email),
                 company: DOMPurify.sanitize(empresaEmitente),
                 debt: DOMPurify.sanitize(valorFactura),
-                deadLine: DOMPurify.sanitize(fechaLimite)
+                deadLine: fechaLimite,
+                paymentStatus: "PENDIENTE"
             };
 
             // Realizar una solicitud AJAX POST
@@ -230,10 +230,10 @@ function createBill() {
 }
 
 function showMainMenu() {
-    if (userInfo === null) {
+    if (token === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'USER') {
-        window.location.href = 'userUnauthorized.xhtml';
+   }else if (userInfo.Role !== 'USER'){
+        window.location.href = 'userUnathorized.xhtml';
    }
 }
 
@@ -274,3 +274,11 @@ function cleanFieldsPayment() {
     $('#pagarFacturaForm\\:titular').val("");
     toggleCreditCardFields("");
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

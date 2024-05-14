@@ -32,19 +32,29 @@ function loadUsers() {
     });
 }
 
+var token;
 var userInfo;
 
 $(document).ready(function() {
-    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    token = sessionStorage.getItem('jwtToken');
+    const parts = token.split('.');
+    userInfo = JSON.parse(atob(parts[1]));
     showUsersRecord();
     loadUsers();
 });
 
 function showUsersRecord() {
-    console.log(userInfo);
     if (userInfo === null) {
         window.location.href = 'login.xhtml';
-   } else if (userInfo.role !== 'AUDITOR') {
+   } else if (userInfo.Role !== 'AUDITOR') {
         window.location.href = 'userUnauthorized.xhtml';
    }
 }
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        if (token) {
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+        }
+    }
+});

@@ -31,7 +31,7 @@ public class Bill {
         this.billingDate = new Date();
         this.deadLine = dto.getDeadLine();
         this.debt = dto.getDebt();
-        this.paymentStatus = "PENDIENTE";
+        this.paymentStatus = dto.getPaymentStatus();
     }
 
     public String getId() {

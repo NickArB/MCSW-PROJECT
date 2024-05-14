@@ -26,7 +26,6 @@ public class UserService {
 
     public User create(UserDto userDto) throws InvalidEmailException {
         User user = userRepository.save(new User( userDto ));
-        System.out.println(user);
         if (user != null) {
             return user;
         } else {
