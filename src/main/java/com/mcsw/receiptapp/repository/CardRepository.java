@@ -1,7 +1,5 @@
 package com.mcsw.receiptapp.repository;
 
-import com.mcsw.receiptapp.controller.card.CardDto;
-import com.mcsw.receiptapp.model.Bill;
 import com.mcsw.receiptapp.model.Card;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

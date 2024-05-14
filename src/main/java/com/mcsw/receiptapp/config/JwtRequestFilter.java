@@ -1,6 +1,4 @@
 package com.mcsw.receiptapp.config;
-import com.mcsw.receiptapp.model.RoleEnum;
-
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -62,7 +60,6 @@ public class JwtRequestFilter
                     Claims claimsBody = claims.getBody();
                     String subject = claimsBody.getSubject();
                     String rol  = claims.getBody().get( "Role" , String.class);
-                    System.out.println("Rol recibido: " + rol);
                     List<String> roles = Arrays.asList(rol);
 
                     if (roles == null) {

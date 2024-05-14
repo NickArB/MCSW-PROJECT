@@ -1,6 +1,5 @@
 package com.mcsw.receiptapp.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.mcsw.receiptapp.exception.InvalidCompanyException;

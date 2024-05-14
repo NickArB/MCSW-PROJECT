@@ -12,6 +12,8 @@ import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.service.PaymentGatewayService;
 import java.text.ParseException;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping( "/payments" )
 public class PaymentGatewayController {
@@ -19,6 +21,7 @@ public class PaymentGatewayController {
     private final PaymentGatewayService paymentService = new PaymentGatewayService();
     
     @PostMapping
+    @RolesAllowed("USER")
     public ResponseEntity<PaymentGateway> create(@RequestBody PaymentGatewayDto paymentDto) throws ParseException{
         paymentDto = sanitize(paymentDto);
         return ResponseEntity.ok(paymentService.payBill(new PaymentGateway(paymentDto)));

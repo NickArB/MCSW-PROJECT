@@ -1,7 +1,6 @@
 package com.mcsw.receiptapp.repository;
 
 import com.mcsw.receiptapp.model.Card;
-import com.mcsw.receiptapp.model.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.mcsw.receiptapp.model.PaymentGateway;

@@ -5,7 +5,6 @@ import com.mcsw.receiptapp.exception.IncorrectCardInformationException;
 import com.mcsw.receiptapp.exception.InsufficientFundsException;
 import com.mcsw.receiptapp.exception.InvalidCardException;
 import com.mcsw.receiptapp.model.Card;
-import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.repository.CardRepository;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 

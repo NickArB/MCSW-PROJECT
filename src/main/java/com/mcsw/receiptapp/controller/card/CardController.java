@@ -1,11 +1,9 @@
 package com.mcsw.receiptapp.controller.card;
 
-import com.mcsw.receiptapp.controller.payment.PaymentGatewayDto;
 import com.mcsw.receiptapp.exception.IncorrectCardInformationException;
 import com.mcsw.receiptapp.exception.InsufficientFundsException;
 import com.mcsw.receiptapp.exception.InvalidCardException;
 import com.mcsw.receiptapp.model.Card;
-import com.mcsw.receiptapp.model.PaymentGateway;
 import com.mcsw.receiptapp.model.PaymentInfo;
 import com.mcsw.receiptapp.service.CardService;
 import org.jsoup.Jsoup;
